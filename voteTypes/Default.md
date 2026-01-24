@@ -52,7 +52,7 @@ Given we'll need an abstain option on other voteTypes (see [https://github.com/L
             "cost": 1
         },
     ],
-    abstainAllowed: true
+    "abstainAllowed": true
 }
 ```
 
