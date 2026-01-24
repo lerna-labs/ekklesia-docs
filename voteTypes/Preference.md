@@ -82,3 +82,5 @@ A setup could also look like this:
 ```
 
 In terms of the median calculation it doesn't make a difference, upper and lower bounds for median calculations are just different.
+
+Needs an option to abstain from the vote, see [https://github.com/Lerna-Labs/ekklesia-docs/blob/main/voteTypes/Scale.md](Scale.md)
