@@ -60,3 +60,5 @@ This could also look like this:
     ]
 }
 ```
+
+Needs an option to completely abstain from the vote, but the Abstain can't be 0 as 0 might very well be a valid voteOption.
