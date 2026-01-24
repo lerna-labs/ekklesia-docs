@@ -61,4 +61,15 @@ This could also look like this:
 }
 ```
 
-Needs an option to completely abstain from the vote, but the Abstain value can't be 0 as 0 might very well be a valid voteOption.
+Needs an option to completely abstain from the vote, but the abstain value can't be 0 as 0 might very well be a valid voteOption.
+
+This could work:
+
+```json
+        {
+            "id": "abstain",
+            "label": "Abstain",
+            "cost": 0
+        }
+```
+
