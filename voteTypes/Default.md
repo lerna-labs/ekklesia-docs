@@ -30,7 +30,7 @@ A single option vote.
 }
 ```
 
-Given we'll need an abstain option on other voteTypes (see [https://github.com/Lerna-Labs/ekklesia-docs/blob/main/voteTypes/Scale.md](Scale.md)), this probably should look like this going forward:
+Given we'll need an abstain option on other voteTypes (see [https://github.com/Lerna-Labs/ekklesia-docs/blob/main/voteTypes/Scale.md](Scale.md)), the proposal structure probably should look like this going forward:
 
 ```json
 {
@@ -52,7 +52,7 @@ Given we'll need an abstain option on other voteTypes (see [https://github.com/L
             "cost": 1
         },
     ],
-    "abstainAllowed": true
+    "abstainAllowed": true <-- new flag on the proposal schema
 }
 ```
 
