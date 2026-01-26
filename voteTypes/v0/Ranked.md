@@ -4,9 +4,9 @@ A multiselect ranked vote, where you can select as many options as you like unti
 
 ```json
 {
-    "title": "Ranked Proposal",
+    "title": "Ranked Proposal with Budget",
     "ballotId": "ballot._id",
-    "description": "A ranked vote, total cost is 3, all items are equally costed at 1.",
+    "description": "A ranked vote, total budget is 3, all items have an equal cost of 1",
     "data": {},
     "voteType": "ranked",
     "voterBudget": 3,
@@ -36,10 +36,11 @@ A multiselect ranked vote, where you can select as many options as you like unti
             "label": "Eggplant",
             "cost": 1
         }
-    ]
+    ],
+    "abstainAllowed": true
 }
 ```
 
-There also could be a vote where you _must_ rank all available options, which probably needs a new voteType. This also needs an option to abstain from the vote.
+Edgecase currently not covered with this: A ranked voted where you _must_ rank all options.
 
 On the frontend this probably should randomize the initial voteOptions order to avoid bias.

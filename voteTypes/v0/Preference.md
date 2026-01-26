@@ -1,13 +1,13 @@
 # VoteType Preference
 
 A preference vote, where you can select one option.
-The frontend displays voteOptions as a scale/slider and calculates medians based on votingPower or votes.
+The frontend displays voteOptions as a scale/slider and calculates medians based on votingPower or votes for the result display.
 
 ```json
 {
     "title": "Preference Proposal",
     "ballotId": "ballot._id",
-    "description": "A preference vote.",
+    "description": "A preference vote with abstain allowed.",
     "data": {},
     "voteType": "preference",
     "voterBudget": 1,
@@ -37,7 +37,8 @@ The frontend displays voteOptions as a scale/slider and calculates medians based
             "label": "Absolutely!",
             "cost": 1
         }
-    ]
+    ],
+    "abstainAllowed": true
 }
 ```
 
@@ -47,40 +48,43 @@ A setup could also look like this:
 {
     "title": "Preference Proposal",
     "ballotId": "ballot._id",
-    "description": "A preference vote.",
+    "description": "A preference vote with abstain allowed.",
     "data": {},
     "voteType": "preference",
     "voterBudget": 1,
     "voteOptions": [
         {
-            "id": 1,
+            "id": -2,
             "label": "Absolutely not",
-            "cost": -2
+            "cost": 1
         },
         {
-            "id": 2,
+            "id": -1,
             "label": "No",
             "cost": 1
         },
         {
-            "id": 3,
+            "id": 0,
             "label": "I don't care",
-            "cost": 0
+            "cost": 1
         },
         {
-            "id": 4,
+            "id": 1,
             "label": "Yes",
             "cost": 1
         },
         {
-            "id": 5,
+            "id": 2,
             "label": "Absolutely!",
-            "cost": 2
+            "cost": 1
         }
-    ]
+    ],
+    "abstainAllowed": true
 }
 ```
 
 In terms of the median calculation it doesn't make a difference, upper and lower bounds for median calculations are just different.
 
-Needs an option to abstain from the vote, see [https://github.com/Lerna-Labs/ekklesia-docs/blob/main/voteTypes/Scale.md](Scale.md)
+Leaving in cost for now, maybe we'll find a weird edge case further down the road where this is needed (if the voterBudget has an impact on the ballot for example)
+
+I decided to keep this separate from the scale vote for now, this way you can have dedicated results returned by the API and displayed for each option (which doesn't make sense on the scale vote).

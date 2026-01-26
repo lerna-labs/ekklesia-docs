@@ -2,17 +2,16 @@
 
 Basically a preference vote with different setup to not have to include all voteOptions on large scales.
 
-You can select one option. The frontend displays voteOptions as a scale/slider with the increments stored in `voteOptions[0].cost` and calculates medians based on votingPower or votes.
-
-Setup could be:
+You can select one option. The frontend displays voteOptions as a scale/slider with the increments stored in `voteOptions.voteIncrement` and calculates medians based on votingPower or votes.
 
 ```json
 {
     "title": "Scale Proposal",
     "ballotId": "ballot._id",
-    "description": "A scale vote.",
+    "description": "A scale vote from 150 to 2500 with increments of 50.",
     "data": {},
     "voteType": "scale",
+    "voteIncrement": 50, <-- determines the step size and allowed increments for voteOptions
     "voterBudget": 1,
     "voteOptions": [
         {
@@ -25,13 +24,14 @@ Setup could be:
             "label": "2500 or more",
             "cost": 1
         },
-    ]
+    ],
+    "abstainAllowed": true,
 }
 ```
 
 The backend needs to ensure only valid values larger or equal than lower and smaller or equal than upper bound in the set increment are submitted.
 
-This could also look like this:
+This could also look like this, displaying more labels on the frontend:
 
 ```json
 {
@@ -40,35 +40,27 @@ This could also look like this:
     "description": "A scale vote.",
     "data": {},
     "voteType": "scale",
+    "voteIncrement": 1,
     "voterBudget": 1,
     "voteOptions": [
         {
             "id": -100, <-- lower bound
             "label": "-100",
-            "cost": 5
+            "cost": 1
         },
         {
             "id": 0,
             "label": "Zero",
-            "cost": 5
+            "cost": 1
         },
         {
             "id": 100, <-- upper bound
             "label": "100",
-            "cost": 5
+            "cost": 1
         },
-    ]
+    ],
+    "abstainAllowed": true,
 }
 ```
 
-Needs an option to completely abstain from the vote, but the abstain value can't be 0 as 0 might very well be a valid voteOption.
-
-This could work (the vote array needs to allow for strings, not just numbers)
-
-```json
-        {
-            "id": "abstain",
-            "label": "Abstain",
-            "cost": 0
-        }
-```
+Leaving in cost for now, maybe we'll find a weird edge case further down the road where this is needed (if the voterBudget has an impact on the ballot for example)

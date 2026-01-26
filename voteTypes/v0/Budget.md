@@ -1,6 +1,6 @@
 # VoteType Budget
 
-A multiselect vote, where you can select as many options as you like until your total budget is equal or below the allowed budget.
+A multiselect vote, where you can select as many options as you like until your total cost of all votes is equal or below the allowed voterBudget.
 
 ```json
 {
@@ -36,11 +36,12 @@ A multiselect vote, where you can select as many options as you like until your 
             "label": "Eggplant",
             "cost": 1
         }
-    ]
+    ],
+    "abstainAllowed": true
 }
 ```
 
-This could also look like this, where you could either vote Cabbage or two (or less) other options:
+This could also look like this, where you could either vote Cabbage or two (or less) other options with no abstain option.
 
 ```json
 {
@@ -76,8 +77,7 @@ This could also look like this, where you could either vote Cabbage or two (or l
             "label": "Eggplant",
             "cost": 100
         }
-    ]
+    ],
+    "abstainAllowed": false
 }
 ```
-
-This voteType currently does not allow for abstaining from the vote.
