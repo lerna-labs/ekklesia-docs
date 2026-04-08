@@ -1,29 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  {% include head.html %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
   <style>
-    /* Override site styles for full-width spec rendering */
-    .site-wrapper { display: block; max-width: none; }
-    .sidebar-nav { display: none; }
-    .site-content {
-      max-width: none;
-      padding: 0;
+    /* Minimal reset — let Redoc own everything below the header */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    .page-header, .page-body { display: none; }
-    .site-footer { margin-top: 0; }
+    .spec-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0 1.5rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .spec-header a {
+      color: #1a1a1a;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .spec-header nav {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .spec-header nav a {
+      color: #6b7280;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .spec-header nav a:hover { color: #1a1a1a; }
+    #redoc-container { min-height: calc(100vh - 56px); }
   </style>
+  {% seo %}
 </head>
 <body>
-  {% include header.html %}
-
-  <div class="site-wrapper">
-    <main class="site-content">
-      <div id="redoc-container"></div>
-    </main>
+  <div class="spec-header">
+    <a href="{{ '/' | relative_url }}">Ekklesia Docs</a>
+    <nav>
+      <a href="{{ '/api/' | relative_url }}">API Overview</a>
+      <a href="{{ '/api/voting/' | relative_url }}">Voting API</a>
+      <a href="{{ '/api/proposals/' | relative_url }}">Proposals API</a>
+      <a href="{{ '/downloads/' | relative_url }}">Downloads</a>
+    </nav>
   </div>
 
-  {% include footer.html %}
+  <div id="redoc-container"></div>
 
   <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
   <script>
@@ -44,7 +75,5 @@
       }
     }, document.getElementById('redoc-container'));
   </script>
-
-  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 </html>

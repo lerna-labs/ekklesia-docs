@@ -12,7 +12,7 @@ Ekklesia exposes two primary APIs for integration:
 
 <a href="{{ '/api/voting/' | relative_url }}" class="card">
 <h3>Voting API</h3>
-<p>Query ballots (current, upcoming, historical), fetch results, submit votes, and interact with the voter directory.</p>
+<p>Query ballots, fetch results, and submit votes. Under active development — detailed docs coming with full Hydra integration.</p>
 </a>
 
 <a href="{{ '/api/proposals/' | relative_url }}" class="card">
@@ -25,11 +25,6 @@ Ekklesia exposes two primary APIs for integration:
 ### Interactive Specifications
 
 <div class="card-grid">
-
-<a href="{{ '/api/voting/spec/' | relative_url }}" class="card">
-<h3>Voting API Spec</h3>
-<p>Full interactive OpenAPI specification with schemas and examples.</p>
-</a>
 
 <a href="{{ '/api/proposals/spec/' | relative_url }}" class="card">
 <h3>Proposals API Spec</h3>

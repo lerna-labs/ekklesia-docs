@@ -9,7 +9,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "f53d063a-eb5f-4695-9dfd-468a7e5260a9",
+                            "id": "1c038284-3e91-4035-8f24-376fa553c407",
                             "name": "Health check",
                             "request": {
                                 "name": "Health check",
@@ -40,7 +40,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "22c66f02-730a-48c4-b732-0fcc8796abe9",
+                                    "id": "420d1993-0d8b-4fa2-afbe-3ba4069bc698",
                                     "name": "API is healthy.",
                                     "originalRequest": {
                                         "url": {
@@ -90,7 +90,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "6c93e9cf-f563-4d9b-a89a-de216ba0b395",
+                    "id": "81b8e954-9729-46a1-a8ba-284510258d79",
                     "name": "Request authentication nonce",
                     "request": {
                         "name": "Request authentication nonce",
@@ -133,7 +133,7 @@
                     },
                     "response": [
                         {
-                            "id": "dd70621e-4757-407b-aee2-a497df8e6e95",
+                            "id": "0bb150cc-83e4-405f-a7b4-c43c9a0c43a8",
                             "name": "Nonce generated successfully.",
                             "originalRequest": {
                                 "url": {
@@ -181,7 +181,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "b67bedac-16f0-480f-b82b-6566c61adc0d",
+                            "id": "89e29007-cb96-4445-986e-103d342ac5af",
                             "name": "Invalid request. Possible reasons: missing or invalid signer address, script address errors.",
                             "originalRequest": {
                                 "url": {
@@ -224,12 +224,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "9d4fcea7-455c-42b5-9440-8dd286cb4bba",
+                            "id": "d94a7866-9801-486e-a619-0d7c9c643177",
                             "name": "Rate limit exceeded (5 requests per minute per IP).",
                             "originalRequest": {
                                 "url": {
@@ -272,7 +272,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -283,7 +283,7 @@
                     }
                 },
                 {
-                    "id": "a72d71f3-f7b8-4155-93ea-8a85fb844a57",
+                    "id": "48da8e82-df41-4089-b13a-853f65e8065d",
                     "name": "Verify wallet signature",
                     "request": {
                         "name": "Verify wallet signature",
@@ -326,7 +326,7 @@
                     },
                     "response": [
                         {
-                            "id": "b061eefd-1a92-47de-b0e5-ea583b6645eb",
+                            "id": "5e77c6ed-86ee-4779-a303-799cb74e975f",
                             "name": "Signature verified. A JWT token is returned in the body and set as an HTTP-only cookie.",
                             "originalRequest": {
                                 "url": {
@@ -374,7 +374,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "1711887c-ef5b-46d5-b463-dccb001e91ee",
+                            "id": "dcf0229b-5d2e-4acf-906f-9ab987c4867a",
                             "name": "Invalid request. Possible reasons: nonce expired (5-minute TTL), signature verification failed, script address errors.",
                             "originalRequest": {
                                 "url": {
@@ -417,12 +417,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "67dd2817-9ab2-4a4b-9832-1b9d6bd3bf5e",
+                            "id": "abcb42d5-214a-41af-86d2-0c8380e22351",
                             "name": "Rate limit exceeded (10 requests per minute per IP).",
                             "originalRequest": {
                                 "url": {
@@ -465,7 +465,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -476,7 +476,7 @@
                     }
                 },
                 {
-                    "id": "40f28ab4-0738-4258-a3c8-737db71e52a9",
+                    "id": "a5dffde7-c460-4886-b27e-918df6c431c3",
                     "name": "Check current session",
                     "request": {
                         "name": "Check current session",
@@ -522,7 +522,7 @@
                     },
                     "response": [
                         {
-                            "id": "686f4d1e-dbf2-46d5-932e-042f8993eb78",
+                            "id": "f16637f4-fece-415a-8be3-391951c882de",
                             "name": "Session is valid.",
                             "originalRequest": {
                                 "url": {
@@ -565,7 +565,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "b7c8c43b-5165-4742-b09b-3a91e5a774fb",
+                            "id": "762e572a-bbfa-4b35-8de4-2adc893aeb53",
                             "name": "Not authenticated or session expired.",
                             "originalRequest": {
                                 "url": {
@@ -603,12 +603,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "d82fe96c-00a4-45be-9ed0-d5844bbdf40d",
+                            "id": "28fd7d84-2c54-417a-85f3-7d454aa2ee4f",
                             "name": "Rate limit exceeded (60 requests per minute per IP).",
                             "originalRequest": {
                                 "url": {
@@ -646,7 +646,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -657,7 +657,7 @@
                     }
                 },
                 {
-                    "id": "56fc3792-1e9c-46df-aad4-4bc792bcac5c",
+                    "id": "95d520b4-bd21-4ddd-b5cf-70dc32e3098f",
                     "name": "Log out",
                     "request": {
                         "name": "Log out",
@@ -703,7 +703,7 @@
                     },
                     "response": [
                         {
-                            "id": "4501faeb-d0fa-45ec-b66b-e8787d1cb7d9",
+                            "id": "297b98a5-5d99-438e-a950-9d4ed12dee62",
                             "name": "Successfully logged out.",
                             "originalRequest": {
                                 "url": {
@@ -746,7 +746,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "6f643b76-f273-4d9b-acfc-04c05f3b4ca5",
+                            "id": "7c44af30-1746-47cb-91ad-2b48e6209f51",
                             "name": "Not authenticated or session expired.",
                             "originalRequest": {
                                 "url": {
@@ -784,12 +784,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "60f68cfe-3d70-4707-8535-789d03b2d720",
+                            "id": "cc46e663-b9c6-46c2-862b-3b99ab9c8d7c",
                             "name": "Rate limit exceeded (20 requests per minute per IP).",
                             "originalRequest": {
                                 "url": {
@@ -827,7 +827,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -844,7 +844,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "2980c707-f60b-4507-a697-e394e522676f",
+                    "id": "c4556c03-6a23-4cad-80e0-e61649553d1c",
                     "name": "List vote cycles",
                     "request": {
                         "name": "List vote cycles",
@@ -911,7 +911,7 @@
                     },
                     "response": [
                         {
-                            "id": "a8aabd2e-e823-45ef-88e7-27bc3e9023c7",
+                            "id": "2f86261e-a1ef-4dba-bcb9-bfd28f8e7fa6",
                             "name": "Paginated list of vote cycles.",
                             "originalRequest": {
                                 "url": {
@@ -983,7 +983,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "f98f0f85-4b8c-4641-af75-83b1f733cfb6",
+                            "id": "8f090070-7389-4b06-9200-7f271c2228fa",
                             "name": "Invalid request. Possible reasons: invalid pagination values, duplicate search or slug query parameters.",
                             "originalRequest": {
                                 "url": {
@@ -1050,12 +1050,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "aa721970-92d4-45cf-a96a-038c1f3fdc8e",
+                            "id": "be8f3bad-b37d-4eba-b1ca-1127bcaa3dfa",
                             "name": "No vote cycles match the provided search or slug filter.",
                             "originalRequest": {
                                 "url": {
@@ -1122,7 +1122,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -1137,7 +1137,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "98d0cc0c-d883-49d4-9eb6-6bde1ed09789",
+                            "id": "3d76f89f-1dc5-498f-a5b2-b30e9502427f",
                             "name": "Get a vote cycle",
                             "request": {
                                 "name": "Get a vote cycle",
@@ -1179,7 +1179,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "02c004f3-75f2-411d-bb95-8e0be681df71",
+                                    "id": "c9a694ae-1848-4320-a27c-c54ceff341a0",
                                     "name": "Vote cycle found.",
                                     "originalRequest": {
                                         "url": {
@@ -1226,7 +1226,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "5d9521ec-6766-4460-935f-22e0b28ec6b0",
+                                    "id": "a156b2a0-eb15-4acc-999a-58cabcdcfbf2",
                                     "name": "Vote cycle not found.",
                                     "originalRequest": {
                                         "url": {
@@ -1268,7 +1268,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -1287,7 +1287,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "469f530f-7cab-4bf1-8ff0-214cc91597ac",
+                    "id": "f4403a0f-e66d-4223-aa06-93fcd905b1d2",
                     "name": "Create a proposal",
                     "request": {
                         "name": "Create a proposal",
@@ -1318,7 +1318,7 @@
                         "method": "POST",
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"voteId\": \"EF3cff6fAdcCa9eCAEC2DcF2\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                            "raw": "{\n  \"voteId\": \"68E8F2F2dDbAD6B767BC3b7B\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                             "options": {
                                 "raw": {
                                     "headerFamily": "json",
@@ -1346,7 +1346,7 @@
                     },
                     "response": [
                         {
-                            "id": "82f84989-baae-491e-b0ad-09017c738ef7",
+                            "id": "fc8bc489-40bd-4132-b344-5359942a90a1",
                             "name": "Proposal created successfully.",
                             "originalRequest": {
                                 "url": {
@@ -1380,7 +1380,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"voteId\": \"EF3cff6fAdcCa9eCAEC2DcF2\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                    "raw": "{\n  \"voteId\": \"68E8F2F2dDbAD6B767BC3b7B\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -1397,12 +1397,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"_id\": \"<string>\",\n  \"proposerId\": \"<string>\",\n  \"voteId\": \"<string>\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"archived\",\n  \"metaData\": {},\n  \"version\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Duplicate submission\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"currentProposalId\": \"<string>\",\n  \"submittedAt\": \"<dateTime>\",\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                            "body": "{\n  \"_id\": \"<string>\",\n  \"proposerId\": \"<string>\",\n  \"voteId\": \"<string>\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"archived\",\n  \"metaData\": {},\n  \"version\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Policy violation\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"currentProposalId\": \"<string>\",\n  \"submittedAt\": \"<dateTime>\",\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "cbd12f56-112f-4ef4-83b4-2a501f204674",
+                            "id": "79e7f28c-2d4e-47a8-aafa-5198dba17d1c",
                             "name": "Invalid request. Possible reasons: validation errors, invalid voteId format, metaData does not match vote configuration.",
                             "originalRequest": {
                                 "url": {
@@ -1436,7 +1436,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"voteId\": \"EF3cff6fAdcCa9eCAEC2DcF2\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                    "raw": "{\n  \"voteId\": \"68E8F2F2dDbAD6B767BC3b7B\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -1453,12 +1453,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "dfc99556-4cef-40c2-a60d-66dee3371779",
+                            "id": "2bb30401-c7e3-4493-a7d3-d0daf89c8f41",
                             "name": "Not authenticated.",
                             "originalRequest": {
                                 "url": {
@@ -1492,7 +1492,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"voteId\": \"EF3cff6fAdcCa9eCAEC2DcF2\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                    "raw": "{\n  \"voteId\": \"68E8F2F2dDbAD6B767BC3b7B\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -1509,12 +1509,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "0315582c-95a8-46e7-b7cb-c54e56d21f0c",
+                            "id": "4aafc10f-a7f8-4b00-92c6-5717f6e24d49",
                             "name": "Vote cycle not found.",
                             "originalRequest": {
                                 "url": {
@@ -1548,7 +1548,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"voteId\": \"EF3cff6fAdcCa9eCAEC2DcF2\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                    "raw": "{\n  \"voteId\": \"68E8F2F2dDbAD6B767BC3b7B\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -1565,12 +1565,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "168f7109-8ef9-424a-bff0-3f6a33247bd1",
+                            "id": "0c56b6bc-ac29-4152-ae19-00f064a616d1",
                             "name": "Rate limit exceeded (10 requests per minute per user).",
                             "originalRequest": {
                                 "url": {
@@ -1604,7 +1604,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"voteId\": \"EF3cff6fAdcCa9eCAEC2DcF2\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                    "raw": "{\n  \"voteId\": \"68E8F2F2dDbAD6B767BC3b7B\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -1621,7 +1621,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -1632,7 +1632,7 @@
                     }
                 },
                 {
-                    "id": "f29dc3f9-00e8-4597-a0b1-2531f12b242c",
+                    "id": "7b84f7c5-cebd-4550-a277-32eecd71c1f9",
                     "name": "List proposals",
                     "request": {
                         "name": "List proposals",
@@ -1655,7 +1655,7 @@
                                         "type": "text/plain"
                                     },
                                     "key": "vote",
-                                    "value": "ee7c0C49e18544eF8fAC9235"
+                                    "value": "df49bA27D672B5EbD0C169Ee"
                                 },
                                 {
                                     "disabled": false,
@@ -1744,7 +1744,7 @@
                     },
                     "response": [
                         {
-                            "id": "4eb894fd-4e1f-463d-aba7-238e840748fe",
+                            "id": "52bd5e5c-580e-43bb-82d1-fc836247fd68",
                             "name": "Paginated list of proposals.",
                             "originalRequest": {
                                 "url": {
@@ -1762,7 +1762,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "vote",
-                                            "value": "ee7c0C49e18544eF8fAC9235"
+                                            "value": "df49bA27D672B5EbD0C169Ee"
                                         },
                                         {
                                             "disabled": false,
@@ -1856,12 +1856,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"data\": [\n    {\n      \"_id\": \"<string>\",\n      \"proposerId\": \"<string>\",\n      \"voteId\": \"<string>\",\n      \"title\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"status\": \"withdrawnByProposer\",\n      \"metaData\": {\n        \"proposerDetails\": {\n          \"name\": \"<string>\"\n        },\n        \"contractingParty\": {\n          \"legalEntityType\": \"<string>\"\n        },\n        \"strategyFramework\": {\n          \"pillars\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        \"conversionRate\": \"<number>\",\n        \"totalBudget\": \"<number>\"\n      },\n      \"version\": \"<integer>\",\n      \"commentCount\": \"<integer>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Other\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      },\n      \"submittedAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"proposerId\": \"<string>\",\n      \"voteId\": \"<string>\",\n      \"title\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"status\": \"archived\",\n      \"metaData\": {\n        \"proposerDetails\": {\n          \"name\": \"<string>\"\n        },\n        \"contractingParty\": {\n          \"legalEntityType\": \"<string>\"\n        },\n        \"strategyFramework\": {\n          \"pillars\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        \"conversionRate\": \"<number>\",\n        \"totalBudget\": \"<number>\"\n      },\n      \"version\": \"<integer>\",\n      \"commentCount\": \"<integer>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Spam\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      },\n      \"submittedAt\": \"<dateTime>\"\n    }\n  ],\n  \"meta\": {\n    \"page\": \"<integer>\",\n    \"limit\": \"<integer>\",\n    \"total\": \"<integer>\",\n    \"totalPages\": \"<integer>\",\n    \"hasNextPage\": \"<boolean>\",\n    \"hasPreviousPage\": \"<boolean>\"\n  }\n}",
+                            "body": "{\n  \"data\": [\n    {\n      \"_id\": \"<string>\",\n      \"proposerId\": \"<string>\",\n      \"voteId\": \"<string>\",\n      \"title\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"status\": \"withdrawnByAdmin\",\n      \"metaData\": {\n        \"proposerDetails\": {\n          \"name\": \"<string>\"\n        },\n        \"contractingParty\": {\n          \"legalEntityType\": \"<string>\"\n        },\n        \"strategyFramework\": {\n          \"pillars\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        \"conversionRate\": \"<number>\",\n        \"totalBudget\": \"<number>\"\n      },\n      \"version\": \"<integer>\",\n      \"commentCount\": \"<integer>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Duplicate submission\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      },\n      \"submittedAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"proposerId\": \"<string>\",\n      \"voteId\": \"<string>\",\n      \"title\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"status\": \"archived\",\n      \"metaData\": {\n        \"proposerDetails\": {\n          \"name\": \"<string>\"\n        },\n        \"contractingParty\": {\n          \"legalEntityType\": \"<string>\"\n        },\n        \"strategyFramework\": {\n          \"pillars\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        \"conversionRate\": \"<number>\",\n        \"totalBudget\": \"<number>\"\n      },\n      \"version\": \"<integer>\",\n      \"commentCount\": \"<integer>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Spam\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      },\n      \"submittedAt\": \"<dateTime>\"\n    }\n  ],\n  \"meta\": {\n    \"page\": \"<integer>\",\n    \"limit\": \"<integer>\",\n    \"total\": \"<integer>\",\n    \"totalPages\": \"<integer>\",\n    \"hasNextPage\": \"<boolean>\",\n    \"hasPreviousPage\": \"<boolean>\"\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "07a5d4e5-e26c-440a-aeed-974ee68b0549",
+                            "id": "1f940c0e-6778-4ea1-a2bd-5b530b491905",
                             "name": "Invalid request. Possible reasons: missing vote parameter, invalid query parameters, unauthorized draft access.",
                             "originalRequest": {
                                 "url": {
@@ -1879,7 +1879,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "vote",
-                                            "value": "ee7c0C49e18544eF8fAC9235"
+                                            "value": "df49bA27D672B5EbD0C169Ee"
                                         },
                                         {
                                             "disabled": false,
@@ -1973,12 +1973,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "ac827089-c30f-4210-b06f-8b3a5cf5306f",
+                            "id": "5206b7b2-0bb2-4653-a5be-047ff619af63",
                             "name": "Vote cycle not found.",
                             "originalRequest": {
                                 "url": {
@@ -1996,7 +1996,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "vote",
-                                            "value": "ee7c0C49e18544eF8fAC9235"
+                                            "value": "df49bA27D672B5EbD0C169Ee"
                                         },
                                         {
                                             "disabled": false,
@@ -2090,7 +2090,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -2105,7 +2105,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "9b41f0d5-2dfd-44f6-adbe-29908ea94df3",
+                            "id": "858b6a23-7c9e-4dec-8632-2a2b464e73e7",
                             "name": "Get a proposal",
                             "request": {
                                 "name": "Get a proposal",
@@ -2125,7 +2125,7 @@
                                     "variable": [
                                         {
                                             "type": "any",
-                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                            "value": "df49bA27D672B5EbD0C169Ee",
                                             "key": "proposalId",
                                             "disabled": false,
                                             "description": {
@@ -2163,7 +2163,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "b830da55-ad7c-40c4-a361-bbd1d5dfd582",
+                                    "id": "9f7ceb7c-8a82-426a-98e7-88c3bcdc752e",
                                     "name": "Proposal found.",
                                     "originalRequest": {
                                         "url": {
@@ -2183,7 +2183,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2213,12 +2213,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"_id\": \"<string>\",\n  \"proposerId\": \"<string>\",\n  \"voteId\": \"<string>\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"draft\",\n  \"metaData\": {},\n  \"version\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Inappropriate content\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"currentProposalId\": \"<string>\",\n  \"submittedAt\": \"<dateTime>\",\n  \"treasuryDonationTxHash\": \"<string>\",\n  \"commentCount\": \"<integer>\"\n}",
+                                    "body": "{\n  \"_id\": \"<string>\",\n  \"proposerId\": \"<string>\",\n  \"voteId\": \"<string>\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"withdrawnByProposer\",\n  \"metaData\": {},\n  \"version\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Inappropriate content\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"currentProposalId\": \"<string>\",\n  \"submittedAt\": \"<dateTime>\",\n  \"treasuryDonationTxHash\": \"<string>\",\n  \"commentCount\": \"<integer>\"\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "b0528813-2586-4b28-9354-f462cf1fcfe8",
+                                    "id": "7ef4f6e7-1355-494d-ac27-39ed3561f43e",
                                     "name": "Invalid proposal ID format.",
                                     "originalRequest": {
                                         "url": {
@@ -2238,7 +2238,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2268,12 +2268,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "7008a918-8e6f-4621-b256-9610d96824a2",
+                                    "id": "8c379222-d6f0-4b88-851e-31d7d13dcd1e",
                                     "name": "Forbidden. Draft proposal is not accessible without proper authorization.",
                                     "originalRequest": {
                                         "url": {
@@ -2293,7 +2293,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2323,12 +2323,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "381b67ca-2f72-4a40-bef5-d024669ab05b",
+                                    "id": "08e5d55a-2ab7-4275-8c09-b7723f79f443",
                                     "name": "Proposal not found.",
                                     "originalRequest": {
                                         "url": {
@@ -2348,7 +2348,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2378,7 +2378,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -2389,7 +2389,7 @@
                             }
                         },
                         {
-                            "id": "fd29e4fc-8122-4300-99d5-c558470b484b",
+                            "id": "d6ef6870-15a9-4178-b0e7-0f81668810eb",
                             "name": "Update a proposal",
                             "request": {
                                 "name": "Update a proposal",
@@ -2409,7 +2409,7 @@
                                     "variable": [
                                         {
                                             "type": "any",
-                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                            "value": "df49bA27D672B5EbD0C169Ee",
                                             "key": "proposalId",
                                             "disabled": false,
                                             "description": {
@@ -2432,7 +2432,7 @@
                                 "method": "PUT",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"voteId\": \"CcC3c99f9cd4FBBDBFc2Eca4\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                    "raw": "{\n  \"voteId\": \"c2a33Bf2E1a223e7F63AfA1D\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"draft\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -2460,7 +2460,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "6e88492d-4dfc-45a1-ba7c-6745fb7953bb",
+                                    "id": "bf294f9f-abf4-47f6-8790-019b3f5d207b",
                                     "name": "Proposal updated successfully.",
                                     "originalRequest": {
                                         "url": {
@@ -2480,7 +2480,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2506,7 +2506,7 @@
                                         "method": "PUT",
                                         "body": {
                                             "mode": "raw",
-                                            "raw": "{\n  \"voteId\": \"CcC3c99f9cd4FBBDBFc2Eca4\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                            "raw": "{\n  \"voteId\": \"c2a33Bf2E1a223e7F63AfA1D\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"draft\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                             "options": {
                                                 "raw": {
                                                     "headerFamily": "json",
@@ -2523,12 +2523,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"_id\": \"<string>\",\n  \"proposerId\": \"<string>\",\n  \"voteId\": \"<string>\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"archived\",\n  \"metaData\": {},\n  \"version\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Duplicate submission\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"currentProposalId\": \"<string>\",\n  \"submittedAt\": \"<dateTime>\",\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                    "body": "{\n  \"_id\": \"<string>\",\n  \"proposerId\": \"<string>\",\n  \"voteId\": \"<string>\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"archived\",\n  \"metaData\": {},\n  \"version\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Policy violation\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"currentProposalId\": \"<string>\",\n  \"submittedAt\": \"<dateTime>\",\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "a5c213eb-c2a4-45fc-9607-444c29428157",
+                                    "id": "18a7f6b0-ce85-466a-8bb3-edb627ae8310",
                                     "name": "Invalid request. Possible reasons: validation errors, proposal is archived, attempted status change on live proposal, update locked after reviewEndDate.",
                                     "originalRequest": {
                                         "url": {
@@ -2548,7 +2548,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2574,7 +2574,7 @@
                                         "method": "PUT",
                                         "body": {
                                             "mode": "raw",
-                                            "raw": "{\n  \"voteId\": \"CcC3c99f9cd4FBBDBFc2Eca4\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                            "raw": "{\n  \"voteId\": \"c2a33Bf2E1a223e7F63AfA1D\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"draft\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                             "options": {
                                                 "raw": {
                                                     "headerFamily": "json",
@@ -2591,12 +2591,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "d29904d1-f8ea-4aa3-968f-975fd1a57485",
+                                    "id": "58d6f182-8be9-4a35-a956-e3d15810d7a0",
                                     "name": "Not authenticated.",
                                     "originalRequest": {
                                         "url": {
@@ -2616,7 +2616,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2642,7 +2642,7 @@
                                         "method": "PUT",
                                         "body": {
                                             "mode": "raw",
-                                            "raw": "{\n  \"voteId\": \"CcC3c99f9cd4FBBDBFc2Eca4\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                            "raw": "{\n  \"voteId\": \"c2a33Bf2E1a223e7F63AfA1D\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"draft\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                             "options": {
                                                 "raw": {
                                                     "headerFamily": "json",
@@ -2659,12 +2659,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "43475804-8c46-49a3-bd33-037e460a3f75",
+                                    "id": "f89914af-173e-48f2-8efd-fbc7787107ea",
                                     "name": "Forbidden. Only the original proposer may update.",
                                     "originalRequest": {
                                         "url": {
@@ -2684,7 +2684,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2710,7 +2710,7 @@
                                         "method": "PUT",
                                         "body": {
                                             "mode": "raw",
-                                            "raw": "{\n  \"voteId\": \"CcC3c99f9cd4FBBDBFc2Eca4\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                            "raw": "{\n  \"voteId\": \"c2a33Bf2E1a223e7F63AfA1D\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"draft\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                             "options": {
                                                 "raw": {
                                                     "headerFamily": "json",
@@ -2727,12 +2727,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "22329a2e-9201-49bd-bb6e-4c3ee4de2a01",
+                                    "id": "38a57fe8-e103-4d52-bdb9-55401c2b2fe5",
                                     "name": "Proposal not found.",
                                     "originalRequest": {
                                         "url": {
@@ -2752,7 +2752,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2778,7 +2778,7 @@
                                         "method": "PUT",
                                         "body": {
                                             "mode": "raw",
-                                            "raw": "{\n  \"voteId\": \"CcC3c99f9cd4FBBDBFc2Eca4\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                            "raw": "{\n  \"voteId\": \"c2a33Bf2E1a223e7F63AfA1D\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"draft\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                             "options": {
                                                 "raw": {
                                                     "headerFamily": "json",
@@ -2795,12 +2795,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "45fe35a9-c780-4560-af86-bf0cbd575a24",
+                                    "id": "46477ddc-0891-4b74-aed0-df15a6d10a5a",
                                     "name": "Rate limit exceeded (10 requests per minute per user).",
                                     "originalRequest": {
                                         "url": {
@@ -2820,7 +2820,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2846,7 +2846,7 @@
                                         "method": "PUT",
                                         "body": {
                                             "mode": "raw",
-                                            "raw": "{\n  \"voteId\": \"CcC3c99f9cd4FBBDBFc2Eca4\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"live\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                            "raw": "{\n  \"voteId\": \"c2a33Bf2E1a223e7F63AfA1D\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"draft\",\n  \"metaData\": {},\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                             "options": {
                                                 "raw": {
                                                     "headerFamily": "json",
@@ -2863,7 +2863,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -2874,7 +2874,7 @@
                             }
                         },
                         {
-                            "id": "09139014-07ec-4a49-bd66-52d9c2624abc",
+                            "id": "c33b0f6d-5eef-426a-b2de-44705e9a6e2b",
                             "name": "Delete a draft proposal",
                             "request": {
                                 "name": "Delete a draft proposal",
@@ -2894,7 +2894,7 @@
                                     "variable": [
                                         {
                                             "type": "any",
-                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                            "value": "df49bA27D672B5EbD0C169Ee",
                                             "key": "proposalId",
                                             "disabled": false,
                                             "description": {
@@ -2932,7 +2932,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "8b5fdaa2-164d-43b4-bcbe-158c1d781c75",
+                                    "id": "211d4f42-5fad-417e-a877-e1a38f0342a4",
                                     "name": "Proposal deleted successfully.",
                                     "originalRequest": {
                                         "url": {
@@ -2952,7 +2952,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -2987,7 +2987,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "3c9d2a36-aaeb-4ab2-a4c5-7b4d3efd959d",
+                                    "id": "213c30b7-919c-478a-bde1-78c6a86d6ca2",
                                     "name": "Invalid request. The proposal is not in draft status.",
                                     "originalRequest": {
                                         "url": {
@@ -3007,7 +3007,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -3037,12 +3037,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "e57f6f03-45ae-46c0-af65-427c42a76f8d",
+                                    "id": "2623533f-a10a-41bc-be3f-60c3212251d6",
                                     "name": "Not authenticated.",
                                     "originalRequest": {
                                         "url": {
@@ -3062,7 +3062,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -3092,12 +3092,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "ec6e2f96-3fa0-4a06-8ac7-025efcd7625a",
+                                    "id": "512b34cf-15a3-4f6b-8223-88f990cf7bf7",
                                     "name": "Forbidden. Only the original proposer may delete.",
                                     "originalRequest": {
                                         "url": {
@@ -3117,7 +3117,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -3147,12 +3147,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "a9fefecf-5b15-47bf-a101-eeb990b921a9",
+                                    "id": "39b659cb-c4d4-407c-a055-a6b017e5a173",
                                     "name": "Proposal not found.",
                                     "originalRequest": {
                                         "url": {
@@ -3172,7 +3172,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -3202,12 +3202,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "22383ba1-2599-47cb-8d86-34b53dbefb69",
+                                    "id": "ed80c2ff-a42f-4736-a205-5306e76d8acc",
                                     "name": "Rate limit exceeded (10 requests per minute per user).",
                                     "originalRequest": {
                                         "url": {
@@ -3227,7 +3227,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId"
                                                 }
                                             ]
@@ -3257,7 +3257,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -3272,7 +3272,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "fd623c92-c956-44f0-9555-e39b0bc2da44",
+                                    "id": "85b1fdbb-f29d-483d-937d-52f662271cc9",
                                     "name": "Withdraw a proposal",
                                     "request": {
                                         "name": "Withdraw a proposal",
@@ -3293,7 +3293,7 @@
                                             "variable": [
                                                 {
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "proposalId",
                                                     "disabled": false,
                                                     "description": {
@@ -3316,7 +3316,7 @@
                                         "method": "PUT",
                                         "body": {
                                             "mode": "raw",
-                                            "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                            "raw": "{\n  \"category\": \"Inappropriate content\",\n  \"comment\": \"<string>\"\n}",
                                             "options": {
                                                 "raw": {
                                                     "headerFamily": "json",
@@ -3344,7 +3344,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "d326334d-fc00-43b6-8245-669faa304b3a",
+                                            "id": "6bc36dbc-c2d8-48a6-a0ab-26a1bf01ff85",
                                             "name": "Proposal withdrawn successfully.",
                                             "originalRequest": {
                                                 "url": {
@@ -3365,7 +3365,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "proposalId"
                                                         }
                                                     ]
@@ -3391,7 +3391,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Inappropriate content\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -3408,12 +3408,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"_id\": \"<string>\",\n  \"proposerId\": \"<string>\",\n  \"voteId\": \"<string>\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"withdrawnByAdmin\",\n  \"metaData\": {},\n  \"version\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Other\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"currentProposalId\": \"<string>\",\n  \"submittedAt\": \"<dateTime>\",\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
+                                            "body": "{\n  \"_id\": \"<string>\",\n  \"proposerId\": \"<string>\",\n  \"voteId\": \"<string>\",\n  \"title\": \"<string>\",\n  \"summary\": \"<string>\",\n  \"status\": \"withdrawnByProposer\",\n  \"metaData\": {},\n  \"version\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Duplicate submission\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"currentProposalId\": \"<string>\",\n  \"submittedAt\": \"<dateTime>\",\n  \"treasuryDonationTxHash\": \"<string>\"\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "9623f3e4-cd75-459b-ad0b-6ba70bfa8847",
+                                            "id": "c84181a5-b337-4cbb-a819-1a241ffe5779",
                                             "name": "Invalid request. Possible reasons: proposal is not live, invalid withdrawal category, past the allowed withdrawal deadline.",
                                             "originalRequest": {
                                                 "url": {
@@ -3434,7 +3434,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "proposalId"
                                                         }
                                                     ]
@@ -3460,7 +3460,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Inappropriate content\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -3477,12 +3477,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "d7e4edb3-9d62-439e-92fc-46dc444523cf",
+                                            "id": "c59669a1-a23a-452b-9833-dbabd7c594a9",
                                             "name": "Not authenticated.",
                                             "originalRequest": {
                                                 "url": {
@@ -3503,7 +3503,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "proposalId"
                                                         }
                                                     ]
@@ -3529,7 +3529,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Inappropriate content\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -3546,12 +3546,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "277e79d5-3ae1-4fd3-9d5c-0b3d88ede723",
+                                            "id": "78362948-498b-4416-bc43-55c8930474b9",
                                             "name": "Forbidden. The requester is neither the proposer nor a vote cycle admin, or the withdrawal deadline has passed for the requester's role.",
                                             "originalRequest": {
                                                 "url": {
@@ -3572,7 +3572,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "proposalId"
                                                         }
                                                     ]
@@ -3598,7 +3598,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Inappropriate content\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -3615,12 +3615,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "dee36016-e9f2-4047-80e7-6d9c9ea085d5",
+                                            "id": "8b520c99-5bf9-48ed-b109-f5d6f464b917",
                                             "name": "Proposal not found.",
                                             "originalRequest": {
                                                 "url": {
@@ -3641,7 +3641,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "proposalId"
                                                         }
                                                     ]
@@ -3667,7 +3667,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Inappropriate content\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -3684,12 +3684,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "c1235b52-280e-47af-85d0-438fbae2bbff",
+                                            "id": "09f11976-5e7f-4dfe-b5f4-54a853d9ec8d",
                                             "name": "Rate limit exceeded (10 requests per minute per user).",
                                             "originalRequest": {
                                                 "url": {
@@ -3710,7 +3710,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "proposalId"
                                                         }
                                                     ]
@@ -3736,7 +3736,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Inappropriate content\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -3753,7 +3753,7 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         }
@@ -3774,7 +3774,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "9cb95300-902c-4ea2-bcc2-935acee672c2",
+                    "id": "32e1752e-f8d6-4b54-98ab-6b4ab10b4553",
                     "name": "List top-level comments",
                     "request": {
                         "name": "List top-level comments",
@@ -3797,7 +3797,7 @@
                                         "type": "text/plain"
                                     },
                                     "key": "proposal",
-                                    "value": "ee7c0C49e18544eF8fAC9235"
+                                    "value": "df49bA27D672B5EbD0C169Ee"
                                 },
                                 {
                                     "disabled": false,
@@ -3806,7 +3806,7 @@
                                         "type": "text/plain"
                                     },
                                     "key": "status",
-                                    "value": "withdrawn"
+                                    "value": "withdrawnByAdmin"
                                 },
                                 {
                                     "disabled": false,
@@ -3868,7 +3868,7 @@
                     },
                     "response": [
                         {
-                            "id": "3d5afef1-3ba7-42ec-a330-3b154c3a2d27",
+                            "id": "43599f74-a3c2-407e-b063-4997adb11529",
                             "name": "Paginated list of comments.",
                             "originalRequest": {
                                 "url": {
@@ -3886,7 +3886,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "proposal",
-                                            "value": "ee7c0C49e18544eF8fAC9235"
+                                            "value": "df49bA27D672B5EbD0C169Ee"
                                         },
                                         {
                                             "disabled": false,
@@ -3895,7 +3895,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "status",
-                                            "value": "withdrawn"
+                                            "value": "withdrawnByAdmin"
                                         },
                                         {
                                             "disabled": false,
@@ -3962,12 +3962,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"data\": [\n    {\n      \"_id\": \"<string>\",\n      \"content\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"replyCount\": \"<integer>\",\n      \"likeCount\": \"<integer>\",\n      \"author\": {\n        \"_id\": \"<string>\",\n        \"type\": \"drep\",\n        \"name\": \"<string>\"\n      },\n      \"parentId\": \"<string>\",\n      \"userLiked\": \"<boolean>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Inappropriate content\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    {\n      \"_id\": \"<string>\",\n      \"content\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"replyCount\": \"<integer>\",\n      \"likeCount\": \"<integer>\",\n      \"author\": {\n        \"_id\": \"<string>\",\n        \"type\": \"user\",\n        \"name\": \"<string>\"\n      },\n      \"parentId\": \"<string>\",\n      \"userLiked\": \"<boolean>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Duplicate submission\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"page\": \"<integer>\",\n    \"limit\": \"<integer>\",\n    \"total\": \"<integer>\",\n    \"totalPages\": \"<integer>\",\n    \"hasNextPage\": \"<boolean>\",\n    \"hasPreviousPage\": \"<boolean>\"\n  }\n}",
+                            "body": "{\n  \"data\": [\n    {\n      \"_id\": \"<string>\",\n      \"content\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"replyCount\": \"<integer>\",\n      \"likeCount\": \"<integer>\",\n      \"author\": {\n        \"_id\": \"<string>\",\n        \"type\": \"proposer\",\n        \"name\": \"<string>\"\n      },\n      \"parentId\": \"<string>\",\n      \"userLiked\": \"<boolean>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Policy violation\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    {\n      \"_id\": \"<string>\",\n      \"content\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"replyCount\": \"<integer>\",\n      \"likeCount\": \"<integer>\",\n      \"author\": {\n        \"_id\": \"<string>\",\n        \"type\": \"drep\",\n        \"name\": \"<string>\"\n      },\n      \"parentId\": \"<string>\",\n      \"userLiked\": \"<boolean>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Other\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"page\": \"<integer>\",\n    \"limit\": \"<integer>\",\n    \"total\": \"<integer>\",\n    \"totalPages\": \"<integer>\",\n    \"hasNextPage\": \"<boolean>\",\n    \"hasPreviousPage\": \"<boolean>\"\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "f1f7b383-d322-4176-b3c9-44d2e7476955",
+                            "id": "8c306fbc-0caf-4ca5-9e35-434349611cde",
                             "name": "Invalid request. Possible reasons: missing proposal parameter, invalid query parameters, non-admin attempting to filter by non-live status.",
                             "originalRequest": {
                                 "url": {
@@ -3985,7 +3985,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "proposal",
-                                            "value": "ee7c0C49e18544eF8fAC9235"
+                                            "value": "df49bA27D672B5EbD0C169Ee"
                                         },
                                         {
                                             "disabled": false,
@@ -3994,7 +3994,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "status",
-                                            "value": "withdrawn"
+                                            "value": "withdrawnByAdmin"
                                         },
                                         {
                                             "disabled": false,
@@ -4061,12 +4061,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "b5e62ece-bf73-453d-a02d-0626f200692d",
+                            "id": "7aea4977-f0a9-452f-8961-a20956a80d14",
                             "name": "Proposal not found.",
                             "originalRequest": {
                                 "url": {
@@ -4084,7 +4084,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "proposal",
-                                            "value": "ee7c0C49e18544eF8fAC9235"
+                                            "value": "df49bA27D672B5EbD0C169Ee"
                                         },
                                         {
                                             "disabled": false,
@@ -4093,7 +4093,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "status",
-                                            "value": "withdrawn"
+                                            "value": "withdrawnByAdmin"
                                         },
                                         {
                                             "disabled": false,
@@ -4160,7 +4160,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -4171,7 +4171,7 @@
                     }
                 },
                 {
-                    "id": "e25b9df6-e8e1-4e58-8a70-fe99cdd9c60e",
+                    "id": "d5dcbc9e-0627-498e-a163-5bf0bf5c17da",
                     "name": "Create a comment",
                     "request": {
                         "name": "Create a comment",
@@ -4202,7 +4202,7 @@
                         "method": "POST",
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"proposalId\": \"ACfdfA93dedc4F2BEF8BdAFD\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ff7bb1D4BdCDd8F56D3BDF8\"\n}",
+                            "raw": "{\n  \"proposalId\": \"Eda1A1Cc3805DeEb903f58BE\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ef9Cd9C3494ee5bCb320447\"\n}",
                             "options": {
                                 "raw": {
                                     "headerFamily": "json",
@@ -4230,7 +4230,7 @@
                     },
                     "response": [
                         {
-                            "id": "bfa780c8-17fd-4f0a-82cf-09954024043f",
+                            "id": "3b987b07-ac96-4490-a803-7322c1f86dbf",
                             "name": "Comment created successfully.",
                             "originalRequest": {
                                 "url": {
@@ -4264,7 +4264,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"proposalId\": \"ACfdfA93dedc4F2BEF8BdAFD\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ff7bb1D4BdCDd8F56D3BDF8\"\n}",
+                                    "raw": "{\n  \"proposalId\": \"Eda1A1Cc3805DeEb903f58BE\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ef9Cd9C3494ee5bCb320447\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -4281,12 +4281,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"_id\": \"<string>\",\n  \"content\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"replyCount\": \"<integer>\",\n  \"likeCount\": \"<integer>\",\n  \"author\": {\n    \"_id\": \"<string>\",\n    \"type\": \"proposer\",\n    \"name\": \"<string>\"\n  },\n  \"parentId\": \"<string>\",\n  \"userLiked\": \"<boolean>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Spam\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  }\n}",
+                            "body": "{\n  \"_id\": \"<string>\",\n  \"content\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"replyCount\": \"<integer>\",\n  \"likeCount\": \"<integer>\",\n  \"author\": {\n    \"_id\": \"<string>\",\n    \"type\": \"proposer\",\n    \"name\": \"<string>\"\n  },\n  \"parentId\": \"<string>\",\n  \"userLiked\": \"<boolean>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Policy violation\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "3be0cc72-acd7-4ef2-95f6-1f1060641c8d",
+                            "id": "fa0cc538-8392-43bc-bca7-3875dfe912f7",
                             "name": "Invalid request. Possible reasons: missing required fields, content exceeds 2000 characters, proposal is not live, past feedbackEndDate, duplicate comment, replying to a withdrawn comment.",
                             "originalRequest": {
                                 "url": {
@@ -4320,7 +4320,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"proposalId\": \"ACfdfA93dedc4F2BEF8BdAFD\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ff7bb1D4BdCDd8F56D3BDF8\"\n}",
+                                    "raw": "{\n  \"proposalId\": \"Eda1A1Cc3805DeEb903f58BE\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ef9Cd9C3494ee5bCb320447\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -4337,12 +4337,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "416f7127-a805-4691-aadf-74f9a917ae31",
+                            "id": "3a988d3e-848c-43c5-8ef5-0e9a49e50f7c",
                             "name": "Not authenticated.",
                             "originalRequest": {
                                 "url": {
@@ -4376,7 +4376,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"proposalId\": \"ACfdfA93dedc4F2BEF8BdAFD\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ff7bb1D4BdCDd8F56D3BDF8\"\n}",
+                                    "raw": "{\n  \"proposalId\": \"Eda1A1Cc3805DeEb903f58BE\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ef9Cd9C3494ee5bCb320447\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -4393,12 +4393,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "d939b43d-363f-4d6a-bb3d-0171b90bce8c",
+                            "id": "a17fb64d-4c3f-43ca-b9c0-2bc92519c18b",
                             "name": "Proposal or parent comment not found.",
                             "originalRequest": {
                                 "url": {
@@ -4432,7 +4432,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"proposalId\": \"ACfdfA93dedc4F2BEF8BdAFD\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ff7bb1D4BdCDd8F56D3BDF8\"\n}",
+                                    "raw": "{\n  \"proposalId\": \"Eda1A1Cc3805DeEb903f58BE\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ef9Cd9C3494ee5bCb320447\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -4449,12 +4449,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "590ac8b2-5e33-4752-bfa3-458a30633a5d",
+                            "id": "75037b13-772d-4c12-9ce7-8fcb137cbc53",
                             "name": "Rate limit exceeded (5 per minute or 20 per hour per user).",
                             "originalRequest": {
                                 "url": {
@@ -4488,7 +4488,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n  \"proposalId\": \"ACfdfA93dedc4F2BEF8BdAFD\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ff7bb1D4BdCDd8F56D3BDF8\"\n}",
+                                    "raw": "{\n  \"proposalId\": \"Eda1A1Cc3805DeEb903f58BE\",\n  \"content\": \"<string>\",\n  \"parentId\": \"6Ef9Cd9C3494ee5bCb320447\"\n}",
                                     "options": {
                                         "raw": {
                                             "headerFamily": "json",
@@ -4505,7 +4505,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -4520,7 +4520,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "f1848432-cbd0-408b-bb39-2e7ddfd7c0b2",
+                            "id": "c6f464c8-81df-4e5f-a398-f90f107264c4",
                             "name": "Get a single comment",
                             "request": {
                                 "name": "Get a single comment",
@@ -4540,7 +4540,7 @@
                                     "variable": [
                                         {
                                             "type": "any",
-                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                            "value": "df49bA27D672B5EbD0C169Ee",
                                             "key": "commentId",
                                             "disabled": false,
                                             "description": {
@@ -4578,7 +4578,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "d88f3a81-3ef3-41cb-9c2a-bde92f0d44a8",
+                                    "id": "7fe50f41-fc79-4585-a734-9f45f0f073a2",
                                     "name": "Comment found.",
                                     "originalRequest": {
                                         "url": {
@@ -4598,7 +4598,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -4628,12 +4628,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"_id\": \"<string>\",\n  \"content\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"replyCount\": \"<integer>\",\n  \"likeCount\": \"<integer>\",\n  \"author\": {\n    \"_id\": \"<string>\",\n    \"type\": \"proposer\",\n    \"name\": \"<string>\"\n  },\n  \"parentId\": \"<string>\",\n  \"userLiked\": \"<boolean>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Spam\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  }\n}",
+                                    "body": "{\n  \"_id\": \"<string>\",\n  \"content\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"replyCount\": \"<integer>\",\n  \"likeCount\": \"<integer>\",\n  \"author\": {\n    \"_id\": \"<string>\",\n    \"type\": \"proposer\",\n    \"name\": \"<string>\"\n  },\n  \"parentId\": \"<string>\",\n  \"userLiked\": \"<boolean>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Policy violation\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "87f44c83-251f-4af0-8084-15d11073a5cd",
+                                    "id": "afc2ed6b-d138-4dbe-9909-bd970ec98cee",
                                     "name": "Invalid comment ID format.",
                                     "originalRequest": {
                                         "url": {
@@ -4653,7 +4653,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -4683,12 +4683,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "ccb719e7-35da-4905-8040-0532525b7f46",
+                                    "id": "35e22d32-23fa-4c86-9c00-9280387986a4",
                                     "name": "Comment not found.",
                                     "originalRequest": {
                                         "url": {
@@ -4708,7 +4708,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -4738,7 +4738,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -4749,7 +4749,7 @@
                             }
                         },
                         {
-                            "id": "e6797e1a-7551-450a-94e3-528ce676d622",
+                            "id": "9ea6093d-656e-43d8-9d10-638bd48f3523",
                             "name": "Update a comment",
                             "request": {
                                 "name": "Update a comment",
@@ -4769,7 +4769,7 @@
                                     "variable": [
                                         {
                                             "type": "any",
-                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                            "value": "df49bA27D672B5EbD0C169Ee",
                                             "key": "commentId",
                                             "disabled": false,
                                             "description": {
@@ -4820,7 +4820,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "0964143b-69dc-40f8-99f5-5118ae0b0dcf",
+                                    "id": "0a334056-8ad6-4fdc-8c06-9e177b288b18",
                                     "name": "Comment updated successfully.",
                                     "originalRequest": {
                                         "url": {
@@ -4840,7 +4840,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -4883,12 +4883,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"_id\": \"<string>\",\n  \"content\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"replyCount\": \"<integer>\",\n  \"likeCount\": \"<integer>\",\n  \"author\": {\n    \"_id\": \"<string>\",\n    \"type\": \"proposer\",\n    \"name\": \"<string>\"\n  },\n  \"parentId\": \"<string>\",\n  \"userLiked\": \"<boolean>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Spam\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  }\n}",
+                                    "body": "{\n  \"_id\": \"<string>\",\n  \"content\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"replyCount\": \"<integer>\",\n  \"likeCount\": \"<integer>\",\n  \"author\": {\n    \"_id\": \"<string>\",\n    \"type\": \"proposer\",\n    \"name\": \"<string>\"\n  },\n  \"parentId\": \"<string>\",\n  \"userLiked\": \"<boolean>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Policy violation\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "76e2d200-4ed6-4e0d-b005-b8a4569a6b71",
+                                    "id": "98ce321d-d191-41ae-af60-0aaf798390fb",
                                     "name": "Invalid request. Possible reasons: content exceeds 2000 characters, edit window (15 minutes) has passed.",
                                     "originalRequest": {
                                         "url": {
@@ -4908,7 +4908,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -4951,12 +4951,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "1eaf304c-1ed5-4a4d-a3f0-037b047a0543",
+                                    "id": "c3d7418a-4420-4147-850f-bed0fd714871",
                                     "name": "Not authenticated.",
                                     "originalRequest": {
                                         "url": {
@@ -4976,7 +4976,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -5019,12 +5019,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "32a0a3dd-8e43-46a7-8d0e-e4a4a271d3ea",
+                                    "id": "b950a3d6-e593-4af4-ad71-0e8086b5ac98",
                                     "name": "Forbidden. Only the original author may edit.",
                                     "originalRequest": {
                                         "url": {
@@ -5044,7 +5044,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -5087,12 +5087,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "445f360b-1f96-428c-abdc-9c339fad43fd",
+                                    "id": "2e431ffe-ef3c-42bd-a950-8159f58af2fb",
                                     "name": "Comment not found.",
                                     "originalRequest": {
                                         "url": {
@@ -5112,7 +5112,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -5155,12 +5155,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "cd9e88b2-78d0-4480-936b-36422687aed4",
+                                    "id": "9e4ef7fb-c195-4f4a-aef5-e0e85f1820d4",
                                     "name": "Rate limit exceeded (5 per minute or 20 per hour per user).",
                                     "originalRequest": {
                                         "url": {
@@ -5180,7 +5180,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId"
                                                 }
                                             ]
@@ -5223,7 +5223,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                    "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -5238,7 +5238,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "801f6a76-d808-4bd4-807c-c630844bcfea",
+                                    "id": "5b0784e1-12d0-4e34-98bf-0303932414df",
                                     "name": "List replies to a comment",
                                     "request": {
                                         "name": "List replies to a comment",
@@ -5263,7 +5263,7 @@
                                                         "type": "text/plain"
                                                     },
                                                     "key": "status",
-                                                    "value": "withdrawn"
+                                                    "value": "withdrawnByAdmin"
                                                 },
                                                 {
                                                     "disabled": false,
@@ -5287,7 +5287,7 @@
                                             "variable": [
                                                 {
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId",
                                                     "disabled": false,
                                                     "description": {
@@ -5309,7 +5309,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "528ea97e-c172-4885-80a3-75c56db4601e",
+                                            "id": "fbf923dd-eaec-4fc4-9651-d15fb318ce91",
                                             "name": "Paginated list of replies.",
                                             "originalRequest": {
                                                 "url": {
@@ -5329,7 +5329,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "key": "status",
-                                                            "value": "withdrawn"
+                                                            "value": "withdrawnByAdmin"
                                                         },
                                                         {
                                                             "disabled": false,
@@ -5358,7 +5358,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5380,12 +5380,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"data\": [\n    {\n      \"_id\": \"<string>\",\n      \"content\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"replyCount\": \"<integer>\",\n      \"likeCount\": \"<integer>\",\n      \"author\": {\n        \"_id\": \"<string>\",\n        \"type\": \"drep\",\n        \"name\": \"<string>\"\n      },\n      \"parentId\": \"<string>\",\n      \"userLiked\": \"<boolean>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Inappropriate content\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    {\n      \"_id\": \"<string>\",\n      \"content\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"replyCount\": \"<integer>\",\n      \"likeCount\": \"<integer>\",\n      \"author\": {\n        \"_id\": \"<string>\",\n        \"type\": \"user\",\n        \"name\": \"<string>\"\n      },\n      \"parentId\": \"<string>\",\n      \"userLiked\": \"<boolean>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Duplicate submission\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"page\": \"<integer>\",\n    \"limit\": \"<integer>\",\n    \"total\": \"<integer>\",\n    \"totalPages\": \"<integer>\",\n    \"hasNextPage\": \"<boolean>\",\n    \"hasPreviousPage\": \"<boolean>\"\n  }\n}",
+                                            "body": "{\n  \"data\": [\n    {\n      \"_id\": \"<string>\",\n      \"content\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"replyCount\": \"<integer>\",\n      \"likeCount\": \"<integer>\",\n      \"author\": {\n        \"_id\": \"<string>\",\n        \"type\": \"proposer\",\n        \"name\": \"<string>\"\n      },\n      \"parentId\": \"<string>\",\n      \"userLiked\": \"<boolean>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Policy violation\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    {\n      \"_id\": \"<string>\",\n      \"content\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"replyCount\": \"<integer>\",\n      \"likeCount\": \"<integer>\",\n      \"author\": {\n        \"_id\": \"<string>\",\n        \"type\": \"drep\",\n        \"name\": \"<string>\"\n      },\n      \"parentId\": \"<string>\",\n      \"userLiked\": \"<boolean>\",\n      \"withdrawalDetails\": {\n        \"category\": \"Other\",\n        \"userId\": \"<string>\",\n        \"date\": \"<dateTime>\",\n        \"comment\": \"<string>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"page\": \"<integer>\",\n    \"limit\": \"<integer>\",\n    \"total\": \"<integer>\",\n    \"totalPages\": \"<integer>\",\n    \"hasNextPage\": \"<boolean>\",\n    \"hasPreviousPage\": \"<boolean>\"\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "7079b5f9-cc5d-49ec-823c-413c30dd6453",
+                                            "id": "61a3ad2c-ec4d-48b4-a600-746cda153118",
                                             "name": "Invalid request or comment ID format.",
                                             "originalRequest": {
                                                 "url": {
@@ -5405,7 +5405,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "key": "status",
-                                                            "value": "withdrawn"
+                                                            "value": "withdrawnByAdmin"
                                                         },
                                                         {
                                                             "disabled": false,
@@ -5434,7 +5434,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5456,12 +5456,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "3eb9d0e3-fa67-4cf9-88b4-fe557884faad",
+                                            "id": "e1bcca41-065c-4979-b9cf-af839f5d23ba",
                                             "name": "Parent comment not found.",
                                             "originalRequest": {
                                                 "url": {
@@ -5481,7 +5481,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "key": "status",
-                                                            "value": "withdrawn"
+                                                            "value": "withdrawnByAdmin"
                                                         },
                                                         {
                                                             "disabled": false,
@@ -5510,7 +5510,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5532,7 +5532,7 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         }
@@ -5549,7 +5549,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "809cadba-a901-4806-83dc-536a885b73d8",
+                                    "id": "4698b131-b1f8-48ea-ba9b-539bd5fa19c7",
                                     "name": "Toggle like on a comment",
                                     "request": {
                                         "name": "Toggle like on a comment",
@@ -5570,7 +5570,7 @@
                                             "variable": [
                                                 {
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId",
                                                     "disabled": false,
                                                     "description": {
@@ -5608,7 +5608,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "0d75e9a5-553a-4f0a-ba1d-d41e3785dda2",
+                                            "id": "d3c23362-0c25-430d-b364-959ac356114f",
                                             "name": "Like removed (toggled off).",
                                             "originalRequest": {
                                                 "url": {
@@ -5629,7 +5629,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5664,7 +5664,7 @@
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "3a915065-5bdc-4266-b4bf-a05182650fc5",
+                                            "id": "da046424-a9d4-4e5f-9e7b-b0bd6f6159fb",
                                             "name": "Like added (toggled on).",
                                             "originalRequest": {
                                                 "url": {
@@ -5685,7 +5685,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5720,7 +5720,7 @@
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "0a1aa268-3f76-4f3c-a9d5-51a9b9680555",
+                                            "id": "02e9c952-075a-44dd-9599-c6e8eac3727e",
                                             "name": "Invalid request. Possible reasons: comment is not live, proposal is not live, past feedbackEndDate.",
                                             "originalRequest": {
                                                 "url": {
@@ -5741,7 +5741,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5771,12 +5771,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "9bce3f01-c7c0-4150-8aee-403a7537c9c5",
+                                            "id": "e8843d8d-9964-4deb-96de-d95a3942f6c4",
                                             "name": "Not authenticated.",
                                             "originalRequest": {
                                                 "url": {
@@ -5797,7 +5797,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5827,12 +5827,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "4e3d913c-1196-4e01-9c29-e74e2071453f",
+                                            "id": "216e62c5-0826-4746-b7c1-7577094efee2",
                                             "name": "Comment not found.",
                                             "originalRequest": {
                                                 "url": {
@@ -5853,7 +5853,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5883,12 +5883,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "dfb80a7e-d44e-4c27-92c2-9d3e949b983b",
+                                            "id": "fc81ac6b-f09b-443c-8e0a-a1d5eb8e0d1b",
                                             "name": "Rate limit exceeded (10 requests per minute per user).",
                                             "originalRequest": {
                                                 "url": {
@@ -5909,7 +5909,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -5939,7 +5939,7 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         }
@@ -5956,7 +5956,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "7238d660-eb76-42e1-9775-9be6036b2503",
+                                    "id": "1706aa09-ce1e-4337-b071-93a00f776fa2",
                                     "name": "Admin withdraw a comment",
                                     "request": {
                                         "name": "Admin withdraw a comment",
@@ -5977,7 +5977,7 @@
                                             "variable": [
                                                 {
                                                     "type": "any",
-                                                    "value": "ee7c0C49e18544eF8fAC9235",
+                                                    "value": "df49bA27D672B5EbD0C169Ee",
                                                     "key": "commentId",
                                                     "disabled": false,
                                                     "description": {
@@ -6000,7 +6000,7 @@
                                         "method": "PUT",
                                         "body": {
                                             "mode": "raw",
-                                            "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                            "raw": "{\n  \"category\": \"Spam\",\n  \"comment\": \"<string>\"\n}",
                                             "options": {
                                                 "raw": {
                                                     "headerFamily": "json",
@@ -6028,7 +6028,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "1477141f-ef9a-4d28-bf37-b7d39e5715d2",
+                                            "id": "1fda0c68-c664-45d2-8390-d3b84b165e5e",
                                             "name": "Comment withdrawn successfully.",
                                             "originalRequest": {
                                                 "url": {
@@ -6049,7 +6049,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -6075,7 +6075,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Spam\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -6092,12 +6092,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"_id\": \"<string>\",\n  \"content\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"replyCount\": \"<integer>\",\n  \"likeCount\": \"<integer>\",\n  \"author\": {\n    \"_id\": \"<string>\",\n    \"type\": \"proposer\",\n    \"name\": \"<string>\"\n  },\n  \"parentId\": \"<string>\",\n  \"userLiked\": \"<boolean>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Spam\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  }\n}",
+                                            "body": "{\n  \"_id\": \"<string>\",\n  \"content\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"replyCount\": \"<integer>\",\n  \"likeCount\": \"<integer>\",\n  \"author\": {\n    \"_id\": \"<string>\",\n    \"type\": \"proposer\",\n    \"name\": \"<string>\"\n  },\n  \"parentId\": \"<string>\",\n  \"userLiked\": \"<boolean>\",\n  \"withdrawalDetails\": {\n    \"category\": \"Policy violation\",\n    \"userId\": \"<string>\",\n    \"date\": \"<dateTime>\",\n    \"comment\": \"<string>\"\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "d3b6f936-080d-42f7-b35d-2521bd7b87f1",
+                                            "id": "8258fe54-2e37-4a64-9691-279956fb2461",
                                             "name": "Invalid request. Possible reasons: invalid category, comment is not live, past feedbackEndDate.",
                                             "originalRequest": {
                                                 "url": {
@@ -6118,7 +6118,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -6144,7 +6144,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Spam\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -6161,12 +6161,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "a16f6d96-fd62-4471-8787-9aaf9f12badb",
+                                            "id": "97b9b1bd-5d2b-46fd-9576-97771aeac133",
                                             "name": "Not authenticated.",
                                             "originalRequest": {
                                                 "url": {
@@ -6187,7 +6187,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -6213,7 +6213,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Spam\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -6230,12 +6230,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "0766a8ac-f7d0-4f34-9bce-2d69727a7224",
+                                            "id": "57d2ae9e-307b-4e03-9cf1-b19044e9705c",
                                             "name": "Forbidden. Only vote cycle admins may withdraw comments.",
                                             "originalRequest": {
                                                 "url": {
@@ -6256,7 +6256,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -6282,7 +6282,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Spam\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -6299,12 +6299,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "611ef501-1256-485c-9b3a-25ca9c620db5",
+                                            "id": "5bc02949-651d-4f61-9c85-8a0c6f5ab407",
                                             "name": "Comment not found.",
                                             "originalRequest": {
                                                 "url": {
@@ -6325,7 +6325,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -6351,7 +6351,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Spam\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -6368,12 +6368,12 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "70035f40-3d2d-4e9d-88d5-ebb239a13810",
+                                            "id": "24dc38ee-e6ab-4779-93db-2aabf2a9022b",
                                             "name": "Rate limit exceeded (10 requests per minute per user).",
                                             "originalRequest": {
                                                 "url": {
@@ -6394,7 +6394,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "type": "any",
-                                                            "value": "ee7c0C49e18544eF8fAC9235",
+                                                            "value": "df49bA27D672B5EbD0C169Ee",
                                                             "key": "commentId"
                                                         }
                                                     ]
@@ -6420,7 +6420,7 @@
                                                 "method": "PUT",
                                                 "body": {
                                                     "mode": "raw",
-                                                    "raw": "{\n  \"category\": \"Other\",\n  \"comment\": \"<string>\"\n}",
+                                                    "raw": "{\n  \"category\": \"Spam\",\n  \"comment\": \"<string>\"\n}",
                                                     "options": {
                                                         "raw": {
                                                             "headerFamily": "json",
@@ -6437,7 +6437,7 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": 7687.618820451116\n  }\n}",
+                                            "body": "{\n  \"status\": \"error\",\n  \"message\": \"<string>\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5612.2167072073335,\n    \"key_2\": false,\n    \"key_3\": false\n  }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         }
@@ -6452,83 +6452,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "name": "countries",
-            "description": "",
-            "item": [
-                {
-                    "id": "bab0509f-87df-44dc-9fe7-e70de11066d3",
-                    "name": "List countries",
-                    "request": {
-                        "name": "List countries",
-                        "description": {
-                            "content": "Returns a list of all countries, sorted by name ascending.\n",
-                            "type": "text/plain"
-                        },
-                        "url": {
-                            "path": [
-                                "countries"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
-                        },
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            }
-                        ],
-                        "method": "GET",
-                        "body": {},
-                        "auth": null
-                    },
-                    "response": [
-                        {
-                            "id": "83786d0c-4dae-4cc0-a467-76ca3f96eb4c",
-                            "name": "List of countries.",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "countries"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": []
-                                },
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "GET",
-                                "body": {}
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"data\": [\n    {\n      \"_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"code\": \"<string>\"\n    },\n    {\n      \"_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"code\": \"<string>\"\n    }\n  ]\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        }
-                    ],
-                    "event": [],
-                    "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                    }
-                }
-            ]
         }
     ],
     "event": [],
@@ -6539,7 +6462,7 @@
         }
     ],
     "info": {
-        "_postman_id": "a4a53590-bdee-4134-8b26-3bff8336213e",
+        "_postman_id": "b22a8d75-47e4-4290-8c25-6cc9ba568278",
         "name": "Ekklesia Proposals API",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": {

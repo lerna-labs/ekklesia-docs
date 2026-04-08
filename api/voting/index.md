@@ -1,74 +1,20 @@
 ---
 layout: default
 title: Voting API
-description: Ekklesia core API for ballots, votes, proposals, and voter data.
+description: Ekklesia core API for ballots, votes, and voter data.
 ---
 
 The Voting API is the primary integration surface for Ekklesia. The frontend is
 a thin client around this API — anything the UI can do, you can do
 programmatically.
 
-## Base URL
+<div class="callout callout-info">
+<strong>Coming soon.</strong> The Voting API is under active development as we
+complete full Hydra integration. Endpoints, authentication flows, and rate limits
+are likely to change significantly. Detailed documentation will be published once
+the API stabilizes.
+</div>
 
-Each Ekklesia instance has its own API base. All endpoints are prefixed with
-`/api/v0/`.
-
-## Authentication
-
-Most read endpoints are public. Write operations (submitting votes) require
-authentication:
-
-1. `POST /api/v0/session` — Request a challenge nonce (provide signer address)
-2. Sign the nonce using **CIP-8 message signing** with your wallet or keys
-3. `PUT /api/v0/session` — Submit the signature to receive a JWT session cookie
-
-See the [Wallet Integration guide]({{ '/wallet-integration/' | relative_url }})
-for implementation details.
-
-## Interactive Specification
-
-View the full interactive API specification with request/response schemas,
-examples, and try-it-out functionality:
-
-**[Voting API Specification]({{ '/api/voting/spec/' | relative_url }})**
-
-You can also download the [OpenAPI
-YAML]({{ '/api/voting/openapi.yaml' | relative_url }}) directly.
-
-## Endpoints
-
-### Session
-
-| Method | Path              | Description                           |
-| ------ | ----------------- | ------------------------------------- |
-| `POST` | `/api/v0/session` | Request auth nonce (provide address)  |
-| `PUT`  | `/api/v0/session` | Verify signature and receive JWT      |
-| `GET`  | `/api/v0/session` | Check current session (authenticated) |
-
-### Ballots
-
-| Method | Path                  | Description                         |
-| ------ | --------------------- | ----------------------------------- |
-| `GET`  | `/api/v0/ballots`     | List all ballots (filter by status) |
-| `GET`  | `/api/v0/ballots/:id` | Get ballot details                  |
-
-### Proposals
-
-| Method | Path                    | Description                 |
-| ------ | ----------------------- | --------------------------- |
-| `GET`  | `/api/v0/proposals`     | List proposals for a ballot |
-| `GET`  | `/api/v0/proposals/:id` | Get proposal details        |
-
-### Votes
-
-| Method | Path            | Description                     |
-| ------ | --------------- | ------------------------------- |
-| `POST` | `/api/v0/votes` | Submit a vote (authenticated)   |
-| `GET`  | `/api/v0/votes` | Get votes for a ballot/proposal |
-
-### Voters
-
-| Method | Path                 | Description                      |
-| ------ | -------------------- | -------------------------------- |
-| `GET`  | `/api/v0/voters`     | Voter directory listing          |
-| `GET`  | `/api/v0/voters/:id` | Voter profile and voting history |
+In the meantime, see the [Hydra & Architecture]({{ '/hydra/' | relative_url }})
+section for details on how the voting process works, and the [Wallet Integration
+guide]({{ '/wallet-integration/' | relative_url }}) for authentication concepts.

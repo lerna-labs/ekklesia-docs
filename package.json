@@ -6,10 +6,9 @@
   "scripts": {
     "fmt": "prettier --write '**/*.md' --ignore-path .prettierignore",
     "fmt:check": "prettier --check '**/*.md' --ignore-path .prettierignore",
-    "lint:specs": "redocly lint api/voting/openapi.yaml api/proposals/openapi.yaml",
-    "postman:voting": "openapi2postmanv2 -s api/voting/openapi.yaml -o downloads/_files/ekklesia-voting-api.postman_collection.json -p",
+    "lint:specs": "redocly lint api/proposals/openapi.yaml",
     "postman:proposals": "openapi2postmanv2 -s api/proposals/openapi.yaml -o downloads/_files/ekklesia-proposals-api.postman_collection.json -p",
-    "postman": "npm run postman:voting && npm run postman:proposals",
+    "postman": "npm run postman:proposals",
     "test": "node --experimental-vm-modules node_modules/.bin/jest --config __tests/jest.config.js",
     "test:voting": "node --experimental-vm-modules node_modules/.bin/jest --config __tests/jest.config.js --testPathPatterns=__tests/voting",
     "test:proposals": "node --experimental-vm-modules node_modules/.bin/jest --config __tests/jest.config.js --testPathPatterns=__tests/proposals",
