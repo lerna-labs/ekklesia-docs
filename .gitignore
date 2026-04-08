@@ -5,3 +5,12 @@ node_modules/
 vendor/
 .sass-cache/
 .idea/
+
+# Test suite (not published until source repos are public)
+__tests/
+
+# Local test infrastructure
+docker-compose.test.yml
+.env
+scripts/
+/test-results.txt

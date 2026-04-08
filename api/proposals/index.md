@@ -21,9 +21,17 @@ Same signing flow as the Voting API:
 2. Sign the nonce using **CIP-8 message signing** with your wallet or keys
 3. `PUT /api/v0/session` — Submit the signature to receive a JWT session
 
-## Endpoints
+## Interactive Specification
 
-_Detailed endpoint documentation coming soon._
+View the full interactive API specification with request/response schemas,
+examples, and try-it-out functionality:
+
+**[Proposals API Specification]({{ '/api/proposals/spec/' | relative_url }})**
+
+You can also download the [OpenAPI
+YAML]({{ '/api/proposals/openapi.yaml' | relative_url }}) directly.
+
+## Endpoints
 
 ### Session
 

@@ -38,3 +38,5 @@ exclude:
   - package-lock.json
   - .prettierrc
   - .prettierignore
+  - __tests
+  - scripts

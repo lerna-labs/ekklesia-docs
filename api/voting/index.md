@@ -25,9 +25,17 @@ authentication:
 See the [Wallet Integration guide]({{ '/wallet-integration/' | relative_url }})
 for implementation details.
 
-## Endpoints
+## Interactive Specification
 
-_Detailed endpoint documentation coming soon._
+View the full interactive API specification with request/response schemas,
+examples, and try-it-out functionality:
+
+**[Voting API Specification]({{ '/api/voting/spec/' | relative_url }})**
+
+You can also download the [OpenAPI
+YAML]({{ '/api/voting/openapi.yaml' | relative_url }}) directly.
+
+## Endpoints
 
 ### Session
 

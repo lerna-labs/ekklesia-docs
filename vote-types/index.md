@@ -23,7 +23,7 @@ So a single ballot might contain a binary yes/no question alongside a weighted
 allocation question — the vote type is set per question, not per ballot.
 
 > **Note:** "Proposal" in the voting module refers to an individual question on
-> a ballot. This is distinct from proposals in the [Proposal
+> a ballot. This is distinct from proposals in the [Proposal > > > >
 > Module]({{ '/proposals/' | relative_url }}), which manages the submission and
 > review process before something reaches a ballot.
 

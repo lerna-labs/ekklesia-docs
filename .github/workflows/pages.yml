@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for manual deploy (e.g., upstream API change detected)"
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -32,6 +37,12 @@ jobs:
 
       - name: Format markdown
         run: npm run fmt
+
+      - name: Validate OpenAPI specs
+        run: npm run lint:specs
+
+      - name: Generate Postman collections
+        run: npm run postman
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1

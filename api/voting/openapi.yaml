@@ -1,0 +1,1611 @@
+openapi: 3.0.3
+info:
+  title: Ekklesia Voting API
+  version: 0.1.0
+  description: >
+    The Ekklesia Voting API provides endpoints for decentralized governance
+    voting on the Cardano blockchain. It supports session-based authentication
+    via wallet signature verification, ballot and proposal management, vote
+    submission, commenting, and voter information retrieval.
+  contact:
+    name: Ekklesia API Support
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: "{baseUrl}/api/v0"
+    description: Ekklesia Voting API instance
+    variables:
+      baseUrl:
+        default: "https://api.example.com"
+        description: Base URL of the Ekklesia Voting API instance
+
+tags:
+  - name: Status
+    description: Health and status checks
+  - name: Session
+    description: Authentication and session management
+  - name: Ballots
+    description: Ballot listing and details
+  - name: Proposals
+    description: Proposal details, comments, and results
+  - name: Votes
+    description: Vote submission
+  - name: Comments
+    description: Comment creation
+  - name: Voters
+    description: Voter information and statistics
+
+security: []
+
+paths:
+  # ---------------------------------------------------------------------------
+  # Status
+  # ---------------------------------------------------------------------------
+  /status/health:
+    get:
+      operationId: getHealthStatus
+      tags: [Status]
+      summary: Health check
+      description: Returns the current health status of the API.
+      responses:
+        "200":
+          description: API is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy]
+                    example: healthy
+
+  # ---------------------------------------------------------------------------
+  # Session
+  # ---------------------------------------------------------------------------
+  /session:
+    post:
+      operationId: requestNonce
+      tags: [Session]
+      summary: Request authentication nonce
+      description: >
+        Generates a nonce for the given signer address. The returned dataHex
+        must be signed by the wallet to complete authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [signerAddress, signType]
+              properties:
+                signerAddress:
+                  type: string
+                  description: Bech32 signer address (stake, DRep, or pool).
+                signType:
+                  type: string
+                  description: Type of signature expected (e.g. "cip-8").
+      responses:
+        "200":
+          description: Nonce generated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NonceResponse"
+        "400":
+          description: >
+            Invalid request. Possible reasons: script address provided,
+            invalid address format, or pool not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      operationId: verifySignature
+      tags: [Session]
+      summary: Verify signature and create session
+      description: >
+        Verifies the wallet signature against the previously issued nonce.
+        On success a JWT token is returned and set as an HTTP-only cookie.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [signerAddress, signType, signature]
+              properties:
+                signerAddress:
+                  type: string
+                  description: Bech32 signer address used when requesting the nonce.
+                signType:
+                  type: string
+                  description: Type of signature.
+                signature:
+                  type: object
+                  description: Wallet signature object.
+      responses:
+        "200":
+          description: >
+            Signature verified. A JWT token is returned and set as an
+            HTTP-only cookie named "token".
+          headers:
+            Set-Cookie:
+              description: HTTP-only cookie containing the JWT token.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthToken"
+        "400":
+          description: >
+            Verification failed. Possible reasons: nonce not found or
+            signature error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    get:
+      operationId: checkSession
+      tags: [Session]
+      summary: Check current session
+      description: Returns the voter ID associated with the current session.
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Session is valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [voterId]
+                properties:
+                  voterId:
+                    type: string
+                    description: The voter ID for the authenticated session.
+        "401":
+          description: Not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      operationId: logout
+      tags: [Session]
+      summary: Logout and clear session
+      description: Invalidates the current session and clears the auth cookie.
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Successfully logged out. The auth cookie is cleared.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, message]
+                properties:
+                  status:
+                    type: string
+                    enum: [success]
+                    example: success
+                  message:
+                    type: string
+                    example: Logged out successfully
+        "401":
+          description: Not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /session/multisig:
+    post:
+      operationId: requestMultisigNonce
+      tags: [Session]
+      summary: Request multisig authentication nonce
+      description: >
+        Generates a nonce for multisig authentication. Requires both a signer
+        address and a script address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [signerAddress, signType, scriptAddress]
+              properties:
+                signerAddress:
+                  type: string
+                  description: Bech32 signer address.
+                signType:
+                  type: string
+                  description: Type of signature expected.
+                scriptAddress:
+                  type: string
+                  description: CIP-129 compliant script address.
+      responses:
+        "200":
+          description: Multisig nonce generated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultisigNonceResponse"
+        "400":
+          description: >
+            Invalid request. Possible reasons: missing or invalid script
+            address, or address is not CIP-129 compliant.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      operationId: verifyMultisigSignature
+      tags: [Session]
+      summary: Verify multisig signature and create session
+      description: >
+        Verifies the multisig wallet signature against the previously issued
+        nonce and creates an authenticated session.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [signerAddress, signType, scriptAddress, signature]
+              properties:
+                signerAddress:
+                  type: string
+                  description: Bech32 signer address.
+                signType:
+                  type: string
+                  description: Type of signature.
+                scriptAddress:
+                  type: string
+                  description: CIP-129 compliant script address.
+                signature:
+                  type: object
+                  description: Wallet signature object.
+      responses:
+        "200":
+          description: >
+            Multisig signature verified. A JWT token is returned and set as
+            an HTTP-only cookie.
+          headers:
+            Set-Cookie:
+              description: HTTP-only cookie containing the JWT token.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthToken"
+        "400":
+          description: >
+            Verification failed. Possible reasons: invalid script address,
+            nonce not found, or signer is not a party to the multisig.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  # ---------------------------------------------------------------------------
+  # Ballots
+  # ---------------------------------------------------------------------------
+  /ballots:
+    get:
+      operationId: listBallots
+      tags: [Ballots]
+      summary: List ballots
+      description: >
+        Returns a paginated list of ballots with optional filtering by voter
+        type, status, and search term. Projected fields exclude internal
+        fields such as voterValidationScript, rollupScript, voteAuthorityId,
+        voteAuthorityAddress, and resultBeaconToken.
+      parameters:
+        - name: voterType
+          in: query
+          description: Filter by voter type.
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter by ballot status.
+          required: false
+          schema:
+            type: string
+            enum: [live, closed, upcoming]
+        - name: search
+          in: query
+          description: >
+            Search term to filter ballots by title or description.
+            Must be between 1 and 100 characters. Must not contain $, {, or }.
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+        - name: page
+          in: query
+          description: Page number for pagination.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of results per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: Paginated list of ballots.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, pagination]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Ballot"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "400":
+          description: Invalid query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /ballots/voterTypes:
+    get:
+      operationId: listBallotVoterTypes
+      tags: [Ballots]
+      summary: List unique voter types
+      description: Returns a list of all unique voter types across ballots.
+      responses:
+        "200":
+          description: List of voter type strings.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /ballots/{ballotId}:
+    get:
+      operationId: getBallot
+      tags: [Ballots]
+      summary: Get ballot details
+      description: >
+        Returns full details for a single ballot. If the request is
+        authenticated, the response is enhanced with voterValidated and
+        votingPower fields. Includes totalAllowedVoterCount and
+        totalVotingPower (when the ballot is weighted).
+      security:
+        - cookieAuth: []
+        - {}
+      parameters:
+        - name: ballotId
+          in: path
+          required: true
+          description: Unique ballot identifier.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ballot details.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Ballot"
+                  - type: object
+                    properties:
+                      totalAllowedVoterCount:
+                        type: integer
+                        description: Total number of allowed voters.
+                      totalVotingPower:
+                        type: number
+                        description: >
+                          Total voting power across all allowed voters.
+                          Present only for weighted ballots.
+                      voterValidated:
+                        type: boolean
+                        description: >
+                          Whether the authenticated voter is validated for
+                          this ballot. Present only when authenticated.
+                      votingPower:
+                        type: number
+                        description: >
+                          Voting power of the authenticated voter. Present
+                          only when authenticated.
+        "400":
+          description: Invalid ballot ID format.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Ballot not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /ballots/{ballotId}/proposals:
+    get:
+      operationId: listBallotProposals
+      tags: [Ballots]
+      summary: List proposals in a ballot
+      description: >
+        Returns a paginated, sortable, and filterable list of proposals
+        belonging to the specified ballot. Each proposal includes computed
+        fields such as commentCount, voteCount, votingPower, and result.
+        When authenticated, voterVote and hasVoted are also included.
+      security:
+        - cookieAuth: []
+        - {}
+      parameters:
+        - name: ballotId
+          in: path
+          required: true
+          description: Unique ballot identifier.
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number for pagination.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of results per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: search
+          in: query
+          description: Search term to filter proposals by title.
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: Field to sort results by.
+          required: false
+          schema:
+            type: string
+            enum: [title, commentCount, voteCount]
+        - name: direction
+          in: query
+          description: Sort direction.
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: hasVoted
+          in: query
+          description: >
+            Filter proposals by whether the authenticated voter has voted.
+            Requires authentication.
+          required: false
+          schema:
+            type: string
+            enum: ["true", "false"]
+        - name: tags
+          in: query
+          description: Comma-separated list of tags to filter by.
+          required: false
+          schema:
+            type: string
+        - name: categories
+          in: query
+          description: Comma-separated list of categories to filter by.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Paginated list of proposals with metadata.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, pagination, sort, filters]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: "#/components/schemas/Proposal"
+                        - type: object
+                          properties:
+                            commentCount:
+                              type: integer
+                              description: Number of comments on this proposal.
+                            voteCount:
+                              type: integer
+                              description: Number of votes cast on this proposal.
+                            votingPower:
+                              type: number
+                              description: Total voting power on this proposal.
+                            result:
+                              type: array
+                              items:
+                                $ref: "#/components/schemas/ProposalResult"
+                              description: Current vote results.
+                            voterVote:
+                              type: array
+                              items:
+                                type: integer
+                              description: >
+                                The authenticated voter's vote. Present only
+                                when authenticated and the voter has voted.
+                            hasVoted:
+                              type: boolean
+                              description: >
+                                Whether the authenticated voter has voted on
+                                this proposal. Present only when authenticated.
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  sort:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                      direction:
+                        type: string
+                        enum: [asc, desc]
+                  filters:
+                    type: object
+                    properties:
+                      tags:
+                        type: array
+                        items:
+                          type: string
+                      categories:
+                        type: array
+                        items:
+                          type: string
+                      hasVoted:
+                        type: boolean
+                        nullable: true
+        "400":
+          description: Invalid query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Ballot not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /ballots/{ballotId}/categories:
+    get:
+      operationId: listBallotCategories
+      tags: [Ballots]
+      summary: List unique categories for a ballot
+      description: Returns all unique category strings across proposals in the ballot.
+      parameters:
+        - name: ballotId
+          in: path
+          required: true
+          description: Unique ballot identifier.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of category strings.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "404":
+          description: Ballot not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /ballots/{ballotId}/tags:
+    get:
+      operationId: listBallotTags
+      tags: [Ballots]
+      summary: List unique tags for a ballot
+      description: Returns all unique tag strings across proposals in the ballot.
+      parameters:
+        - name: ballotId
+          in: path
+          required: true
+          description: Unique ballot identifier.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of tag strings.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "404":
+          description: Ballot not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  # ---------------------------------------------------------------------------
+  # Proposals
+  # ---------------------------------------------------------------------------
+  /proposals/{proposalId}:
+    get:
+      operationId: getProposal
+      tags: [Proposals]
+      summary: Get proposal details
+      description: >
+        Returns full details for a single proposal including ballot status,
+        vote results, total votes, total voter count, and total voting power.
+        When authenticated, the voter's own vote is included. Responses are
+        cached for 5 minutes.
+      security:
+        - cookieAuth: []
+        - {}
+      parameters:
+        - name: proposalId
+          in: path
+          required: true
+          description: >
+            Unique proposal identifier. Must be a 24-character alphanumeric
+            string.
+          schema:
+            type: string
+            pattern: "^[a-zA-Z0-9]{24}$"
+      responses:
+        "200":
+          description: Proposal details with results.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Proposal"
+                  - type: object
+                    properties:
+                      ballotStatus:
+                        type: string
+                        enum: [live, closed, upcoming]
+                        description: Current status of the parent ballot.
+                      results:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/ProposalResult"
+                        description: Aggregated vote results.
+                      totalVotes:
+                        type: integer
+                        description: Total number of votes cast.
+                      totalVoterCount:
+                        type: integer
+                        description: Total number of voters who voted.
+                      totalVotingPower:
+                        type: number
+                        description: Total voting power of all votes cast.
+                      voterVote:
+                        type: array
+                        items:
+                          type: integer
+                        description: >
+                          The authenticated voter's vote on this proposal.
+                          Present only when authenticated and the voter has
+                          voted.
+        "400":
+          description: Invalid proposal ID format.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Proposal not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /proposals/{proposalId}/comments:
+    get:
+      operationId: listProposalComments
+      tags: [Proposals]
+      summary: List comments on a proposal
+      description: Returns all comments for the specified proposal.
+      parameters:
+        - name: proposalId
+          in: path
+          required: true
+          description: >
+            Unique proposal identifier. Must be a 24-character alphanumeric
+            string.
+          schema:
+            type: string
+            pattern: "^[a-zA-Z0-9]{24}$"
+      responses:
+        "200":
+          description: List of comments.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+        "400":
+          description: Invalid proposal ID format.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Proposal not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /proposals/{proposalId}/results:
+    get:
+      operationId: getProposalResults
+      tags: [Proposals]
+      summary: Get vote results for a proposal
+      description: >
+        Returns the aggregated vote results for the specified proposal,
+        including counts and voting power per option.
+      parameters:
+        - name: proposalId
+          in: path
+          required: true
+          description: >
+            Unique proposal identifier. Must be a 24-character alphanumeric
+            string.
+          schema:
+            type: string
+            pattern: "^[a-zA-Z0-9]{24}$"
+      responses:
+        "200":
+          description: Proposal with vote results.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Proposal"
+                  - type: object
+                    required: [results, totalVotes]
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/ProposalResult"
+                      totalVotes:
+                        type: integer
+                        description: Total number of votes cast.
+        "400":
+          description: Invalid proposal ID format.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Proposal not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /proposals/{proposalId}/short:
+    get:
+      operationId: getProposalShort
+      tags: [Proposals]
+      summary: Get proposal without data field
+      description: >
+        Returns the proposal object with the data field omitted, useful for
+        lighter responses when the full proposal data is not needed.
+      parameters:
+        - name: proposalId
+          in: path
+          required: true
+          description: >
+            Unique proposal identifier. Must be a 24-character alphanumeric
+            string.
+          schema:
+            type: string
+            pattern: "^[a-zA-Z0-9]{24}$"
+      responses:
+        "200":
+          description: Proposal without the data field.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Proposal"
+        "400":
+          description: Invalid proposal ID format.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Proposal not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  # ---------------------------------------------------------------------------
+  # Votes
+  # ---------------------------------------------------------------------------
+  /vote/{proposalId}:
+    post:
+      operationId: submitVote
+      tags: [Votes]
+      summary: Submit a vote on a proposal
+      description: >
+        Submits a vote on the specified proposal. The ballot must be live, the
+        voter must be registered, vote values must correspond to valid
+        voteOptions, and the total cost of selected options must not exceed
+        the voter's budget.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: proposalId
+          in: path
+          required: true
+          description: >
+            Unique proposal identifier. Must be a 24-character alphanumeric
+            string.
+          schema:
+            type: string
+            pattern: "^[a-zA-Z0-9]{24}$"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [vote]
+              properties:
+                vote:
+                  type: array
+                  items:
+                    type: number
+                  description: >
+                    Array of vote option IDs selected by the voter. Values
+                    must match valid voteOption IDs for the proposal and
+                    total cost must not exceed the voter's budget.
+      responses:
+        "200":
+          description: Vote submitted successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Vote"
+                  - type: object
+                    properties:
+                      changes:
+                        type: boolean
+                        description: >
+                          Indicates whether this vote changed a previous vote.
+        "400":
+          description: >
+            Invalid vote. Possible reasons: ballot is not live, vote field
+            is missing, vote values are invalid, or budget exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Voter is not registered for this ballot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Proposal not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  # ---------------------------------------------------------------------------
+  # Comments
+  # ---------------------------------------------------------------------------
+  /comment:
+    post:
+      operationId: createComment
+      tags: [Comments]
+      summary: Create a comment on a proposal
+      description: >
+        Creates a new comment on the specified proposal. The parent ballot
+        must be live or upcoming, and the voter must be registered.
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [proposalId, comment]
+              properties:
+                proposalId:
+                  type: string
+                  pattern: "^[a-zA-Z0-9]{24}$"
+                  description: >
+                    The proposal to comment on. Must be a 24-character
+                    alphanumeric string.
+                comment:
+                  type: string
+                  maxLength: 1000
+                  description: Comment text. Maximum 1000 characters.
+      responses:
+        "201":
+          description: Comment created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "400":
+          description: >
+            Invalid request. Possible reasons: missing required fields,
+            invalid proposalId format, comment exceeds 1000 characters, or
+            ballot is not open for comments.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Voter is not registered for this ballot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Proposal not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  # ---------------------------------------------------------------------------
+  # Voters
+  # ---------------------------------------------------------------------------
+  /voters:
+    get:
+      operationId: listVoters
+      tags: [Voters]
+      summary: List voters
+      description: >
+        Returns a paginated list of voters with sorting and search.
+        Responses are cached for 5 minutes.
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of results per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 25
+        - name: search
+          in: query
+          description: Search term to filter voters by voter ID.
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: Field to sort results by.
+          required: false
+          schema:
+            type: string
+            enum: [voterId, votes, lastLogin]
+            default: votes
+        - name: direction
+          in: query
+          description: Sort direction.
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        "200":
+          description: Paginated list of voters.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, pagination]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/VoterSummary"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "400":
+          description: Invalid query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /voters/types:
+    get:
+      operationId: listVoterTypeCounts
+      tags: [Voters]
+      summary: Get voter type counts
+      description: >
+        Returns the count of voters grouped by voter type. Responses are
+        cached for 5 minutes.
+      responses:
+        "200":
+          description: List of voter types with counts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VoterTypeCount"
+
+  /voters/{voterId}:
+    get:
+      operationId: getVoter
+      tags: [Voters]
+      summary: Get voter details
+      description: >
+        Returns detailed information about a specific voter including their
+        voting history across ballots and proposals. The voterId must start
+        with stake, drep, or pool. Responses are cached for 5 minutes.
+      parameters:
+        - name: voterId
+          in: path
+          required: true
+          description: >
+            Unique voter identifier. Must start with "stake", "drep", or
+            "pool".
+          schema:
+            type: string
+            pattern: "^(stake|drep|pool).+"
+      responses:
+        "200":
+          description: Voter details with voting history.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoterDetail"
+        "400":
+          description: Invalid voter ID format.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Voter not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+      description: JWT token set via HTTP-only cookie after successful authentication.
+
+  schemas:
+    # -----------------------------------------------------------------------
+    # Core domain schemas
+    # -----------------------------------------------------------------------
+    Ballot:
+      type: object
+      required:
+        - _id
+        - title
+        - description
+        - voterType
+        - voterDescription
+        - voteWeighted
+        - voteFilters
+        - votePeriodStart
+        - votePeriodEnd
+        - proposalPeriodStart
+        - proposalPeriodEnd
+        - status
+      properties:
+        _id:
+          type: string
+          description: Unique ballot identifier.
+        title:
+          type: string
+          description: Ballot title.
+        description:
+          type: string
+          description: Ballot description.
+        ipfsHash:
+          type: string
+          description: IPFS hash for off-chain ballot data.
+        voterType:
+          type: string
+          description: Type of voter eligible for this ballot.
+        voterDescription:
+          type: string
+          description: Description of voter eligibility criteria.
+        voteWeighted:
+          type: boolean
+          description: Whether votes are weighted.
+        voteThreshold:
+          type: number
+          description: Minimum voting threshold for the ballot.
+        votePeriodStart:
+          type: string
+          format: date-time
+          description: Start of the voting period.
+        votePeriodEnd:
+          type: string
+          format: date-time
+          description: End of the voting period.
+        voteFilters:
+          type: boolean
+          description: Whether vote filters are enabled.
+        proposalPeriodStart:
+          type: string
+          format: date-time
+          description: Start of the proposal submission period.
+        proposalPeriodEnd:
+          type: string
+          format: date-time
+          description: End of the proposal submission period.
+        resultTxHash:
+          type: string
+          description: Transaction hash for on-chain result submission.
+        status:
+          type: string
+          enum: [live, closed, upcoming]
+          description: Current ballot status.
+
+    Proposal:
+      type: object
+      required:
+        - _id
+        - ballotId
+        - title
+        - categories
+        - tags
+        - voteType
+        - voterBudget
+        - voteOptions
+      properties:
+        _id:
+          type: string
+          description: Unique proposal identifier.
+        ballotId:
+          type: string
+          description: Parent ballot identifier.
+        title:
+          type: string
+          description: Proposal title.
+        description:
+          type: string
+          description: Proposal description.
+        categories:
+          type: array
+          items:
+            type: string
+          description: Categories assigned to this proposal.
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags assigned to this proposal.
+        ipfsHash:
+          type: string
+          description: IPFS hash for off-chain proposal data.
+        data:
+          type: object
+          description: Additional proposal data.
+        voteType:
+          type: string
+          enum: [default, budget, ranked]
+          description: Type of voting mechanism.
+        voterBudget:
+          type: number
+          default: 1
+          description: Budget available to each voter for this proposal.
+        voteOptions:
+          type: array
+          items:
+            type: object
+            required: [id, cost, label]
+            properties:
+              id:
+                type: integer
+                description: Vote option identifier.
+              cost:
+                type: number
+                description: Cost of selecting this option.
+              label:
+                type: string
+                description: Display label for this option.
+          description: Available vote options.
+
+    Vote:
+      type: object
+      required:
+        - _id
+        - voterId
+        - ballotId
+        - proposalId
+        - vote
+        - createdAt
+        - updatedAt
+        - changes
+      properties:
+        _id:
+          type: string
+          description: Unique vote identifier.
+        voterId:
+          type: string
+          description: Voter who cast the vote.
+        ballotId:
+          type: string
+          description: Ballot the vote belongs to.
+        proposalId:
+          type: string
+          description: Proposal the vote is cast on.
+        vote:
+          type: array
+          items:
+            type: integer
+          description: Array of selected vote option IDs.
+        submittedVote:
+          type: array
+          items:
+            type: integer
+          description: The vote as submitted on-chain, if applicable.
+        submittedAt:
+          type: string
+          format: date-time
+          description: Timestamp of on-chain submission.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the vote was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the vote was last updated.
+        changes:
+          type: boolean
+          description: Whether this vote changed a previous vote.
+
+    Comment:
+      type: object
+      required:
+        - _id
+        - proposalId
+        - voterId
+        - content
+        - createdAt
+        - updatedAt
+      properties:
+        _id:
+          type: string
+          description: Unique comment identifier.
+        proposalId:
+          type: string
+          description: Proposal this comment belongs to.
+        voterId:
+          type: string
+          description: Voter who created the comment.
+        content:
+          type: string
+          description: Comment text content.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the comment was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the comment was last updated.
+
+    VoterSummary:
+      type: object
+      required:
+        - voterId
+        - votes
+      properties:
+        voterId:
+          type: string
+          description: Unique voter identifier.
+        votes:
+          type: integer
+          description: Total number of votes cast by this voter.
+        lastLogin:
+          type: string
+          format: date-time
+          nullable: true
+          description: Timestamp of the voter's last login.
+
+    VoterDetail:
+      type: object
+      required:
+        - voterType
+        - voterId
+        - votes
+        - ballotsVoted
+        - proposalsVoted
+      properties:
+        voterType:
+          type: string
+          enum: [stake, drep, pool]
+          description: Type of voter.
+        voterId:
+          type: string
+          description: Unique voter identifier.
+        votes:
+          type: array
+          items:
+            type: object
+            properties:
+              ballotId:
+                type: string
+                description: Ballot identifier.
+              title:
+                type: string
+                description: Ballot title.
+              dates:
+                type: object
+                properties:
+                  votePeriodStart:
+                    type: string
+                    format: date-time
+                  votePeriodEnd:
+                    type: string
+                    format: date-time
+              votingPower:
+                type: number
+                description: Voter's voting power in this ballot.
+              status:
+                type: string
+                enum: [live, closed, upcoming]
+                description: Ballot status.
+              proposals:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    proposalId:
+                      type: string
+                      description: Proposal identifier.
+                    title:
+                      type: string
+                      description: Proposal title.
+                    vote:
+                      type: array
+                      items:
+                        type: integer
+                      description: Vote option IDs selected.
+          description: Voting history grouped by ballot.
+        ballotsVoted:
+          type: integer
+          description: Total number of ballots the voter has voted in.
+        proposalsVoted:
+          type: integer
+          description: Total number of proposals the voter has voted on.
+        lastVoteDate:
+          type: string
+          format: date-time
+          description: Timestamp of the voter's most recent vote.
+        lastLogin:
+          type: string
+          format: date-time
+          description: Timestamp of the voter's last login.
+
+    VoterTypeCount:
+      type: object
+      required:
+        - type
+        - count
+      properties:
+        type:
+          type: string
+          enum: [stake, drep, pool]
+          description: Voter type.
+        count:
+          type: integer
+          description: Number of voters of this type.
+
+    # -----------------------------------------------------------------------
+    # Shared schemas
+    # -----------------------------------------------------------------------
+    ProposalResult:
+      type: object
+      required:
+        - value
+        - label
+        - count
+        - votingPower
+      properties:
+        value:
+          type: integer
+          description: Vote option ID.
+        label:
+          type: string
+          description: Vote option label.
+        count:
+          type: integer
+          description: Number of votes for this option.
+        votingPower:
+          type: number
+          description: Total voting power for this option.
+
+    Pagination:
+      type: object
+      required:
+        - total
+        - page
+        - limit
+        - totalPages
+      properties:
+        total:
+          type: integer
+          description: Total number of records.
+        page:
+          type: integer
+          description: Current page number.
+        limit:
+          type: integer
+          description: Number of records per page.
+        totalPages:
+          type: integer
+          description: Total number of pages.
+
+    Error:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          enum: [error]
+          description: Always "error".
+        message:
+          type: string
+          description: Human-readable error message.
+
+    AuthToken:
+      type: object
+      required:
+        - token
+        - expiresIn
+      properties:
+        token:
+          type: string
+          description: JWT authentication token.
+        expiresIn:
+          type: string
+          format: date-time
+          description: Token expiration timestamp.
+
+    NonceResponse:
+      type: object
+      required:
+        - dataHex
+        - voterId
+        - voterIdHex
+        - signerAddressHex
+      properties:
+        dataHex:
+          type: string
+          description: Hex-encoded nonce data to be signed.
+        voterId:
+          type: string
+          description: Voter identifier derived from the signer address.
+        voterIdHex:
+          type: string
+          description: Hex-encoded voter identifier.
+        signerAddressHex:
+          type: string
+          description: Hex-encoded signer address.
+        calidusID:
+          type: string
+          description: Calidus identifier, if applicable.
+
+    MultisigNonceResponse:
+      type: object
+      required:
+        - dataHex
+        - voterId
+        - voterIdHex
+        - signerAddressHex
+        - scriptAddress
+      properties:
+        dataHex:
+          type: string
+          description: Hex-encoded nonce data to be signed.
+        voterId:
+          type: string
+          description: Voter identifier derived from the script address.
+        voterIdHex:
+          type: string
+          description: Hex-encoded voter identifier.
+        signerAddressHex:
+          type: string
+          description: Hex-encoded signer address.
+        scriptAddress:
+          type: string
+          description: CIP-129 compliant script address.
