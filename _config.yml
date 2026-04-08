@@ -1,0 +1,40 @@
+title: Ekklesia Documentation
+description: "Verifiable on-chain voting on Cardano — powered by Hydra."
+url: "https://docs.ekklesia.vote"
+baseurl: ""
+
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+collections:
+  downloads:
+    output: false
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .claude
+  - .idea
+  - CLAUDE.md
+  - README.md
+  - package.json
+  - package-lock.json
+  - .prettierrc
+  - .prettierignore

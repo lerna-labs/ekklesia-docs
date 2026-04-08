@@ -1,0 +1,38 @@
+<nav class="sidebar-nav" id="sidebar-nav">
+  <div class="nav-section">
+    <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}">Overview</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">For Voters</div>
+    <a href="{{ '/getting-started/' | relative_url }}" class="nav-link {% if page.url contains '/getting-started' %}active{% endif %}">Getting Started</a>
+    <a href="{{ '/wallets/' | relative_url }}" class="nav-link {% if page.url contains '/wallets' %}active{% endif %}">Supported Wallets</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Platform</div>
+    <a href="{{ '/vote-types/' | relative_url }}" class="nav-link {% if page.url contains '/vote-types' %}active{% endif %}">Vote Types</a>
+    <a href="{{ '/proposals/' | relative_url }}" class="nav-link {% if page.url contains '/proposals' %}active{% endif %}">Proposal Module</a>
+    <a href="{{ '/hydra/' | relative_url }}" class="nav-link {% if page.url contains '/hydra' %}active{% endif %}">Hydra &amp; Architecture</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">For Developers</div>
+    <a href="{{ '/api/' | relative_url }}" class="nav-link {% if page.url == '/api/' %}active{% endif %}">API Overview</a>
+    <a href="{{ '/api/voting/' | relative_url }}" class="nav-link {% if page.url contains '/api/voting' %}active{% endif %}">Voting API</a>
+    <a href="{{ '/api/proposals/' | relative_url }}" class="nav-link {% if page.url contains '/api/proposals' %}active{% endif %}">Proposals API</a>
+    <a href="{{ '/wallet-integration/' | relative_url }}" class="nav-link {% if page.url contains '/wallet-integration' %}active{% endif %}">Wallet Integration</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Auditability</div>
+    <a href="{{ '/audit/' | relative_url }}" class="nav-link {% if page.url == '/audit/' %}active{% endif %}">Overview</a>
+    <a href="{{ '/audit/verify-my-vote/' | relative_url }}" class="nav-link {% if page.url contains '/audit/verify-my-vote' %}active{% endif %}">Verify My Vote</a>
+    <a href="{{ '/audit/technical/' | relative_url }}" class="nav-link {% if page.url contains '/audit/technical' %}active{% endif %}">Technical Auditor Guide</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Resources</div>
+    <a href="{{ '/downloads/' | relative_url }}" class="nav-link {% if page.url contains '/downloads' %}active{% endif %}">Downloads</a>
+  </div>
+</nav>
