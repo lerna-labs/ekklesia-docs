@@ -17,6 +17,11 @@
   </div>
 
   <div class="nav-section">
+    <div class="nav-section-title">For Voting Authorities</div>
+    <a href="{{ '/authority-guide/' | relative_url }}" class="nav-link {% if page.url contains '/authority-guide' %}active{% endif %}">Authority Guide</a>
+  </div>
+
+  <div class="nav-section">
     <div class="nav-section-title">For Developers</div>
     <a href="{{ '/api/' | relative_url }}" class="nav-link {% if page.url == '/api/' %}active{% endif %}">API Overview</a>
     <a href="{{ '/api/voting/' | relative_url }}" class="nav-link {% if page.url == '/api/voting/' %}active{% endif %}">Voting API</a>

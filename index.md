@@ -66,4 +66,9 @@ process runs through cryptographic state channels with on-chain settlement.
 <p>CIP-30/CIP-95 auth flows, multisig support, and building your own frontend.</p>
 </a>
 
+<a href="{{ '/authority-guide/' | relative_url }}" class="card">
+<h3>Voting Authority Guide</h3>
+<p>Operating Ekklesia end-to-end — authoring ballots, opening Hydra heads, certifying results, and publishing audit artifacts.</p>
+</a>
+
 </div>
