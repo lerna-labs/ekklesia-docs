@@ -44,6 +44,25 @@ Body: { signerAddress, signType, signature }
 On success, a JWT session cookie is set. Include it in subsequent authenticated
 requests.
 
+## Vote Signing Flow
+
+After authenticating, the vote submission uses a three-step broker pipeline (see
+the [Voting API]({{ '/api/voting/' | relative_url }}) for full details):
+
+1. **Draft** — `POST /api/v1/votes/:ballotId/draft` with your vote selections.
+   The server returns a `merkleRoot` (64-char hex string) to sign.
+2. **Sign** — Sign the `merkleRoot` as UTF-8 bytes using CIP-8 message signing
+   (same method as authentication). The signed content is the hex string itself,
+   not raw bytes.
+3. **Submit** — `POST /api/v1/votes/:ballotId/signature` with the COSE witness.
+
+The `merkleRoot` is `blake2b_256(JSON.stringify({ballotId, nonce, votes}))` — a
+cryptographic commitment to your exact choices. Your signature proves you
+authorized those specific selections.
+
+For MultiSig voters, each signer submits their witness separately. The broker
+aggregates and submits to Hydra when the native script threshold is met.
+
 ## Signature Formats
 
 Ekklesia supports two signature formats:

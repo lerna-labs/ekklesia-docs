@@ -6,9 +6,12 @@
   "scripts": {
     "fmt": "prettier --write '**/*.md' --ignore-path .prettierignore",
     "fmt:check": "prettier --check '**/*.md' --ignore-path .prettierignore",
-    "lint:specs": "redocly lint api/proposals/openapi.yaml",
+    "lint:specs": "redocly lint api/proposals/openapi.yaml api/voting/openapi.v0.yaml api/voting/openapi.v1.yaml",
+    "postman:voting:v1": "openapi2postmanv2 -s api/voting/openapi.v1.yaml -o downloads/_files/ekklesia-voting-api-v1.postman_collection.json -p",
+    "postman:voting:v0": "openapi2postmanv2 -s api/voting/openapi.v0.yaml -o downloads/_files/ekklesia-voting-api-v0.postman_collection.json -p",
+    "postman:voting": "npm run postman:voting:v1 && npm run postman:voting:v0",
     "postman:proposals": "openapi2postmanv2 -s api/proposals/openapi.yaml -o downloads/_files/ekklesia-proposals-api.postman_collection.json -p",
-    "postman": "npm run postman:proposals",
+    "postman": "npm run postman:voting && npm run postman:proposals",
     "test": "node --experimental-vm-modules node_modules/.bin/jest --config __tests/jest.config.js",
     "test:voting": "node --experimental-vm-modules node_modules/.bin/jest --config __tests/jest.config.js --testPathPatterns=__tests/voting",
     "test:proposals": "node --experimental-vm-modules node_modules/.bin/jest --config __tests/jest.config.js --testPathPatterns=__tests/proposals",
@@ -34,6 +37,7 @@
     "dotenv": "^17.4.1",
     "jest": "^30.3.0",
     "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.1.1",
     "openapi-to-postmanv2": "^6.0.0",
     "prettier": "^3.8.1"
   }

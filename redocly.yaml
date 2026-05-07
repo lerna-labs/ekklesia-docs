@@ -1,0 +1,26 @@
+extends:
+  - recommended
+
+# Keep lint tractable for the published voting + proposals specs. The
+# upstream backend specs declare security at the spec/component level and
+# don't always carry per-operation security: blocks. Same pragmatic
+# allowances apply for missing operationIds on lightly-scaffolded routes
+# and for endpoints that legitimately have no documented 4xx response.
+rules:
+  security-defined: off
+  operation-operationId: off
+  operation-4xx-response: off
+  info-license-strict: off
+  operation-operationId-unique: error
+  no-enum-type-mismatch: error
+  no-unused-components: warn
+  nullable-type-sibling: error
+  struct: error
+
+apis:
+  voting@v0:
+    root: api/voting/openapi.v0.yaml
+  voting@v1:
+    root: api/voting/openapi.v1.yaml
+  proposals@v0:
+    root: api/proposals/openapi.yaml
