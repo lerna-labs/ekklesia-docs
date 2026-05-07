@@ -43,7 +43,7 @@ process runs through cryptographic state channels with on-chain settlement.
 
 <a href="{{ '/vote-types/' | relative_url }}" class="card">
 <h3>Vote Types</h3>
-<p>Default, Budget, Scale, Ranked — the different voting mechanisms and their rules.</p>
+<p>Binary, single-choice, multi-choice, range, ranked, weighted, and Likert — the seven voting mechanisms Ekklesia supports and the rules for each.</p>
 </a>
 
 <a href="{{ '/api/' | relative_url }}" class="card">
