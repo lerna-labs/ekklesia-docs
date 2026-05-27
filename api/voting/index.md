@@ -66,6 +66,18 @@ guide]({{ '/wallet-integration/' | relative_url }}) for the full handshake.
 API keys are scoped (`read:ballots`, `read:results`, etc.) and rate-limited per
 key. Contact the voting authority for a key.
 
+## Dual-id resolution
+
+Every path parameter that names a ballot, proposal, or question (`:id`,
+`:ballotId`, `:proposalId`, `:qid`) accepts either the canonical Mongo `_id`
+**or** the corresponding upstream external id
+(`proposalSource.externalBallotId`, `externalProposal.id`). Both resolve to
+the same canonical row. When a request resolves via an external id,
+responses carry a top-level `canonical` field and a
+`Link: <…>; rel="canonical"` header so search engines and integrators only
+index one URL per resource. Ambiguous external matches return HTTP 409 with
+code `ID_COLLISION` and the list of candidate `_id`s.
+
 ## v1 Endpoints
 
 ### Health & Config
@@ -155,8 +167,12 @@ payload.
 
 ```
 POST /api/v1/votes/:ballotId/draft
-Body: { votes: [...], responderRole?, nativeScript?, calidusDeclaration? }
+Body: { votes: [...], nativeScript?, calidusDeclaration? }
 ```
+
+`responderRole` is derived server-side from the authenticated voter's
+bech32 HRP and is no longer accepted on the request body — any
+client-supplied value is ignored.
 
 Returns:
 `{ status, package: { id, status, nonce }, signingPayload, signingPayloadHex, merkleRoot, signedPayloadJson, prelimVoteHash, multisig }`.

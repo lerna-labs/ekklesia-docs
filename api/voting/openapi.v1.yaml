@@ -21,6 +21,40 @@ info:
     ingestion, voting-power uploads, authority certification) are
     administrator-only and not part of the published API surface.
 
+    ## Dual-id resolution (`:id` / `:ballotId` / `:proposalId` / `:qid`)
+
+    Every path parameter that names a ballot, proposal, or question
+    accepts either the canonical Mongo `_id` OR the corresponding
+    upstream external id (`externalProposal.id` for proposals,
+    `proposalSource.externalBallotId` for ballots). Both resolve to the
+    same canonical row. When a request resolves via an external id,
+    JSON responses carry a top-level `canonical` field (the canonical
+    API URL) and a `Link: <…>; rel="canonical"` header. Ambiguous
+    external matches return HTTP 409 with code `ID_COLLISION` and the
+    list of candidate `_id`s. Proposal lookups under
+    `/ballots/{ballotId}/proposals/{proposalId}` are scoped to the
+    parent ballot, eliminating the realistic collision path (same
+    upstream proposal id reused across ballots).
+
+    ## `responderRole` is server-derived
+
+    `POST /votes/{ballotId}/draft` no longer accepts `responderRole` on
+    the request body. The backend derives it from the authenticated
+    voter's bech32 HRP (`drep → drep`, `pool|calidus → pool`,
+    `stake|stake_test → stake`) so the prelim hash matches the on-chain
+    hash Hydra commits at `/vote` and `/settle`. Any client-supplied
+    value is ignored.
+
+    ## Query-string hygiene
+
+    Known scalar query keys (`status`, `voterType`, `search`, `page`,
+    `limit`, `source`, …) must be strings. Object-shaped values
+    (NoSQL operator injection — `?status[$ne]=null`) and array-shaped
+    values (duplicate params — `?status=live&status=closed`) return
+    HTTP 400 `BAD_INPUT`. Free-text `search` values are regex-escaped
+    so unbalanced patterns like `?search=(` are matched as literal
+    substrings rather than throwing.
+
     ## Authentication
 
     - JWT (cookie or `Authorization: Bearer`) for voter session endpoints.
@@ -28,7 +62,7 @@ info:
     - API key (`Authorization: Bearer <key>` or `x-api-key`) for `/public/*`.
       Keys carry scopes (e.g. `read:ballots`, `read:results`) and per-key
       rate limits.
-  version: 1.0.0
+  version: 1.0.1
   contact:
     name: Adam Dean, Mad Orkestra
   license:
@@ -496,14 +530,18 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/VoteSelection'
-                responderRole:
-                  type: string
                 nativeScript:
                   description: For multisig DReps — the native-script definition.
                   type: object
                 calidusDeclaration:
                   description: For CIP-151 pool hot-key votes.
                   type: object
+              # `responderRole` is no longer accepted on the body. The
+              # backend derives it from the authenticated voter's bech32
+              # HRP (drep | pool | calidus | stake → drep | pool | pool
+              # | stake) so the prelim hash returned here matches the
+              # on-chain hash Hydra commits at /vote / /settle. Any
+              # client-supplied value is ignored.
       responses:
         '200':
           description: Existing active package returned or updated in place

@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: Ekklesia Voting Backend API
-  description: "API for the Ekklesia voting system backend.\n\n## Versioning\n\n- **`/api/v0`** — legacy, read-only archival surface. Writes to\n  ballot/proposal/vote/voter/transaction/dashboard resources return\n  HTTP 410 Gone. Session, comments, and FAQs remain live here.\n- **`/api/v1`** — Hydra-backed live surface (broker endpoints, admin\n  lifecycle, unified ballot listing, public integrator endpoints).\n  See `openapi.v1.yaml` for the full v1 spec.\n\n## Unified listing\n\n`GET /api/v1/ballots` aggregates across sources (legacy, hydra, future)\nvia pluggable adapters. Each row includes a `source` discriminator so\nclients can render conditionally.\n\n## Authentication\n\n- Voter sessions: JWT via HTTP-only cookie or `Authorization: Bearer`.\n- Admin endpoints on `/api/v1/admin/*`: same JWT, plus an admin role claim.\n- Public endpoints on `/api/v1/public/*`: API key via\n  `Authorization: Bearer <key>` or `x-api-key`. Keys are scoped\n  (e.g. `read:ballots`, `read:results`) and rate-limited per key.\n\n## Session (unified)\nA single set of session endpoints handles both standard and multisig authentication. For multisig, include `scriptAddress` in the request body on POST (nonce) and PUT (verify). Nonce and verify requests are rate-limited.\n"
-  version: 0.5.33
+  description: "API for the Ekklesia voting system backend.\n\n## Versioning\n\n- **`/api/v0`** — legacy, read-only archival surface. Writes to\n  ballot/proposal/vote/voter/transaction/dashboard resources return\n  HTTP 410 Gone. Session, comments, and FAQs remain live here.\n- **`/api/v1`** — Hydra-backed live surface (broker endpoints, admin\n  lifecycle, unified ballot listing, public integrator endpoints).\n  See `openapi.v1.yaml` for the full v1 spec.\n\n## Unified listing\n\n`GET /api/v1/ballots` aggregates across sources (legacy, hydra, future)\nvia pluggable adapters. Each row includes a `source` discriminator so\nclients can render conditionally.\n\n## Dual-id resolution (`:proposalId` / `:commentId` etc.)\n\nEvery path parameter that names a ballot, proposal, or comment accepts\neither the canonical Mongo `_id` OR the corresponding upstream external\nid (`externalProposal.id`, `proposalSource.externalBallotId`). Both\nresolve to the same canonical row. When a request resolves via an\nexternal id, responses carry a top-level `canonical` field (the\ncanonical API URL) and a `Link: <…>; rel=\"canonical\"` header. Ambiguous\nexternal matches return HTTP 409 with code `ID_COLLISION` and the list\nof candidate `_id`s.\n\n## Query-string hygiene\n\nKnown scalar query keys (`status`, `voterType`, `search`, `page`,\n`limit`, `source`, …) must be strings. Object-shaped values (NoSQL\noperator injection — `?status[$ne]=null`) and array-shaped values\n(duplicate params — `?status=live&status=closed`) return HTTP 400\n`BAD_INPUT`. Free-text `search` and `voterType` values are\nregex-escaped, so unbalanced patterns like `?search=(` are matched as\nliteral substrings rather than throwing.\n\n## Authentication\n\n- Voter sessions: JWT via HTTP-only cookie or `Authorization: Bearer`.\n- Admin endpoints on `/api/v1/admin/*`: same JWT, plus an admin role claim.\n- Public endpoints on `/api/v1/public/*`: API key via\n  `Authorization: Bearer <key>` or `x-api-key`. Keys are scoped\n  (e.g. `read:ballots`, `read:results`) and rate-limited per key.\n\n## Session (unified)\nA single set of session endpoints handles both standard and multisig authentication. For multisig, include `scriptAddress` in the request body on POST (nonce) and PUT (verify). Nonce and verify requests are rate-limited.\n"
+  version: 0.5.34
   contact:
     name: Adam Dean, Mad Orkestra
   license:
@@ -1813,6 +1813,15 @@ paths:
                     - pool
                   userId:
                     type: string
+                  name:
+                    type: string
+                    nullable: true
+                    description: |
+                      Display name for the voter — DRep name for `drep…`
+                      ids, Cardano Handle for `stake…` ids, resolved at
+                      login and (for voters who haven't logged in since
+                      the User collection landed) topped up by a periodic
+                      backfill cron. Null when unresolved or unavailable.
                   votes:
                     type: array
                     items:
@@ -1900,7 +1909,10 @@ paths:
                     type: string
                     format: date-time
                     nullable: true
-                    description: Date of the most recent vote
+                    description: |
+                      Timestamp of the voter's most recent submitted vote
+                      (MAX of Vote.submittedAt across this voter's rows).
+                      Null only when the voter has no submitted votes.
                   lastLogin:
                     type: string
                     format: date-time
@@ -1939,7 +1951,15 @@ paths:
           default: 25
       - name: search
         in: query
-        description: Search term for voter ID
+        description: |
+          Case-insensitive substring match against either the bech32 / CIP-129
+          `userId` OR the resolved display `name` (DRep metadata name or
+          Cardano Handle) from the User collection. Regex metacharacters are
+          escaped. A single leading `$` is stripped before matching so a user
+          typing a handle as they see it rendered (`$adam`) still matches the
+          bare stored name (`adam`); the match is substring-based so DRep
+          names that legitimately start with `$` are still findable either
+          way.
         required: false
         schema:
           type: string
@@ -1953,6 +1973,7 @@ paths:
           - userId
           - votes
           - lastLogin
+          - lastVoteAt
           default: votes
       - name: direction
         in: query
@@ -1995,6 +2016,30 @@ paths:
                             type: string
                             format: date-time
                             nullable: true
+                            description: |
+                              Most recent successful login (User.lastLogin).
+                              Null when the voter has never logged in since
+                              the persistent User record landed (historical
+                              voters), even if they have submitted votes.
+                          lastVoteAt:
+                            type: string
+                            format: date-time
+                            description: |
+                              Most recent submitted vote for this voter
+                              (MAX of Vote.submittedAt). Always populated —
+                              the directory only lists voters with at least
+                              one submitted vote. Sortable via
+                              `sort=lastVoteAt`.
+                          name:
+                            type: string
+                            nullable: true
+                            description: |
+                              Display name for the voter — DRep name for
+                              `drep…` ids, Cardano Handle for `stake…` ids,
+                              resolved at login and (for voters who haven't
+                              logged in since the User collection landed)
+                              topped up by a periodic backfill cron. Null
+                              when unresolved or unavailable.
                     pagination:
                       $ref: '#/components/schemas/Pagination'
         '400':

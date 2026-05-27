@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Ekklesia Proposals API
-  version: 0.1.0
+  version: 0.1.1
   description: >
     The Ekklesia Proposals API provides endpoints for decentralized governance
     proposal management on the Cardano blockchain. It supports session-based
@@ -441,10 +441,18 @@ paths:
         proposer or vote cycle admins.
 
 
-        The response includes a commentCount for each proposal and a shortened
-        metaData object containing only key summary fields
-        (proposerDetails.name, contractingParty.legalEntityType,
-        strategyFramework.pillars, conversionRate, totalBudget).
+        **List item projection is vote-configurable.** When the vote cycle
+        defines a `listProjectionScript`, that script's
+        `projectProposalListItem(proposal, { vote, isProposer, isAdmin })`
+        is invoked per row and may add, omit, or reshape fields per the
+        ballot's needs (for example, a budget cycle may expose
+        `totalBudget` and a strategy-pillar summary that a generic cycle
+        would not). When no projection script is configured (or the script
+        throws), the fallback projection returns the full proposal minus
+        internal-only fields (`withdrawalReason`, `signature`, `userId`)
+        plus `commentCount`. Clients should treat `ProposalListItem`
+        below as the conservative minimum and tolerate additional
+        per-vote fields.
       parameters:
         - name: vote
           in: query
@@ -854,7 +862,12 @@ paths:
         - name: userType
           in: query
           description: >
-            Filter by author type. Accepts a comma-separated list of types.
+            Filter by author type. Accepts a comma-separated list of types
+            (e.g. `proposer,admin,drep,user`). A top-level comment is
+            returned when either the comment author matches the filter OR
+            any reply within the same thread is by a matching author —
+            this preserves replies-to-admin / replies-to-proposer
+            visibility in filtered views.
           schema:
             type: string
             example: proposer,admin
