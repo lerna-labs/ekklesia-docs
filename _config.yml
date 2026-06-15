@@ -25,6 +25,12 @@ collections:
   downloads:
     output: false
 
+# Jekyll excludes any path whose name starts with "_" from the build.
+# The downloadable binaries live in downloads/_files/, so force-include it
+# (matched by basename) to keep the /downloads/_files/ URLs working.
+include:
+  - _files
+
 exclude:
   - Gemfile
   - Gemfile.lock

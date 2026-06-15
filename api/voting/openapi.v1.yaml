@@ -1,78 +1,32 @@
 openapi: 3.0.3
 info:
   title: Ekklesia Voting Backend API — v1
-  description: |
-    Hydra-backed live surface for the Ekklesia voting platform. v1 is paired
-    with the v0 archival surface (see `openapi.v0.yaml`) — the two coexist.
-
-    ## What lives here
-
-    - **Unified ballot listing** across legacy + Hydra sources.
-    - **Broker endpoints** for Hydra votes: draft the signing payload,
-      collect signatures (key-based or m-of-n multisig), submit to Hydra,
-      surface confirmation artifacts.
-    - **Audit artifacts**: per-proposal canonical content bytes, downloadable
-      audit bundles, and authority certification state — all public and
-      unauthenticated by design.
-    - **Public integrator surface** under `/public/*` — API-key gated,
-      rate-limited, read-only.
-
-    Operational lifecycle endpoints (Hydra head management, ballot
-    ingestion, voting-power uploads, authority certification) are
-    administrator-only and not part of the published API surface.
-
-    ## Dual-id resolution (`:id` / `:ballotId` / `:proposalId` / `:qid`)
-
-    Every path parameter that names a ballot, proposal, or question
-    accepts either the canonical Mongo `_id` OR the corresponding
-    upstream external id (`externalProposal.id` for proposals,
-    `proposalSource.externalBallotId` for ballots). Both resolve to the
-    same canonical row. When a request resolves via an external id,
-    JSON responses carry a top-level `canonical` field (the canonical
-    API URL) and a `Link: <…>; rel="canonical"` header. Ambiguous
-    external matches return HTTP 409 with code `ID_COLLISION` and the
-    list of candidate `_id`s. Proposal lookups under
-    `/ballots/{ballotId}/proposals/{proposalId}` are scoped to the
-    parent ballot, eliminating the realistic collision path (same
-    upstream proposal id reused across ballots).
-
-    ## `responderRole` is server-derived
-
-    `POST /votes/{ballotId}/draft` no longer accepts `responderRole` on
-    the request body. The backend derives it from the authenticated
-    voter's bech32 HRP (`drep → drep`, `pool|calidus → pool`,
-    `stake|stake_test → stake`) so the prelim hash matches the on-chain
-    hash Hydra commits at `/vote` and `/settle`. Any client-supplied
-    value is ignored.
-
-    ## Query-string hygiene
-
-    Known scalar query keys (`status`, `voterType`, `search`, `page`,
-    `limit`, `source`, …) must be strings. Object-shaped values
-    (NoSQL operator injection — `?status[$ne]=null`) and array-shaped
-    values (duplicate params — `?status=live&status=closed`) return
-    HTTP 400 `BAD_INPUT`. Free-text `search` values are regex-escaped
-    so unbalanced patterns like `?search=(` are matched as literal
-    substrings rather than throwing.
-
-    ## Authentication
-
-    - JWT (cookie or `Authorization: Bearer`) for voter session endpoints.
-      Sessions are issued by `/api/v0/session` after CIP-8 message signing.
-    - API key (`Authorization: Bearer <key>` or `x-api-key`) for `/public/*`.
-      Keys carry scopes (e.g. `read:ballots`, `read:results`) and per-key
-      rate limits.
+  description: >
+    Hydra-backed live surface for the Ekklesia voting platform. v1 is
+    paired with the v0 archival surface (openapi.v0.yaml) — the two
+    coexist. Covers the unified ballot listing across legacy + Hydra
+    sources, the vote broker pipeline (draft / signature / submit),
+    public audit artifacts (per-proposal canonical content, downloadable
+    archive bundle, authority certification state), and the API-key
+    gated public integrator surface under /public/*. Operational
+    lifecycle endpoints (Hydra head management, ballot ingestion,
+    voting-power uploads, authority certification ingest) are
+    administrator-only and not part of the published surface. See the
+    Voting API overview page for cross-cutting behavior (dual-id
+    resolution, server-derived responderRole, query hygiene,
+    authentication).
   version: 1.0.1
   contact:
     name: Adam Dean, Mad Orkestra
   license:
-    name: ISC
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
 - url: '{baseUrl}/api/v1'
   description: Ekklesia Voting API v1 instance
   variables:
     baseUrl:
-      default: https://api.example.com
+      default: https://app.ekklesia.vote
       description: Base URL of the Ekklesia Voting API instance
 tags:
 - name: Unified Ballots

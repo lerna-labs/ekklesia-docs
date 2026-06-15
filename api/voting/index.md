@@ -78,6 +78,15 @@ responses carry a top-level `canonical` field and a
 index one URL per resource. Ambiguous external matches return HTTP 409 with
 code `ID_COLLISION` and the list of candidate `_id`s.
 
+## Query-string hygiene
+
+Known scalar query keys (`status`, `voterType`, `search`, `page`, `limit`,
+`source`, …) must be strings. Object-shaped values (NoSQL operator
+injection — `?status[$ne]=null`) and array-shaped values (duplicate params
+— `?status=live&status=closed`) return HTTP 400 `BAD_INPUT`. Free-text
+`search` and `voterType` values are regex-escaped, so unbalanced patterns
+like `?search=(` are matched as literal substrings rather than throwing.
+
 ## v1 Endpoints
 
 ### Health & Config
