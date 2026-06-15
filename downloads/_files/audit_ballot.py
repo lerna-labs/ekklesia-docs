@@ -335,6 +335,7 @@ class Report:
     """Accumulates pass/fail markers and prints a human-readable trace."""
     def __init__(self):
         self.failures = 0
+        self.warnings = 0
         self.checks = 0
     def header(self, text: str) -> None:
         print()
@@ -351,15 +352,19 @@ class Report:
         self.checks += 1
         self.failures += 1
         print(f"  [FAIL] {text}")
+    def warn(self, text: str) -> None:
+        self.warnings += 1
+        print(f"  [WARN] {text}")
     def info(self, text: str) -> None:
         print(f"         {text}")
     def summary(self) -> int:
         print()
         print("=" * 78)
+        warn_tag = f", {self.warnings} warning{'' if self.warnings == 1 else 's'}" if self.warnings else ""
         if self.failures == 0:
-            print(f"AUDIT PASSED  ({self.checks} checks, 0 failures)")
+            print(f"AUDIT PASSED  ({self.checks} checks, 0 failures{warn_tag})")
             return 0
-        print(f"AUDIT FAILED  ({self.checks} checks, {self.failures} failures)")
+        print(f"AUDIT FAILED  ({self.checks} checks, {self.failures} failures{warn_tag})")
         return 1
 
 
@@ -658,14 +663,23 @@ def verify_history_phase(report: Report, voter_files: list, matched_evidence: di
             report.fail(f"voter {voter}: last history voteHash {last_vh[:16]}... != committed leaf {f['contentHashHex'][:16]}...")
             continue
         # Voting-window enforcement
+        window_warned = False
         if open_ms is not None and close_ms is not None:
-            wok, werr = verify_window_for_history(history, open_ms, close_ms)
+            wok, werr, wwarn = verify_window_for_history(history, open_ms, close_ms)
             if not wok:
                 report.fail(f"voter {voter}: {werr} (window: {window_open_iso} -> {window_close_iso})")
                 continue
+            if wwarn:
+                report.warn(f"voter {voter}: {wwarn}")
+                window_warned = True
 
         n = len(history)
-        window_tag = " + within-window" if open_ms is not None else ""
+        if open_ms is None:
+            window_tag = ""
+        elif window_warned:
+            window_tag = " + within-window (partial: some timestamps unrecorded)"
+        else:
+            window_tag = " + within-window"
         report.ok(f"voter {voter}: history chain intact ({n} entr{'y' if n == 1 else 'ies'}){window_tag}; last voteHash matches leaf")
         if export_voters is not None:
             for r in export_voters:
@@ -687,20 +701,46 @@ def parse_iso_to_ms(s: str):
         return None
 
 
+def ms_to_iso(ms) -> str:
+    """Format a ms-since-epoch value as an ISO-8601 UTC string. Returns the
+    raw value as-is if it can't be formatted."""
+    try:
+        from datetime import datetime, timezone
+        return datetime.fromtimestamp(ms / 1000, tz=timezone.utc).isoformat().replace("+00:00", "Z")
+    except Exception:
+        return str(ms)
+
+
 def verify_window_for_history(history: list, window_open_ms: int, window_close_ms: int) -> tuple:
     """Confirm every history entry's `timestamp` (ms epoch) falls inside
-    [windowOpen, windowClose]. Returns (ok: bool, error_msg: str|None)."""
+    [windowOpen, windowClose].
+
+    A recorded timestamp of exactly 0 is treated as *unrecorded* rather than as
+    a real 1970-epoch cast time: votes that were replayed while rehydrating a
+    Hydra head from its state files (e.g. after a node crash) lose their
+    original `Date.now()` stamp and default to 0. Such entries are reported as a
+    warning and skipped for the window check, not failed.
+
+    Returns (ok: bool, error_msg: str|None, warn_msg: str|None)."""
+    warns = []
     for entry in history:
+        v = entry.get("version")
         ts = entry.get("timestamp")
         if ts is None:
-            return False, f"history[v{entry.get('version')}] missing timestamp"
+            return False, f"history[v{v}] missing timestamp", None
         if not isinstance(ts, (int, float)):
-            return False, f"history[v{entry.get('version')}] timestamp not numeric"
+            return False, f"history[v{v}] timestamp not numeric", None
+        if ts == 0:
+            warns.append(f"history[v{v}] timestamp is 0 (unrecorded — likely a "
+                         f"rehydrated/replayed vote); window check skipped for this entry")
+            continue
         if ts < window_open_ms:
-            return False, f"history[v{entry.get('version')}] cast before window opened"
+            return False, (f"history[v{v}] cast before window opened "
+                           f"(recorded: {ms_to_iso(ts)} / {ts}ms)"), None
         if ts > window_close_ms:
-            return False, f"history[v{entry.get('version')}] cast after window closed"
-    return True, None
+            return False, (f"history[v{v}] cast after window closed "
+                           f"(recorded: {ms_to_iso(ts)} / {ts}ms)"), None
+    return True, None, ("; ".join(warns) if warns else None)
 
 
 def _grid_values(grid: dict) -> list:
