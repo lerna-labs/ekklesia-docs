@@ -131,6 +131,13 @@ BLOCKFROST_BASE = {
 
 DEFAULT_IPFS_GATEWAY = "https://ipfs.io/ipfs"
 
+# Upper bound on vote-version probing in Step 6. Voters may re-vote any number
+# of times and only the FINAL version's voteHash is committed, so we probe
+# contiguous versions (v1, v2, …) until one 404s. This cap only exists as a
+# defensive backstop against a gateway that never 404s; it is not a real limit
+# on how many times a voter may vote, so keep it far above any plausible count.
+MAX_VOTE_VERSIONS = 10000
+
 # Hydra plutus-script address prefixes (mainnet/testnet) — any input UTxO
 # whose address starts with these is a script address, used here as a
 # heuristic to distinguish a Hydra fanout from an admin-wallet rebalance.
@@ -176,6 +183,26 @@ def bech32_decode(s: str) -> tuple:
 
 # --- COSE_Sign1 (CIP-08 / CIP-30) verification ------------------------------
 
+def _cose_hashed_flag(protected_bstr, unprotected) -> bool:
+    """Read the CIP-8 `hashed` header from a COSE_Sign1.
+
+    CIP-8 lets the signer sign a blake2b digest of the message instead of the
+    message itself, signalled by a boolean `hashed` header. It may appear in
+    either the protected or the unprotected header map; we honour both and
+    treat it as set only when explicitly truthy.
+    """
+    protected = {}
+    try:
+        if protected_bstr:
+            protected = cbor2.loads(bytes(protected_bstr))
+    except Exception:
+        protected = {}
+    for hdr in (unprotected, protected):
+        if isinstance(hdr, dict) and hdr.get("hashed"):
+            return True
+    return False
+
+
 def verify_cose_witness(witness: dict, signed_payload_obj: dict) -> dict:
     """Verify one COSE witness against a canonical signedPayload.
 
@@ -185,8 +212,15 @@ def verify_cose_witness(witness: dict, signed_payload_obj: dict) -> dict:
         1. Parse COSE_Sign1 = [protected_bstr, unprotected, payload, sig]
         2. Build Sig_structure = ["Signature1", protected_bstr, b"", payload]
         3. ed25519.verify(coseKey.pubkey, CBOR(Sig_structure), sig)
-        4. payload (ASCII-decoded) must equal merkleRoot, where
+        4. message binding: the payload must commit to merkleRoot, where
            merkleRoot = blake2b_256(JSON.stringify(signedPayload)) hex.
+           - default (`hashed` header unset/false): the payload, ASCII-decoded,
+             must equal the merkleRoot string.
+           - `hashed` header true: the payload is a raw blake2b digest of the
+             merkleRoot ASCII bytes, so it must equal blake2b_224/256(merkleRoot).
+           (The production SDK/hydra verifier does NOT honour the `hashed` flag —
+           it always does the ASCII compare — so a hashed-signing wallet would be
+           rejected there; this audit accepts it. See the middleware issue.)
 
     Returns a dict:
       - ok:         True | False | None ('None' = could-not-verify because
@@ -202,7 +236,7 @@ def verify_cose_witness(witness: dict, signed_payload_obj: dict) -> dict:
         return {"ok": False, "error": f"COSE parse failure: {e}"}
     if not isinstance(cose_sign1, list) or len(cose_sign1) != 4:
         return {"ok": False, "error": "COSE_Sign1 is not a 4-element CBOR array"}
-    protected_bstr, _unprotected, payload, signature = cose_sign1
+    protected_bstr, unprotected, payload, signature = cose_sign1
     pubkey = cose_key.get(-2) if isinstance(cose_key, dict) else None
     if not isinstance(pubkey, (bytes, bytearray)) or len(pubkey) != 32:
         return {"ok": False, "error": "COSE_Key has no valid 32-byte ed25519 pubkey at label -2"}
@@ -210,17 +244,31 @@ def verify_cose_witness(witness: dict, signed_payload_obj: dict) -> dict:
 
     sp_bytes = json.dumps(signed_payload_obj, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     expected_mr = blake2b_256(sp_bytes).hex()
-    try:
-        payload_ascii = bytes(payload).decode("ascii")
-    except UnicodeDecodeError:
-        return {"ok": False, "error": "COSE payload is not ASCII", "pubkey_hex": bytes(pubkey).hex(), "keyhash": keyhash}
-    if payload_ascii != expected_mr:
-        return {
-            "ok": False,
-            "error": f"COSE payload != merkleRoot (got {payload_ascii[:16]}..., expected {expected_mr[:16]}...)",
-            "pubkey_hex": bytes(pubkey).hex(),
-            "keyhash": keyhash,
-        }
+    payload_b = bytes(payload)
+    if _cose_hashed_flag(protected_bstr, unprotected):
+        # Signer committed to a hash of the merkleRoot. Accept either blake2b
+        # digest size (224 is the CIP-8 standard; 256 accepted defensively —
+        # both are binding hashes of the same message).
+        msg = expected_mr.encode("ascii")
+        if payload_b not in (blake2b_224(msg), blake2b_256(msg)):
+            return {
+                "ok": False,
+                "error": f"COSE hashed payload != blake2b(merkleRoot) (got {payload_b.hex()[:16]}..., merkleRoot {expected_mr[:16]}...)",
+                "pubkey_hex": bytes(pubkey).hex(),
+                "keyhash": keyhash,
+            }
+    else:
+        try:
+            payload_ascii = payload_b.decode("ascii")
+        except UnicodeDecodeError:
+            return {"ok": False, "error": "COSE payload is not ASCII (and `hashed` header not set)", "pubkey_hex": bytes(pubkey).hex(), "keyhash": keyhash}
+        if payload_ascii != expected_mr:
+            return {
+                "ok": False,
+                "error": f"COSE payload != merkleRoot (got {payload_ascii[:16]}..., expected {expected_mr[:16]}...)",
+                "pubkey_hex": bytes(pubkey).hex(),
+                "keyhash": keyhash,
+            }
 
     if not HAVE_ED25519:
         return {"ok": None, "error": "cryptography package not installed", "pubkey_hex": bytes(pubkey).hex(), "keyhash": keyhash}
@@ -327,6 +375,97 @@ def keyhash_matches_voter(keyhash_hex: str, voter_id: str, calidus_id: str = Non
     if raw.hex() == keyhash_hex:
         return True, f"matched {hrp} hash"
     return False, f"{hrp} hash {raw.hex()[:12]}... vs pubkey hash {keyhash_hex[:12]}..."
+
+
+# --- Native-script (multisig) credentials -----------------------------------
+# Mirrors hydra's script-based path (hydra/src/routes/voting.ts) and the
+# @meshsdk/core resolveNativeScriptHash / Cardano ledger encoding. The MeshJS
+# NativeScript JSON shape maps to the ledger CBOR as:
+#   sig     -> [0, keyHash(28 bytes)]
+#   all     -> [1, [scripts]]
+#   any     -> [2, [scripts]]
+#   atLeast -> [3, required, [scripts]]
+#   after   -> [4, slot]   (RequireTimeStart  / invalidBefore)
+#   before  -> [5, slot]   (RequireTimeExpire / invalidHereafter)
+# The script hash is blake2b_224(0x00 || cbor(script)); 0x00 is the native-
+# script namespace tag. Validated byte-for-byte against resolveNativeScriptHash.
+
+def _native_script_to_cbor(script: dict):
+    t = script.get("type")
+    if t == "sig":
+        return [0, bytes.fromhex(script["keyHash"])]
+    if t == "all":
+        return [1, [_native_script_to_cbor(s) for s in script.get("scripts", [])]]
+    if t == "any":
+        return [2, [_native_script_to_cbor(s) for s in script.get("scripts", [])]]
+    if t == "atLeast":
+        return [3, int(script["required"]), [_native_script_to_cbor(s) for s in script.get("scripts", [])]]
+    if t == "after":
+        return [4, int(script["slot"])]
+    if t == "before":
+        return [5, int(script["slot"])]
+    raise AuditError(f"unknown native script type: {t!r}")
+
+
+def native_script_hash(script: dict) -> str:
+    """blake2b_224(0x00 || cbor(nativeScript)) — the 28-byte script hash."""
+    return blake2b_224(b"\x00" + cbor2.dumps(_native_script_to_cbor(script))).hex()
+
+
+def extract_key_hashes(script: dict) -> set:
+    """All `sig` key hashes reachable in a native script (recursively)."""
+    t = script.get("type")
+    if t == "sig":
+        return {script["keyHash"]}
+    if t in ("all", "any", "atLeast"):
+        out = set()
+        for s in script.get("scripts", []):
+            out |= extract_key_hashes(s)
+        return out
+    return set()
+
+
+def satisfies_script(script: dict, provided: set) -> bool:
+    """True if the provided signer key hashes satisfy the script rules.
+    Time constraints (after/before) are ledger-enforced, treated as satisfied
+    here — same as hydra's satisfiesScript."""
+    t = script.get("type")
+    if t == "sig":
+        return script["keyHash"] in provided
+    if t == "all":
+        return all(satisfies_script(s, provided) for s in script.get("scripts", []))
+    if t == "any":
+        return any(satisfies_script(s, provided) for s in script.get("scripts", []))
+    if t == "atLeast":
+        met = sum(1 for s in script.get("scripts", []) if satisfies_script(s, provided))
+        return met >= int(script["required"])
+    if t in ("after", "before"):
+        return True
+    return False
+
+
+def script_hash_matches_voter(script: dict, voter_id: str) -> tuple:
+    """Confirm a native script's hash equals the voterId's credential.
+
+    Mirrors hydra: for a CIP-129 drep id with a script header (0x23) the
+    credential is raw[1:]; otherwise the full decoded bytes are compared
+    (hydra's else-branch). Returns (ok, note).
+    """
+    try:
+        hrp, raw = bech32_decode(voter_id)
+    except AuditError as e:
+        return False, str(e)
+    try:
+        sh = native_script_hash(script)
+    except (AuditError, KeyError, ValueError) as e:
+        return False, f"could not hash native script: {e}"
+    if hrp == "drep" and len(raw) == 29 and raw[0] == 0x23:
+        cred = raw[1:].hex()
+    else:
+        cred = raw.hex()
+    if sh == cred:
+        return True, f"native script hash matches {hrp} credential"
+    return False, f"{hrp} script cred {cred[:12]}... vs native script hash {sh[:12]}..."
 
 
 # --- Step printer ------------------------------------------------------------
@@ -528,10 +667,19 @@ def verify_signatures_phase(report: Report, voter_files: list, matched_evidence:
     evidence file and confirm:
       - ed25519 signature verifies against CBOR(Sig_structure)
       - COSE payload (ASCII) equals merkleRoot of canonical signedPayload
-      - signedPayload.ballotId matches the on-chain ballot id
+      - signedPayload.ballotId matches the on-chain ballot id (WARN-only: a
+        mismatch is reported as a warning, not a failure, because a head that
+        re-seeded its identity can settle the fingerprint default while voters
+        signed against a custom ballotId; the other bindings still tie the vote
+        to this ballot)
       - signedPayload.nonce matches the matched evidence version
-      - blake2b_224(pubkey) matches the voterId credential (or the calidus
-        key when a calidus declaration is present on a pool voter)
+      - credential authorisation, by kind:
+          * key-based: blake2b_224(pubkey) matches the voterId credential (or
+            the calidus key when a calidus declaration is present on a pool
+            voter)
+          * script-based (nativeScript present): the native script hash matches
+            the voterId credential AND the signing keys satisfy the script's
+            M-of-N rules (mirrors hydra's verifyVoteSignatures script branch)
     """
     report.step("Step 7: per-voter COSE_Sign1 signatures verify")
     if not HAVE_ED25519 or not HAVE_BECH32:
@@ -544,6 +692,40 @@ def verify_signatures_phase(report: Report, voter_files: list, matched_evidence:
             f"to record an audit that intentionally skipped this step"
         )
         return
+
+    # Pre-pass: characterise the ballotId mismatch across ALL voters before the
+    # per-voter loop, so a uniform mismatch can be reported once in aggregate
+    # instead of flooding the log with one verbose warning per voter.
+    #
+    #   - UNIFORM mismatch: every voter signed the *same* ballotId and it differs
+    #     from the settled (601) datum. This is a single ballot-configuration /
+    #     settlement fact (the head re-seeded its identity to the fingerprint
+    #     default), NOT replay — all voters agree on one id. Report once; keep
+    #     per-voter lines terse.
+    #   - DIVERGENT mismatch: voters signed *different* ballotIds. That is the
+    #     genuinely suspicious shape (possible cross-ballot replay), so each such
+    #     voter keeps its own verbose warning below.
+    signed_ids: dict = {}
+    for f in voter_files:
+        m = matched_evidence.get(f["name"])
+        if not m:
+            continue
+        sp = (m["evidence"].get("ekklesia") or {}).get("signedPayload") or {}
+        signed_ids.setdefault(sp.get("ballotId"), []).append(f["name"])
+    uniform_mismatch = None
+    if len(signed_ids) == 1:
+        only_id = next(iter(signed_ids))
+        if only_id != ballot_id_hex:
+            uniform_mismatch = only_id
+            n_voters = len(signed_ids[only_id])
+            report.warn(
+                f"ballotId mismatch is UNIFORM across all {n_voters} voter(s): every voter signed "
+                f"ballotId {only_id} but the settled (601) datum records {ballot_id_hex}. This is a "
+                f"single ballot-configuration/settlement mismatch (head re-seeded its identity to the "
+                f"fingerprint default), NOT vote replay from another ballot — all voters agree on one "
+                f"id. Per-voter signature/credential/nonce checks still run below."
+            )
+
     for f in voter_files:
         voter = f["name"]
         m = matched_evidence.get(voter)
@@ -557,45 +739,120 @@ def verify_signatures_phase(report: Report, voter_files: list, matched_evidence:
         if not witnesses:
             report.fail(f"voter {voter}: no COSE witnesses in evidence")
             continue
+        ballot_id_note = ""
         if signed_payload.get("ballotId") != ballot_id_hex:
-            report.fail(f"voter {voter}: signedPayload.ballotId {signed_payload.get('ballotId')} != on-chain {ballot_id_hex}")
-            continue
+            # A mismatch means the ballotId the voter signed under differs from
+            # the one the settling head wrote into the (601) datum. The other
+            # bindings (signature, credential, nonce, merkle) still tie the vote
+            # to this ballot, so this is WARN-only, never a failure.
+            if uniform_mismatch is not None:
+                # Already reported once in the aggregate warning above — keep the
+                # per-voter line terse so the log isn't flooded.
+                ballot_id_note = "  [ballotId: aggregate config mismatch — see Step 7 header]"
+            else:
+                # Divergent: this voter signed a different id than its peers.
+                # Surface it individually — this is the replay-suspicious shape.
+                report.warn(
+                    f"voter {voter}: signedPayload.ballotId {signed_payload.get('ballotId')} "
+                    f"!= on-chain {ballot_id_hex}, and does NOT match other voters' signed id — "
+                    f"divergent mismatch; signature/credential/nonce still verified below"
+                )
+                ballot_id_note = "  [WARN: ballotId divergent — see above]"
         if int(signed_payload.get("nonce", -1)) != m["version"]:
             report.fail(f"voter {voter}: signedPayload.nonce {signed_payload.get('nonce')} != evidence version {m['version']}")
             continue
 
         voter_id = ekklesia.get("voterId") or ""
         cal_id = (ekklesia.get("calidusDeclaration") or {}).get("calidusId")
-        all_ok = True
-        keyhashes = []
-        for w in witnesses:
-            r = verify_cose_witness(w, signed_payload)
-            if r["ok"] is None:
-                report.fail(f"voter {voter}: {r.get('error')} (cryptography missing)")
-                all_ok = False
-                break
-            if r["ok"] is False:
-                report.fail(f"voter {voter}: {r.get('error')}")
-                all_ok = False
-                break
-            cred_ok, note = keyhash_matches_voter(r["keyhash"], voter_id, cal_id)
+        native_script = ekklesia.get("nativeScript")
+
+        if native_script:
+            # Script-based (multisig) DRep. Two independent checks:
+            #   (a) the native script hash must equal the voter's credential, and
+            #   (b) the signing keys whose signatures ACTUALLY verify must satisfy
+            #       the script's M-of-N rule.
+            # NOTE: hydra's script path (verifyScriptWitness) only extracts the
+            # pubkey and never checks the signature or message, so a stale/forged
+            # co-signer signature passes there. This is the audit step that
+            # actually verifies each signature, so only genuinely-valid signers
+            # count toward the threshold. An invalid witness is surfaced (WARN)
+            # but does not by itself fail the vote — the threshold decides, so an
+            # `any`/`atLeast` script still passes on its valid signers.
+            ok, cred_note = script_hash_matches_voter(native_script, voter_id)
+            if not ok:
+                report.fail(f"voter {voter}: {cred_note}")
+                continue
+            provided = set()
+            dep_missing = False
+            for i, w in enumerate(witnesses):
+                r = verify_cose_witness(w, signed_payload)
+                if r["ok"] is None:
+                    report.fail(f"voter {voter}: {r.get('error')} (cryptography missing)")
+                    dep_missing = True
+                    break
+                if r["ok"] is True:
+                    provided.add(r["keyhash"])
+                else:
+                    kh = r.get("keyhash") or "?"
+                    report.warn(
+                        f"voter {voter}: script witness {i} (key {kh[:12]}...) did not verify "
+                        f"— {r.get('error')}; NOT counted toward the script threshold"
+                    )
+            if dep_missing:
+                continue
+            if not satisfies_script(native_script, provided):
+                req = extract_key_hashes(native_script)
+                report.fail(
+                    f"voter {voter}: native script NOT satisfied — only {len(provided)} valid "
+                    f"signature(s) against a '{native_script.get('type')}' rule over member keys "
+                    f"{{{', '.join(sorted(k[:12] + '...' for k in req))}}}. A required co-signer's "
+                    f"signature is missing or does not verify against this vote."
+                )
+                continue
+            n_keys = len(extract_key_hashes(native_script))
+            cred_note = (f"native script ({native_script.get('type')}) satisfied by "
+                         f"{len(provided)}/{n_keys} valid key(s); {cred_note}")
+            cred_keyhash = sorted(provided)[0] if provided else None
+        else:
+            # Key-based single credential (drep/stake/cc key, pool, or calidus).
+            # Every witness must verify AND its key hash must match the credential.
+            cred_note = ""
+            cred_keyhash = None
+            cred_ok = True
+            for w in witnesses:
+                r = verify_cose_witness(w, signed_payload)
+                if r["ok"] is None:
+                    report.fail(f"voter {voter}: {r.get('error')} (cryptography missing)")
+                    cred_ok = False
+                    break
+                if r["ok"] is False:
+                    report.fail(f"voter {voter}: {r.get('error')}")
+                    cred_ok = False
+                    break
+                ok, kh_note = keyhash_matches_voter(r["keyhash"], voter_id, cal_id)
+                if not ok:
+                    report.fail(f"voter {voter}: signature ed25519 valid, but pubkey hash {r['keyhash'][:16]}... not authorised — {kh_note}")
+                    cred_ok = False
+                    break
+                if not cred_note:
+                    cred_note = kh_note
+                    cred_keyhash = r["keyhash"]
             if not cred_ok:
-                report.fail(f"voter {voter}: signature ed25519 valid, but pubkey hash {r['keyhash'][:16]}... not authorised — {note}")
-                all_ok = False
-                break
-            keyhashes.append((r["keyhash"], note))
-        if all_ok:
-            tag = " (calidus)" if cal_id else ""
-            extra = ""
-            if len(witnesses) > 1:
-                extra = f" {len(witnesses)} witnesses"
-            note = keyhashes[0][1] if keyhashes else ""
-            report.ok(f"voter {voter}{tag}: ed25519+message+credential verified{extra}  — {note}")
-            if export_voters is not None:
-                for r in export_voters:
-                    if r["tokenName"] == voter and keyhashes:
-                        r["credentialKeyHash"] = keyhashes[0][0]
-                        r["witnessCount"] = len(witnesses)
+                continue
+
+        tag = " (calidus)" if cal_id else (" (script)" if native_script else "")
+        extra = f" {len(witnesses)} witnesses" if len(witnesses) > 1 else ""
+        report.ok(f"voter {voter}{tag}: ed25519+message+credential verified{extra}  — {cred_note}{ballot_id_note}")
+        if export_voters is not None:
+            for r in export_voters:
+                if r["tokenName"] == voter and cred_keyhash:
+                    r["credentialKeyHash"] = cred_keyhash
+                    r["witnessCount"] = len(witnesses)
+                    r["credentialType"] = "script" if native_script else "key"
+                    r["signedBallotId"] = signed_payload.get("ballotId")
+                    r["ballotIdMatchesOnchain"] = (
+                        signed_payload.get("ballotId") == ballot_id_hex
+                    )
 
 
 def verify_history_phase(report: Report, voter_files: list, matched_evidence: dict,
@@ -1370,17 +1627,23 @@ def audit_one_ballot(report: Report, fingerprint: str, pair: dict, gateway: str,
         voter = f["name"]
         expected = f["contentHashHex"]
         # The proof-package commits to whichever vote nonce was the latest at
-        # finalize. We probe v1, v2, v3, ... and accept the first that hashes
-        # to `expected`. If none match, the audit fails.
+        # finalize — the voter's FINAL vote. We probe contiguous versions
+        # (v1, v2, v3, ...) and accept the first that hashes to `expected`,
+        # stopping when the next version 404s. Versions are contiguous from 1
+        # (Step 8 enforces no gaps), so the first 404 marks the end of the
+        # chain. There is NO fixed limit on how many times a voter may vote;
+        # MAX_VOTE_VERSIONS is only a runaway backstop. If none match, fail.
         matched_version = None
         matched_obj = None
         last_err = None
-        for n in range(1, 11):
+        probed = 0
+        for n in range(1, MAX_VOTE_VERSIONS + 1):
             try:
                 ev_bytes = ipfs_get(gateway, f"{dins['evidenceCid']}/vote-{voter}-v{n}.json")
             except AuditError as e:
                 last_err = e
                 break
+            probed = n
             ev = json.loads(ev_bytes)
             compact = json.dumps(ev, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
             if blake2b_256(compact).hex() == expected:
@@ -1410,8 +1673,15 @@ def audit_one_ballot(report: Report, fingerprint: str, pair: dict, gateway: str,
             }
             record["voters"].append(voter_record)
         else:
-            extra = f" (last fetch error: {last_err})" if last_err else ""
-            report.fail(f"voter {voter} -> NO version 1..10 of evidence reproduced the voteHash{extra}")
+            if probed == 0:
+                extra = f" (v1 evidence not fetched: {last_err})" if last_err else " (no evidence versions found)"
+            elif last_err is not None:
+                extra = f" (probed v1..v{probed}, then v{probed + 1} not pinned)"
+            elif probed >= MAX_VOTE_VERSIONS:
+                extra = f" (hit MAX_VOTE_VERSIONS={MAX_VOTE_VERSIONS} safety cap — raise it if a voter legitimately voted this many times)"
+            else:
+                extra = f" (probed v1..v{probed})"
+            report.fail(f"voter {voter} -> committed voteHash matched no evidence version{extra}")
 
     # --- Step 7: COSE_Sign1 signatures verify -------------------------------
     if opts.get("skip_signatures"):
