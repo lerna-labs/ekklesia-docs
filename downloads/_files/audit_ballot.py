@@ -1600,7 +1600,9 @@ def audit_one_ballot(report: Report, fingerprint: str, pair: dict, gateway: str,
             return
         voter_files = [f for f in voter_files if f["name"] == target_voter]
 
-    record["questions"] = []
+    # NB: record["questions"] was already populated in Step 2 (the cached
+    # questions_record). Do NOT reset it here — that clobbered the export and
+    # produced an empty questions set. Only voters accumulate from here.
     record["voters"] = []
 
     # --- Step 5: per-voter inclusion proofs verify --------------------------
