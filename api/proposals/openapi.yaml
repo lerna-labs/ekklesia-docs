@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Ekklesia Proposals API
-  version: 0.1.1
+  version: 0.1.2
   description: >
     The Ekklesia Proposals API provides endpoints for decentralized governance
     proposal management on the Cardano blockchain. It supports session-based
@@ -1467,8 +1467,12 @@ components:
           description: Treasury deposit configuration.
           properties:
             treasuryDonation:
-              type: boolean
-              description: Whether a treasury donation transaction is required.
+              type: integer
+              format: int64
+              minimum: 0
+              description: >
+                Required treasury donation amount in lovelace. 0 means no
+                donation is required.
             depositAddress:
               type: string
               description: Address for treasury deposits, if applicable.
