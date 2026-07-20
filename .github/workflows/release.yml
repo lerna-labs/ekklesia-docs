@@ -51,6 +51,37 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
 
+      # The action writes its own description, which explains npm publishing
+      # and addresses the reader directly. Neither fits here, so replace it.
+      - name: Describe the release pull request
+        if: steps.changesets.outputs.pullRequestNumber != ''
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          PR: ${{ steps.changesets.outputs.pullRequestNumber }}
+          BRANCH: changeset-release/${{ github.ref_name }}
+        run: |
+          git fetch --quiet origin "$BRANCH"
+          version=$(git show "origin/$BRANCH:package.json" \
+            | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")
+          notes=$(git show "origin/$BRANCH:CHANGELOG.md" \
+            | awk '/^## /{n++} n==1' | tail -n +2)
+          {
+            echo "Merging this releases documentation v${version}."
+            echo
+            echo "The site republishes on every merge to main, so this marks a"
+            echo "version rather than making anything live. It versions the"
+            echo "package, writes the changelog, tags v${version}, and publishes"
+            echo "the release."
+            echo
+            echo "Accumulated since the last release:"
+            echo
+            echo "${notes}"
+            echo
+            echo "This description is rewritten as further entries land on main."
+          } > release-pr-body.md
+          gh pr edit "$PR" --body-file release-pr-body.md
+          rm -f release-pr-body.md
+
       - name: Read the current version
         if: steps.changesets.outputs.hasChangesets == 'false'
         id: version
