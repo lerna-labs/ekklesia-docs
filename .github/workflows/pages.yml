@@ -1,8 +1,11 @@
 name: Deploy to GitHub Pages
 
+# Publishing is tied to a release rather than to every merge, so what is
+# live always corresponds to a version and a changelog entry. Merging to
+# main accumulates changes; cutting the release publishes them.
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       reason:
@@ -25,6 +28,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Build the tag that was released, not whatever main has drifted
+          # to since. A manual run falls back to the default branch.
+          ref: ${{ github.event.release.tag_name || github.ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
