@@ -40,7 +40,7 @@
   "homepage": "https://github.com/Lerna-Labs/ekklesia-docs#readme",
   "devDependencies": {
     "@changesets/cli": "^2.31.1",
-    "@redocly/cli": "^2.25.4",
+    "@redocly/cli": "^2.39.0",
     "dotenv": "^17.4.1",
     "jest": "^30.3.0",
     "jsonwebtoken": "^9.0.3",
