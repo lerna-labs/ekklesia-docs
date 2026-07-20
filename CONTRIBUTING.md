@@ -39,8 +39,7 @@ Merging to `main` builds and deploys the site to
 
 ## Changelog entries
 
-The documentation is versioned so it is always clear which release is published.
-Not every change needs an entry, though. Add one with:
+Every change needs a changelog entry. Add one with:
 
 ```bash
 npx changeset
@@ -49,16 +48,24 @@ npx changeset
 and follow the prompts. It writes a small markdown file under `.changeset/` that
 you commit alongside your change.
 
-Add a changelog entry when the change affects what a reader can rely on:
+The documentation is versioned so it is always clear which release is published,
+and the site publishes when a release is cut rather than on every merge. A
+change with no entry does not move the release forward, so it would sit merged
+but unpublished. That is why editorial work counts too: fixing a typo is a real
+change to what a reader sees.
 
-- An OpenAPI spec changes, including a version bump or a corrected field type
-- A page is added, removed, renamed, or moved to a different section
-- Documented behavior changes, so a reader following the old text would now get
-  a different result
+Pick the bump from what the change does:
 
-Skip the entry for changes that do not alter meaning, such as typo and grammar
-fixes, formatting, or link repairs. Apply the `skip-changelog` label to the pull
-request so the check passes.
+- `patch` for editorial work: typos, grammar, wording, formatting, broken links
+- `minor` for substantive work: a page added, removed, renamed, or moved, an
+  OpenAPI spec change, or documented behavior that now reads differently
+
+Write the entry for someone reading the changelog later, not for the reviewer
+reading the diff. "Correct the deposit field type in the proposals spec" is
+useful. "Fix typo" is not.
+
+Dependency updates and the release pull request are exempt, since neither can
+add an entry. Nothing else is.
 
 ## Getting set up
 

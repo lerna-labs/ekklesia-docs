@@ -6,4 +6,5 @@
 
 - [ ] Markdown is formatted (`npm run fmt:check`)
 - [ ] OpenAPI specs validate (`npm run lint:specs`), if specs were touched
-- [ ] Changelog entry added (`npx changeset`), or not needed for this change
+- [ ] Changelog entry added (`npx changeset`), `patch` for editorial work,
+      `minor` for substantive changes
