@@ -45,7 +45,7 @@ jobs:
         run: npm run postman
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.317.0
         with:
           ruby-version: '3.3'
           bundler-cache: true
