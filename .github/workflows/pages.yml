@@ -44,6 +44,9 @@ jobs:
       - name: Generate Postman collections
         run: npm run postman
 
+      - name: Write the version data
+        run: npm run version:data
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:

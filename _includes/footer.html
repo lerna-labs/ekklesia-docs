@@ -6,6 +6,9 @@
     </div>
     <div class="footer-meta">
       <span>&copy; Adam Dean &amp; Mad Orkestra {{ 'now' | date: '%Y' }}</span>
+      {% if site.data.version %}
+      <span class="footer-version">v{{ site.data.version.version }} &middot; built {{ site.data.version.built }}</span>
+      {% endif %}
     </div>
   </div>
 </footer>

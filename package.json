@@ -10,6 +10,7 @@
   "scripts": {
     "changeset": "changeset",
     "version": "changeset version",
+    "version:data": "node .github/scripts/write-version-data.mjs",
     "fmt": "prettier --write '**/*.md' --ignore-path .prettierignore",
     "fmt:check": "prettier --check '**/*.md' --ignore-path .prettierignore",
     "lint:specs": "redocly lint api/proposals/openapi.yaml api/voting/openapi.v0.yaml api/voting/openapi.v1.yaml",

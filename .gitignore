@@ -12,5 +12,10 @@ __tests/
 # Local test infrastructure
 docker-compose.test.yml
 .env
-scripts/
+# Anchored to the root: the local test helpers live in /scripts, while
+# .github/scripts holds build tooling that has to be committed.
+/scripts/
 /test-results.txt
+
+# Generated at build time from package.json
+_data/version.yml
