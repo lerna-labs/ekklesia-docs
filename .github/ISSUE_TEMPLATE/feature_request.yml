@@ -20,7 +20,6 @@ body:
         - helpers
         - proposal-module
         - rewards
-        - hydra-sdk
         - docs
         - not sure
     validations:

@@ -22,7 +22,6 @@ jobs:
               'helpers',
               'proposal-module',
               'rewards',
-              'hydra-sdk',
               'docs',
             ];
 
