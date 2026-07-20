@@ -2,8 +2,14 @@
   "name": "docs",
   "version": "1.0.0",
   "description": "All the docs, all the info.",
+  "private": true,
   "main": "index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
+    "changeset": "changeset",
+    "version": "changeset version",
     "fmt": "prettier --write '**/*.md' --ignore-path .prettierignore",
     "fmt:check": "prettier --check '**/*.md' --ignore-path .prettierignore",
     "lint:specs": "redocly lint api/proposals/openapi.yaml api/voting/openapi.v0.yaml api/voting/openapi.v1.yaml",
@@ -26,13 +32,14 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "type": "module",
   "bugs": {
     "url": "https://github.com/Lerna-Labs/ekklesia-docs/issues"
   },
   "homepage": "https://github.com/Lerna-Labs/ekklesia-docs#readme",
   "devDependencies": {
+    "@changesets/cli": "^2.31.1",
     "@redocly/cli": "^2.25.4",
     "dotenv": "^17.4.1",
     "jest": "^30.3.0",

@@ -1,0 +1,71 @@
+name: Feature request
+description: Suggest a new capability or an improvement to an existing one
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This tracker covers the whole Ekklesia system. The component field
+        below tells us where the work would land.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Where would this change live? Pick the closest match.
+      options:
+        - frontend
+        - backend
+        - hydra
+        - helpers
+        - proposal-module
+        - rewards
+        - hydra-sdk
+        - docs
+        - not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: |
+        What can you not do today, or what is harder than it should be?
+        Describe the situation rather than jumping straight to a fix.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like to see
+      description: Describe the behavior or capability you are asking for.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you have considered
+      description: |
+        Other ways of solving this, including any workaround you are using
+        now.
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else
+      description: Mockups, links, related issues, or prior discussion.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the existing issues and this is not a duplicate
+          required: true

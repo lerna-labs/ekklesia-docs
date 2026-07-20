@@ -1,0 +1,91 @@
+name: Bug report
+description: Something in Ekklesia is not working the way it should
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. This tracker covers the
+        whole Ekklesia system, so the component field below tells us where to
+        route it.
+
+        If you are reporting a security vulnerability, stop here and follow
+        the [security policy](https://github.com/Lerna-Labs/ekklesia-docs/blob/main/SECURITY.md)
+        instead. Do not file it as a public issue.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the system is affected? Pick the closest match.
+      options:
+        - frontend
+        - backend
+        - hydra
+        - helpers
+        - proposal-module
+        - rewards
+        - hydra-sdk
+        - docs
+        - not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Describe the behavior you saw.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: What did you do, in order, to get there?
+      placeholder: |
+        1. Go to the ballot page
+        2. Connect a wallet
+        3. Submit a vote
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Whatever applies. Wallet name and version, browser, network
+        (preprod or mainnet), and the version or deployment you were on.
+      placeholder: |
+        Wallet: Eternl desktop 2.0.16
+        Browser: Firefox 141
+        Network: preprod
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs, errors, or screenshots
+      description: Paste any console output or error text. Code blocks are fine.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the existing issues and this is not a duplicate
+          required: true
+        - label: This is not a security vulnerability
+          required: true
