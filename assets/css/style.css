@@ -562,6 +562,14 @@ img {
 .footer-meta {
   font-size: 0.75rem;
   color: var(--fg-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.footer-version {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
 }
 
 /* ---- Responsive ---- */

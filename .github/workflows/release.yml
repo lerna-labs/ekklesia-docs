@@ -1,0 +1,83 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint a Release Manager token
+        id: token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.RELEASE_MANAGER_APP_ID }}
+          private-key: ${{ secrets.RELEASE_MANAGER_APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.token.outputs.token }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # With pending changesets this opens or refreshes the version pull
+      # request. With none it does nothing, which is the state right after
+      # that pull request merges, and the tagging steps below take over.
+      - name: Open or refresh the version pull request
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: npm run version
+          title: 'Release the documentation'
+          commit: 'Version the documentation'
+        env:
+          GITHUB_TOKEN: ${{ steps.token.outputs.token }}
+
+      - name: Read the current version
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        id: version
+        run: |
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if git rev-parse "v$version" >/dev/null 2>&1; then
+            echo "tagged=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tagged=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Reached only on the push that merged the version pull request, since
+      # that is the first time this version exists without a tag.
+      - name: Tag and publish the release
+        if: >-
+          steps.changesets.outputs.hasChangesets == 'false' &&
+          steps.version.outputs.tagged == 'false'
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          notes=$(awk '/^## /{n++} n==1' CHANGELOG.md | tail -n +2)
+          if [ -z "$notes" ]; then
+            notes="See CHANGELOG.md."
+          fi
+          gh release create "v$VERSION" \
+            --title "Documentation v$VERSION" \
+            --notes "$notes" \
+            --target main

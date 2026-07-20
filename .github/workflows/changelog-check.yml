@@ -9,9 +9,12 @@ jobs:
   changeset:
     runs-on: ubuntu-latest
     # Dependency bumps do not change what a reader of the documentation sees,
-    # so they are not expected to carry a changelog entry.
+    # so they are not expected to carry a changelog entry. The release pull
+    # request is exempt for the opposite reason: it consumes the accumulated
+    # entries rather than adding one.
     if: >-
       github.actor != 'dependabot[bot]' &&
+      github.actor != 'ekklesia-release-manager[bot]' &&
       !contains(github.event.pull_request.labels.*.name, 'skip-changelog')
     steps:
       - name: Checkout
@@ -21,7 +24,7 @@ jobs:
 
       - name: Check for a changeset
         run: |
-          if git diff --name-only \
+          if git diff --name-only --diff-filter=AM \
             "origin/${{ github.base_ref }}...HEAD" \
             | grep -qE '^\.changeset/.+\.md$'; then
             echo "Changeset found."
