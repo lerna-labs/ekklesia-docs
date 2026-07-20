@@ -1,0 +1,62 @@
+name: Question
+description: Ask about how something works or how to use it
+labels: ['question']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check [docs.ekklesia.vote](https://docs.ekklesia.vote) first. If the
+        answer is not there, that is useful to know as well, say so below and
+        we will treat it as a documentation gap.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: What is your question about? Pick the closest match.
+      options:
+        - frontend
+        - backend
+        - hydra
+        - helpers
+        - proposal-module
+        - rewards
+        - hydra-sdk
+        - docs
+        - not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: What you are trying to do
+      description: |
+        The goal behind the question. Knowing where you are headed usually
+        gets you a better answer than the question alone.
+    validations:
+      required: false
+
+  - type: input
+    id: docs-page
+    attributes:
+      label: Documentation page you were on
+      description: If you were reading the docs when this came up, paste the URL.
+      placeholder: https://docs.ekklesia.vote/getting-started/
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked the documentation and the existing issues
+          required: true
