@@ -4,16 +4,20 @@ Thanks for your interest in improving the Ekklesia documentation.
 
 ## Filing issues
 
-This repository is the central issue tracker for the whole Ekklesia system.
-Bugs, feature requests, and questions about the frontend, backend, Hydra
-integration, helpers, proposal module, rewards, the SDK, or the documentation
-itself all belong here, filed through
+This repository is the central issue tracker for the Ekklesia system. Bugs,
+feature requests, and questions about the frontend, backend, Hydra integration,
+helpers, proposal module, rewards, or the documentation itself all belong here,
+filed through
 [the issue templates](https://github.com/Lerna-Labs/ekklesia-docs/issues/new/choose).
 Every template asks which component is involved so the issue reaches the right
 place.
 
-Security vulnerabilities are the one exception. See [SECURITY.md](SECURITY.md)
-and report privately, never as a public issue in this or any other repository.
+The Hydra SDK is the exception. It is a general purpose library for building on
+Cardano Hydra rather than a part of Ekklesia, so it keeps its own tracker. File
+SDK issues in [hydra-sdk](https://github.com/lerna-labs/hydra-sdk/issues).
+
+Security vulnerabilities go to neither tracker. See [SECURITY.md](SECURITY.md)
+and report privately, never as a public issue in any repository.
 
 ## Making a change
 
