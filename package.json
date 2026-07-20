@@ -46,6 +46,6 @@
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.1.1",
     "openapi-to-postmanv2": "^6.0.0",
-    "prettier": "^3.8.1"
+    "prettier": "^3.9.5"
   }
 }
