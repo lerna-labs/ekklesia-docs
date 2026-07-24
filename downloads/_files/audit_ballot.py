@@ -88,6 +88,7 @@ License: MIT  (this script is part of the Ekklesia public docs)
 
 import argparse
 import json
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -143,8 +144,59 @@ MAX_VOTE_VERSIONS = 10000
 # heuristic to distinguish a Hydra fanout from an admin-wallet rebalance.
 SCRIPT_ADDR_PREFIXES = ("addr_test1w", "addr1w")
 
+# specVersion at which vote evidence envelopes switched to CANONICAL JSON
+# (lexicographically sorted keys) for their blake2b_256 commitment. Before
+# this, envelopes were hashed as JSON.stringify emitted them, i.e. in
+# insertion order. The two encodings differ whenever an envelope's keys are
+# not already alphabetical, so Step 6 must hash under the encoding the
+# producer actually used or every committed voteHash misses.
+#
+# The scope of this is deliberately NARROW. Canonical encoding applies only to
+# the evidence envelope hash in Step 6. Two neighbouring commitments stay
+# insertion-order under 2.0 by design, both confirmed against mainnet ballot
+# 4e64f912...:
+#
+#   - Step 2, the (600) question contentHash. Its question objects are not
+#     alphabetical, so this is load-bearing: hashing them sorted rebuilds a
+#     merkle root that does NOT match the on-chain (600) root.
+#   - Step 7, the signedPayload -> COSE payload binding. signedPayload happens
+#     to be alphabetical at every level today, so both encodings agree and the
+#     distinction is currently unobservable there.
+#
+# Do NOT widen this gate to those paths without re-verifying both against a
+# settled ballot.
+CANONICAL_EVIDENCE_MIN_MAJOR = 2
+
 
 # --- Tiny helpers ------------------------------------------------------------
+
+def spec_version_major(spec_version: Any) -> Any:
+    """Major version parsed out of a specVersion string, or None if unknown.
+
+    Handles the namespaced 'ekklesia/2.0' form as well as bare numerics like
+    '0.3.0'. Returns None when the field is absent or unparseable; callers
+    treat that as 'unknown' rather than silently assuming an encoding.
+    """
+    if not isinstance(spec_version, str):
+        return None
+    m = re.match(r"^(\d+)", spec_version.split("/")[-1].strip())
+    return int(m.group(1)) if m else None
+
+
+def evidence_hash_bytes(obj: Any, spec_major: Any) -> bytes:
+    """Serialize a vote evidence envelope for its blake2b_256 commitment.
+
+    Sorts keys for specVersion >= CANONICAL_EVIDENCE_MIN_MAJOR, otherwise
+    preserves insertion order to match older JSON.stringify-based producers.
+    An unknown (None) major is treated as pre-canonical, which is the safe
+    default: it keeps previously settled ballots verifying, and Step 6 warns
+    loudly when it cannot determine the version.
+    """
+    canonical = spec_major is not None and spec_major >= CANONICAL_EVIDENCE_MIN_MAJOR
+    return json.dumps(
+        obj, separators=(",", ":"), ensure_ascii=False, sort_keys=canonical
+    ).encode("utf-8")
+
 
 def blake2b_256(data: bytes) -> bytes:
     return blake2b(data, digest_size=32).digest()
@@ -1622,6 +1674,24 @@ def audit_one_ballot(report: Report, fingerprint: str, pair: dict, gateway: str,
 
     # --- Step 6: per-voter evidence file hashes match committed voteHashes --
     report.step("Step 6: per-voter evidence file blake2b_256 matches each committed voteHash")
+    # Pick the envelope encoding from the ballot's declared specVersion. The
+    # version is read from results.json rather than from the evidence files
+    # themselves: results.json bytes were just verified against the on-chain
+    # (601) resultsHash in Step 3, so this signal is anchored to L1 and cannot
+    # be steered by a tampered evidence file choosing its own encoding.
+    spec_version = results.get("specVersion")
+    spec_major = spec_version_major(spec_version)
+    if spec_major is None:
+        report.warn(
+            f"results.json declares no parseable specVersion (got {spec_version!r}); "
+            f"hashing evidence envelopes in insertion order (pre-2.0 behaviour). "
+            f"If this ballot was produced under a newer spec, Step 6 will fail for "
+            f"every voter."
+        )
+    canonical_evidence = (spec_major is not None
+                          and spec_major >= CANONICAL_EVIDENCE_MIN_MAJOR)
+    encoding = "canonical (sorted keys)" if canonical_evidence else "insertion order"
+    report.info(f"specVersion {spec_version} -> hashing evidence envelopes as {encoding}")
     # Cache the matched evidence per voter for the deeper steps below — keyed
     # by the proof-package's `name` (i.e., the voter token name).
     matched_evidence: dict = {}
@@ -1639,6 +1709,11 @@ def audit_one_ballot(report: Report, fingerprint: str, pair: dict, gateway: str,
         matched_obj = None
         last_err = None
         probed = 0
+        # If nothing matches under the declared encoding, note whether the
+        # OTHER encoding would have matched. That distinguishes an unannounced
+        # canonicalization change from actual evidence tampering, which would
+        # otherwise look identical in the output.
+        alt_match_version = None
         for n in range(1, MAX_VOTE_VERSIONS + 1):
             try:
                 ev_bytes = ipfs_get(gateway, f"{dins['evidenceCid']}/vote-{voter}-v{n}.json")
@@ -1647,11 +1722,16 @@ def audit_one_ballot(report: Report, fingerprint: str, pair: dict, gateway: str,
                 break
             probed = n
             ev = json.loads(ev_bytes)
-            compact = json.dumps(ev, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+            compact = evidence_hash_bytes(ev, spec_major)
             if blake2b_256(compact).hex() == expected:
                 matched_version = n
                 matched_obj = ev
                 break
+            if alt_match_version is None:
+                alt = json.dumps(ev, separators=(",", ":"), ensure_ascii=False,
+                                 sort_keys=not canonical_evidence).encode("utf-8")
+                if blake2b_256(alt).hex() == expected:
+                    alt_match_version = n
         if matched_version is not None:
             report.ok(f"voter {voter} -> v{matched_version} matches committed voteHash")
             matched_evidence[voter] = {"version": matched_version, "evidence": matched_obj}
@@ -1683,6 +1763,11 @@ def audit_one_ballot(report: Report, fingerprint: str, pair: dict, gateway: str,
                 extra = f" (hit MAX_VOTE_VERSIONS={MAX_VOTE_VERSIONS} safety cap — raise it if a voter legitimately voted this many times)"
             else:
                 extra = f" (probed v1..v{probed})"
+            if alt_match_version is not None:
+                other = "insertion order" if canonical_evidence else "canonical (sorted keys)"
+                extra += (f"; NOTE: v{alt_match_version} DOES match under {other}, so this is an"
+                          f" encoding mismatch, not tampering. specVersion {spec_version!r} selected"
+                          f" {encoding}; check CANONICAL_EVIDENCE_MIN_MAJOR against the producer.")
             report.fail(f"voter {voter} -> committed voteHash matched no evidence version{extra}")
 
     # --- Step 7: COSE_Sign1 signatures verify -------------------------------
