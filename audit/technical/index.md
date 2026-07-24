@@ -409,6 +409,12 @@ For each entry in `ballot.json:questions[]`:
    — JS-default serialization, no whitespace, insertion-order keys.
 2. Compute `leaf = blake2b-256(0x00 || hex_decode(contentHashHex) || utf8(questionId))`.
 
+> **Note:** This hash uses **insertion-order** keys at every `specVersion`,
+> including `ekklesia/2.0`. The canonical sorted-key JSON that 2.0
+> introduced applies to the per-voter evidence envelopes in Phase 6, not
+> here. Question objects are not alphabetical, so sorting their keys
+> rebuilds a root that will not match `(600).ekklesia.merkleRoot`.
+
 Build the merkle tree by pairing leaves left-to-right; if the count is
 odd, the last leaf is paired with itself. Each parent is
 `blake2b-256(0x01 || min_lex(L, R) || max_lex(L, R))` where ordering is
@@ -447,8 +453,51 @@ For each voter, fetch the evidence file:
 curl https://ipfs.io/ipfs/$EVIDENCE_CID/vote-$VOTER-v1.json
 ```
 
-Re-hash with `blake2b-256(JSON.stringify(evidence))` (compact form). The
-result must equal that voter's `contentHashHex` in the proof package.
+Re-hash the envelope and compare the result to that voter's
+`contentHashHex` in the proof package. **The serialization depends on the
+ballot's `specVersion`**, which you read from the already-verified
+`results.json`:
+
+```
+ekklesia/2.0 and later : blake2b-256(canonical_json(evidence))
+earlier                : blake2b-256(JSON.stringify(evidence))
+```
+
+Canonical JSON here means compact (no whitespace), UTF-8, with object keys
+sorted lexicographically at every level of nesting. `JSON.stringify` is
+also compact and UTF-8, but keeps keys in insertion order.
+
+Two properties of the envelope keep this simple enough to implement in any
+language, and both are guarantees of the format rather than accidents of a
+particular ballot:
+
+- **Every numeric value is an integer.** `selection` values are option
+  indices or integer ratings. Envelopes never carry fractional numbers, and
+  never carry integers outside the range that survives an IEEE-754 double
+  (±2^53 − 1). This is what lets a canonicalizer skip the number-formatting
+  rules that make [RFC 8785](https://www.rfc-editor.org/rfc/rfc8785) fiddly.
+- **Every object key is an ASCII protocol field name.** Keys come from the
+  format (`specVersion`, `surveyTxId`, `responderRole`, `answers`,
+  `ekklesia`, `questionId`, `selection`, and the `ekklesia` sub-keys), never
+  from ballot content. Sorting them by code point and sorting them by UTF-16
+  code unit therefore give the same order.
+
+String **values** may be any UTF-8. Serialize them raw, escaping only `"`,
+`\`, and C0 control characters. Candidate labels never appear in an
+envelope at all, so no restriction on ballot text follows from any of this.
+
+This distinction is load-bearing. The envelope's top-level keys are
+`specVersion, surveyTxId, responderRole, answers, ekklesia`, which is not
+alphabetical, so the two encodings produce different bytes and different
+hashes. Using the wrong one makes **every** voter fail this phase at once.
+
+A total failure here is the signature of an encoding mismatch rather than
+tampering. Each envelope is committed separately, so real tampering shows
+up on individual voters, not all of them simultaneously.
+
+> **Note:** This canonical form applies to the evidence envelope only. It
+> does **not** apply to the question `contentHash` in Phase 3, which stays
+> in insertion order at every `specVersion`.
 
 If the voter re-voted, try `v2`, `v3`, etc. Whichever version hashes to
 the committed value is the one that was counted. The earlier versions

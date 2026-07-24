@@ -67,11 +67,18 @@ contains:
 - **Facets.** Sort and filter keys exposed to the proposal listing UI.
   Frozen once the ballot goes live.
 
-The full ballot JSON is **canonicalized** (deterministic key ordering,
-normalized whitespace) and pinned to IPFS. The IPFS CID becomes the
-immutable content address of the ballot's text. Once pinned, the ballot's
-questions cannot be edited without producing a different CID, breaking the
-on-chain commitment.
+The full ballot JSON is serialized deterministically and pinned to IPFS.
+The IPFS CID becomes the immutable content address of the ballot's text.
+Once pinned, the ballot's questions cannot be edited without producing a
+different CID, breaking the on-chain commitment.
+
+The per-question `contentHash` behind `(600).ekklesia.merkleRoot` commits
+to each question with its keys in **insertion order**, not sorted order.
+The canonical sorted-key JSON introduced in `specVersion` `ekklesia/2.0`
+governs the per-voter evidence envelopes written at settlement, and does
+not apply to the ballot definition. The
+[technical audit guide]({{ '/audit/technical/' | relative_url }}) gives the
+exact rule for each phase.
 
 ### 2. Prepare: mint (600) and (601) on Cardano L1
 
@@ -79,7 +86,7 @@ The authority mints two tokens on L1 under a single ballot policy:
 
 | Token | Purpose                                                              |
 | ----- | -------------------------------------------------------------------- |
-| (600) | **Reference token.** Inline datum carries `ballotCid`, `merkleRoot` over the canonical ballot, the voting window, the namespace, and the authority address. Stays at the authority address for the entire lifecycle. |
+| (600) | **Reference token.** Inline datum carries `ballotCid`, `merkleRoot` over the ballot's questions, the voting window, the namespace, and the authority address. Stays at the authority address for the entire lifecycle. |
 | (601) | **Instance token.** Committed into the Hydra head at start; returns to the authority at fanout carrying the final settlement datum. |
 
 This pair is the on-chain fingerprint of the ballot. The (600)'s
@@ -142,7 +149,8 @@ settlement:
 3. **Fanout.** Submit the L1 fanout transaction; the (601) returns to the
    authority address carrying the final inline datum:
    - `ballotId`: internal identifier.
-   - `resultsHash`: `blake2b-256` of the canonical `results.json`.
+   - `resultsHash`: `blake2b-256` of the pinned `results.json` bytes, hashed
+     as stored, with no re-serialization involved.
    - `evidenceCid`: IPFS content address of the full evidence directory.
    - `evidenceMerkleRoot`: root of the per-voter merkle tree.
    - `schemaVersion`.

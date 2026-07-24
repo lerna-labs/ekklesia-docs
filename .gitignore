@@ -19,3 +19,7 @@ docker-compose.test.yml
 
 # Generated at build time from package.json
 _data/version.yml
+
+# Byte cache from running the downloadable audit script locally
+__pycache__/
+*.py[cod]

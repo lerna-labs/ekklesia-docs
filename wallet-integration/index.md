@@ -60,6 +60,13 @@ The `merkleRoot` is `blake2b_256(JSON.stringify({ballotId, nonce, votes}))` — 
 cryptographic commitment to your exact choices. Your signature proves you
 authorized those specific selections.
 
+You do not need to build this payload yourself: sign the `merkleRoot` the
+`/draft` endpoint returns. If you do recompute it to check the server's work,
+note that `{ballotId, nonce, votes}` and the `{questionId, selection}` objects
+inside `votes` are already in lexicographic key order, so compact
+`JSON.stringify` and canonical (sorted-key) JSON produce identical bytes here.
+Serialize compactly, with no whitespace, and the two agree.
+
 For MultiSig voters, each signer submits their witness separately. The broker
 aggregates and submits to Hydra when the native script threshold is met.
 
