@@ -22,6 +22,11 @@ to verify results.
 <p>I need to verify the authenticity and integrity of an entire ballot process from start to finish.</p>
 </a>
 
+<a href="{{ '/audit/security-audit/' | relative_url }}" class="card">
+<h3>Security Audit</h3>
+<p>I want to read the findings of the independent third-party security audit and how each one was remediated.</p>
+</a>
+
 </div>
 
 ## What Proofs Does Ekklesia Provide?
