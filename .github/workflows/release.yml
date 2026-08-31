@@ -43,7 +43,7 @@ jobs:
       # that pull request merges, and the tagging steps below take over.
       - name: Open or refresh the version pull request
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           version: npm run version
           title: 'Release the documentation'
