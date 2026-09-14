@@ -37,8 +37,8 @@ The canonical method names used throughout this page (`binary`, `single-choice`,
 `multi-choice`, `range`, `ranked`, `weighted`, `likert`) are the values the
 Hydra middleware sees. The Proposal Module's authoring API uses a slightly
 different surface (`choice`, `scale`, `budget`, …) which the backend resolves to
-canonical Hydra methods at ballot-prepare time. See [Authoring
-aliases](#authoring-aliases) below.
+canonical Hydra methods at ballot-prepare time. See
+[Authoring aliases](#authoring-aliases) below.
 
 ### Binary
 
@@ -95,14 +95,13 @@ Order options by preference.
 
 Distribute a point budget across options.
 
-- Voters assign a weight (non-negative integer) to each option they want to
-  fund
+- Voters assign a weight (non-negative integer) to each option they want to fund
 - All weights must sum to exactly the defined `budget`
 - No duplicate option entries
 - Useful for allocation decisions where voters distribute limited resources
   across choices
-- Tally emits per-option `totalPoints` and `voterCount` (number of ballots
-  with a non-zero allocation to that option)
+- Tally emits per-option `totalPoints` and `voterCount` (number of ballots with
+  a non-zero allocation to that option)
 - **Selection shape:** `SelectionEntry[]` — each entry is `{ option, value }`,
   where `value` is the points allocated to that option
 
@@ -115,8 +114,8 @@ Rate every option independently on a discrete integer scale.
   `{ min, min+step, …, max }`. Ratings outside the grid (including non-integer
   values, values off the step grid, or duplicates / missing options) are
   rejected by Hydra at vote-validation time
-- Distinct from **Range** (one numeric value across the whole question) and
-  from **Weighted** (allocations that must sum to a budget — Likert ratings are
+- Distinct from **Range** (one numeric value across the whole question) and from
+  **Weighted** (allocations that must sum to a budget — Likert ratings are
   independent and unbounded by a sum)
 - Tally emits per-option `count` plus a `distribution` histogram zero-filled
   across the full rating grid; mean / median / mode are deliberately left to
@@ -131,15 +130,15 @@ Every method allows the voter to abstain on a per-question basis by submitting
 contribute to any tally aggregate; they are surfaced separately as
 `abstainedByRole` counts on the question result.
 
-A question may opt out of abstention by setting `requireAnswer: true`, in
-which case `abstain: true` is rejected and a `selection` must be present.
-This is orthogonal to having an "Abstain" option among `options` — the
-latter is a regular selection that shows up in per-option counts.
+A question may opt out of abstention by setting `requireAnswer: true`, in which
+case `abstain: true` is rejected and a `selection` must be present. This is
+orthogonal to having an "Abstain" option among `options` — the latter is a
+regular selection that shows up in per-option counts.
 
 ## Storage and tabulation
 
-All vote types share the same ballot structure and are validated at the
-Hydra layer.
+All vote types share the same ballot structure and are validated at the Hydra
+layer.
 
 Each ballot is signed by the voter as a `SignedVotePayload` —
 `{ ballotId, nonce, votes: VoteSelection[] }` — and the canonical evidence
@@ -148,20 +147,20 @@ the voter token's UTxO chain. The selection shape per method (above) determines
 how `votes[].selection` is interpreted. See [Auditability]({{ '/audit/' |
 relative_url }}) for the full evidence model and verification flow.
 
-Tabulation runs after the head finalizes. Hydra emits **raw cryptographic
-counts only** — per-option counts, per-value distribution histograms,
-pairwise preference matrices, per-option point totals, per-option rating
-distributions. Stake / role weighting, eligibility filtering, and any
-opinionated "winner" computation (Borda scores, Condorcet winners, ranked-
-choice elimination rounds, etc.) are **deliberately not** part of the
-on-chain or IPFS results — those are downstream interpretations applied by
-the voting authority on top of the raw evidence.
+Tabulation runs after the head finalizes. Hydra emits **raw cryptographic counts
+only** — per-option counts, per-value distribution histograms, pairwise
+preference matrices, per-option point totals, per-option rating distributions.
+Stake / role weighting, eligibility filtering, and any opinionated "winner"
+computation (Borda scores, Condorcet winners, ranked- choice elimination rounds,
+etc.) are **deliberately not** part of the on-chain or IPFS results — those are
+downstream interpretations applied by the voting authority on top of the raw
+evidence.
 
 Results are bucketed by **role** (`drep`, `pool`, `stake`) on each question,
 plus a `"raw"` aggregate across roles. Role-specific weighting modes
 (`CredentialBased` / `StakeBased` / `PledgeBased`) live on the ballot
-definition; they instruct downstream consumers how to weight, but do not
-modify the raw counts that Hydra publishes.
+definition; they instruct downstream consumers how to weight, but do not modify
+the raw counts that Hydra publishes.
 
 ## Authoring aliases
 
@@ -169,15 +168,15 @@ The Proposal Module exposes a slightly different naming surface to ballot
 authors. The backend translates each alias to a canonical Hydra method when it
 prepares the ballot for the head:
 
-| Authoring `voteType` | Hydra `method` | Notes                                                                                        |
-| -------------------- | -------------- | -------------------------------------------------------------------------------------------- |
-| `choice`             | `binary` (2 options) or `single-choice` (≥3 options) | Selection shape is identical for both.                                 |
-| `multi-choice`       | `multi-choice` | Honors `minSelections` / `maxSelections`.                                                    |
-| `budget`             | `multi-choice` | Knapsack: backend additionally enforces Σ `option.cost` ≤ `voterBudget` at submission time. Hydra itself only enforces count bounds. |
-| `weighted`           | `weighted`     | `voterBudget` becomes Hydra's `budget`.                                                      |
-| `ranked`             | `ranked`       | Defaults `rankCount` to `options.length`.                                                    |
-| `scale`              | `range`        | `voteIncrement` becomes the `step` on `valueRange`.                                          |
-| `likert`             | `likert`       | `ratingRange` is passed through unchanged.                                                   |
+| Authoring `voteType` | Hydra `method`                                       | Notes                                                                                                                                |
+| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `choice`             | `binary` (2 options) or `single-choice` (≥3 options) | Selection shape is identical for both.                                                                                               |
+| `multi-choice`       | `multi-choice`                                       | Honors `minSelections` / `maxSelections`.                                                                                            |
+| `budget`             | `multi-choice`                                       | Knapsack: backend additionally enforces Σ `option.cost` ≤ `voterBudget` at submission time. Hydra itself only enforces count bounds. |
+| `weighted`           | `weighted`                                           | `voterBudget` becomes Hydra's `budget`.                                                                                              |
+| `ranked`             | `ranked`                                             | Defaults `rankCount` to `options.length`.                                                                                            |
+| `scale`              | `range`                                              | `voteIncrement` becomes the `step` on `valueRange`.                                                                                  |
+| `likert`             | `likert`                                             | `ratingRange` is passed through unchanged.                                                                                           |
 
 For an auditor verifying tallies, the authoring alias is informational only —
 the on-chain commitments and Hydra-validated rules always reference the

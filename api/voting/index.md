@@ -71,21 +71,21 @@ key. Contact the voting authority for a key.
 Every path parameter that names a ballot, proposal, or question (`:id`,
 `:ballotId`, `:proposalId`, `:qid`) accepts either the canonical Mongo `_id`
 **or** the corresponding upstream external id
-(`proposalSource.externalBallotId`, `externalProposal.id`). Both resolve to
-the same canonical row. When a request resolves via an external id,
-responses carry a top-level `canonical` field and a
-`Link: <…>; rel="canonical"` header so search engines and integrators only
-index one URL per resource. Ambiguous external matches return HTTP 409 with
-code `ID_COLLISION` and the list of candidate `_id`s.
+(`proposalSource.externalBallotId`, `externalProposal.id`). Both resolve to the
+same canonical row. When a request resolves via an external id, responses carry
+a top-level `canonical` field and a `Link: <…>; rel="canonical"` header so
+search engines and integrators only index one URL per resource. Ambiguous
+external matches return HTTP 409 with code `ID_COLLISION` and the list of
+candidate `_id`s.
 
 ## Query-string hygiene
 
 Known scalar query keys (`status`, `voterType`, `search`, `page`, `limit`,
-`source`, …) must be strings. Object-shaped values (NoSQL operator
-injection — `?status[$ne]=null`) and array-shaped values (duplicate params
-— `?status=live&status=closed`) return HTTP 400 `BAD_INPUT`. Free-text
-`search` and `voterType` values are regex-escaped, so unbalanced patterns
-like `?search=(` are matched as literal substrings rather than throwing.
+`source`, …) must be strings. Object-shaped values (NoSQL operator injection —
+`?status[$ne]=null`) and array-shaped values (duplicate params —
+`?status=live&status=closed`) return HTTP 400 `BAD_INPUT`. Free-text `search`
+and `voterType` values are regex-escaped, so unbalanced patterns like
+`?search=(` are matched as literal substrings rather than throwing.
 
 ## v1 Endpoints
 
@@ -179,9 +179,9 @@ POST /api/v1/votes/:ballotId/draft
 Body: { votes: [...], nativeScript?, calidusDeclaration? }
 ```
 
-`responderRole` is derived server-side from the authenticated voter's
-bech32 HRP and is no longer accepted on the request body — any
-client-supplied value is ignored.
+`responderRole` is derived server-side from the authenticated voter's bech32 HRP
+and is no longer accepted on the request body — any client-supplied value is
+ignored.
 
 Returns:
 `{ status, package: { id, status, nonce }, signingPayload, signingPayloadHex, merkleRoot, signedPayloadJson, prelimVoteHash, multisig }`.
