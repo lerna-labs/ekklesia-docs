@@ -1,0 +1,65 @@
+name: Pull request validation
+
+# changelog-check.yml is the only workflow that runs on a pull request, and it
+# only checks for a changeset. The scripts that validate the site itself run
+# solely inside pages.yml, which fires on a published release, so a break in
+# the specs, the Postman generation, the formatting, or the Jekyll build
+# otherwise surfaces for the first time at deploy. This job runs the same
+# scripts against every pull request instead.
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Check markdown formatting
+        run: npm run fmt:check
+
+      - name: Validate OpenAPI specs
+        run: npm run lint:specs
+
+      - name: Generate Postman collections
+        run: npm run postman
+
+      # npm run test is not run here. Its config and fixtures live under
+      # __tests/, and the local Docker Compose environment it needs lives in
+      # docker-compose.test.yml; both are gitignored because the suite
+      # exercises live local instances of the backend and proposal-module
+      # APIs and is not committed to this repository. There is no test source
+      # in the checked-out tree for a runner to execute.
+
+      - name: Audit npm dependencies
+        # Every advisory currently open against this tree is development
+        # scope, so the audit has to include dev dependencies to see them at
+        # all; --omit=dev would leave the step with nothing to check.
+        # critical is the tightest --audit-level the tree passes today.
+        run: npm audit --audit-level=critical
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --destination ./_site
+        env:
+          JEKYLL_ENV: production
