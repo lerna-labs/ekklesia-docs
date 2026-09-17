@@ -3,11 +3,26 @@
 Source for [docs.ekklesia.vote](https://docs.ekklesia.vote). Built with Jekyll
 and deployed via GitHub Pages.
 
+## Filing Issues
+
+This repository is the central issue tracker for the Ekklesia platform. File
+bugs, feature requests, and questions about any component, including the
+frontend, backend, Hydra integration, helpers, proposal module, rewards, or the
+documentation itself, through
+[the issue templates](https://github.com/Lerna-Labs/ekklesia-docs/issues/new/choose).
+Each template asks which component is affected, so the issue reaches the right
+place.
+
+The Hydra SDK is the exception: it is a general-purpose library for building on
+Cardano Hydra rather than a part of Ekklesia, so it keeps its own tracker at
+[hydra-sdk](https://github.com/lerna-labs/hydra-sdk/issues).
+
 ## Local Development
 
 ```bash
 bundle install
-bundle exec jekyll serve
+bundle exec jekyll serve   # local dev server
+bundle exec jekyll build   # production build, same as CI runs before deploy
 ```
 
 ## Formatting
@@ -20,6 +35,35 @@ npm install
 npm run fmt        # format all markdown
 npm run fmt:check  # check without writing
 ```
+
+## OpenAPI Specs
+
+If you touch a spec under `api/`, validate it and regenerate the Postman
+collections derived from it:
+
+```bash
+npm run lint:specs  # validate the OpenAPI specs with Redocly
+npm run postman     # regenerate the Postman collections in downloads/_files/
+```
+
+Commit the regenerated collection files alongside the spec change.
+
+## Changelog Entries
+
+Every change needs an entry, including editorial ones:
+
+```bash
+npx changeset
+```
+
+This writes a small markdown file under `.changeset/` to commit alongside your
+change. Publishing happens when a release is cut rather than on every merge, so
+a change with no entry sits merged but unpublished. Pick the bump from what the
+change does:
+
+- `patch` for editorial work: typos, grammar, wording, formatting, broken links
+- `minor` for substantive work: a page added, removed, renamed, or moved, an
+  OpenAPI spec change, or documented behavior that now reads differently
 
 ## API Integration Tests
 
@@ -84,8 +128,9 @@ required environment variables and configure accordingly.
 
 ## Adding Downloads
 
-Downloads are managed as a Jekyll collection. To add a new downloadable
-resource:
+Downloads are managed as a Jekyll collection. The Postman collections are
+generated from the OpenAPI specs by `npm run postman` rather than added by hand.
+To add any other downloadable resource:
 
 1. Create a file in `_downloads/` with the following frontmatter:
 

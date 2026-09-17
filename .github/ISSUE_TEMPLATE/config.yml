@@ -4,5 +4,5 @@ contact_links:
     url: https://docs.ekklesia.vote
     about: Guides, API references, and audit instructions for Ekklesia.
   - name: Report a security vulnerability
-    url: https://github.com/Lerna-Labs/ekklesia-docs/blob/main/SECURITY.md
+    url: https://github.com/Lerna-Labs/ekklesia-docs/security/policy
     about: Vulnerabilities are reported privately to the maintainers, never as a public issue.

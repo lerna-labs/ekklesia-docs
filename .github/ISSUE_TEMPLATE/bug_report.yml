@@ -10,7 +10,7 @@ body:
         route it.
 
         If you are reporting a security vulnerability, stop here and follow
-        the [security policy](https://github.com/Lerna-Labs/ekklesia-docs/blob/main/SECURITY.md)
+        the [security policy](https://github.com/Lerna-Labs/ekklesia-docs/security/policy)
         instead. Do not file it as a public issue.
 
   - type: dropdown
