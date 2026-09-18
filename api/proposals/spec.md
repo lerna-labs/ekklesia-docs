@@ -1,5 +1,6 @@
 ---
-layout: redoc
+layout: redirect
 title: Proposals API Specification
-spec_url: /api/proposals/openapi.yaml
+redirect_to: https://proposals.docs.ekklesia.vote/api/spec/
+sitemap: false
 ---
