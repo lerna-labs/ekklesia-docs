@@ -36,6 +36,6 @@ jobs:
             echo "Run 'npx changeset' and commit the generated file."
             echo "Use 'patch' for editorial work such as typos and wording,"
             echo "'minor' for pages added or moved, spec changes, or documented"
-            echo "behavior that now reads differently. See CONTRIBUTING.md."
+            echo "behavior that now reads differently. See README.md."
             exit 1
           fi
