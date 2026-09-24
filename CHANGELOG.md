@@ -1,5 +1,36 @@
 # docs
 
+## 1.2.1
+
+### Patch Changes
+
+- b6bcae8: Pin browserslist to 4.28.7 or later via an npm override. It is a
+  transitive dependency of Jest through Babel's compilation-target resolution,
+  and floats on a caret range that the lockfile had not yet picked up. This
+  closes GHSA-73wf-gq98-2v4g in the build tooling.
+- 56cd12a: Pin fast-uri to 3.1.6 or later via an npm override. It is a
+  transitive dependency of ajv, which openapi-to-postmanv2 uses to validate
+  schemas while generating the downloadable Postman collections. This closes
+  GHSA-4c8g-83qw-93j6, GHSA-v2hh-gcrm-f6hx, GHSA-7p8r-x3mc-p8w7,
+  GHSA-q3j6-qgpj-74h6, GHSA-v39h-62p7-jpjc, GHSA-f65p-4m7j-42xc, and
+  GHSA-jqff-g426-hqxp in the build tooling.
+- 75d656e: Pin js-yaml to 4.3.1 or later on the 4.x branch and 3.15.1 or later
+  on the 3.x branch, and lodash to 4.18.1 or later, via npm overrides. This
+  closes GHSA-5p4m-2wfm-xmqj, GHSA-52cp-r559-cp3m, and GHSA-r5fr-rjxr-66jc in
+  the build tooling used to lint the OpenAPI specs and generate the downloadable
+  Postman collections.
+- 6e6e887: Pin uuid to 11.1.1 or later, brace-expansion to 2.1.4 or later on the
+  2.x branch and 1.1.18 or later on the 1.x branch, and yaml to 1.10.3 or later,
+  via npm overrides. uuid and yaml are transitive dependencies of
+  openapi-to-postmanv2, used to validate the OpenAPI specs and generate the
+  downloadable Postman collections; brace-expansion reaches the tree twice
+  through Jest, once via glob on the 2.x branch and once via test-exclude on the
+  1.x branch, and each branch needed its own override to stay unmerged. This
+  closes GHSA-w5hq-g745-h8pq, GHSA-rgw5-rvv9-x895, GHSA-mh99-v99m-4gvg, and
+  GHSA-48c2-rrv3-qjmp in the build tooling. All four packages are
+  development-scope dependencies used only while linting specs and generating
+  downloads, so no published artifact or site content changes.
+
 ## 1.2.0
 
 ### Minor Changes
