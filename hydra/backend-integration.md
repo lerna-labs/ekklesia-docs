@@ -33,11 +33,11 @@ settle), see [Hydra & Architecture]({{ '/hydra/' | relative_url }}).
   backoff). A `POST` is sent once, because `/prepare`, `/start`, and `/vote` are
   not idempotent. Long operations get long client timeouts: 5 minutes for
   `/prepare`, 12 minutes for `/start`, 16 minutes for `/settle/close`. `/vote`
-  uses the 30 second default.
+  uses the 30-second default.
 
-## 1. Startup
+## Startup
 
-Two things are called startup, and they are different.
+Two things are called startup.
 
 **The scheduled startup hook makes no Hydra call.** A backend cron runs every
 ten minutes and picks up each ballot whose voting period begins within the next
@@ -45,7 +45,7 @@ ten minutes and which has not been started. It runs the ballot's configured
 startup script and, if the script returns true, records `startupAt` on the
 ballot. The script shipped in the backend only logs and returns true. A separate
 one-minute cron then sets ballots with a recorded `startupAt` to `live` once
-their voting period opens. Neither cron contacts the middleware.
+their voting period opens.
 
 **Opening the head is an administrator action.** The backend exposes
 ballot-scoped admin routes, which require admin credentials, that pass through
@@ -66,7 +66,7 @@ timelock slot, and the UTxO to commit into the head.
 
 The backend stores the returned values on the ballot (prepare transaction hash,
 ballot CID, policy ID, asset names, fingerprint, timelock slot, commit UTxOs)
-and marks the ballot as Hydra-sourced. These are what start needs.
+and marks the ballot as Hydra-sourced.
 
 ### Start
 
@@ -107,7 +107,7 @@ After `/start` returns, the backend calls `GET /head-info`, stores the head ID
 and head status on the ballot, and sets the ballot status to `live`. This
 happens when the call returns, not when the deposit completes.
 
-## 2. Login
+## Login
 
 Logging in creates nothing in the Hydra head. The session token a voter receives
 at login is issued and held by the backend alone, and the backend sends no
@@ -115,10 +115,9 @@ request to the middleware as part of login.
 
 A voter is registered in the head when their first vote is submitted. The
 backend always submits votes with `POST /vote`, and the middleware registers an
-unregistered voter and records the first vote in a single transaction. See the
-next section.
+unregistered voter and records the first vote in a single transaction.
 
-## 3. Vote submission
+## Vote submission
 
 A voter's submission passes through the backend's draft, signature, and submit
 steps first. Once the package has its signature or, for a multisig voter, enough
@@ -183,9 +182,7 @@ the voter can submit again. Typical middleware errors are `400 INVALID_VOTE`,
 `401 SIGNATURE_INVALID`, `403 INELIGIBLE_VOTER`, `409 CONFLICT` (nonce not
 increased, or ballot not active yet), and `503` (IPFS unavailable).
 
-## 4. Rollup
-
-There are two kinds of rollup, and they use the middleware differently.
+## Rollup
 
 ### Provisional tallies make no Hydra call
 
