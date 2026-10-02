@@ -150,7 +150,7 @@ flowchart TD
   close1 --> settle
 ```
 
-Notes on the diagram, each of which the code enforces:
+Rules the code enforces:
 
 - Prepare mints under a timelocked policy that expires at the slot where the
   voting window opens, so it has to run before the window opens.
