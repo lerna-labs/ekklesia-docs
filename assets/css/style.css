@@ -633,3 +633,14 @@ img {
   margin: 0;
   border: none;
 }
+
+/* ---- Mermaid diagrams ---- */
+
+.mermaid-diagram {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  overflow-x: auto;
+  text-align: center;
+}
