@@ -70,11 +70,10 @@ flowchart TB
 Solid lines are calls made on every ballot. Dotted lines are conditional or
 informational. The jobs call Koios only when a ballot names a Koios-backed
 startup script, and the backend calls Koios for eligibility and voting power
-only when a ballot names a live validation script. The
-backend serves the built frontend files, the frontend only links to the proposal
-module, and the Blockfrost fallback applies only to stake account lookups when
-Koios fails with a network error, a 5xx, or a 429 and a Blockfrost project is
-configured.
+only when a ballot names a live validation script. The backend serves the built
+frontend files, the frontend only links to the proposal module, and the
+Blockfrost fallback applies only to stake account lookups when Koios fails with
+a network error, a 5xx, or a 429 and a Blockfrost project is configured.
 
 Two libraries are shared across the services:
 
