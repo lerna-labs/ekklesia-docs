@@ -56,8 +56,8 @@ flowchart TB
   admin -->|"ballot import and<br/>lifecycle calls"| be
   be --> db
   jobs --> db
-  jobs -->|"startup scripts"| koios
-  be -->|"eligibility and<br/>voting power lookups"| koios
+  jobs -.->|"Koios-backed startup<br/>scripts only"| koios
+  be -.->|"live validation<br/>scripts only"| koios
   be -.->|"fallback for stake<br/>account lookups"| bf
   be -->|"HTTP, per-ballot endpoint"| mw
   mw -->|"hydra-sdk<br/>HTTP and WebSocket"| node
@@ -68,17 +68,20 @@ flowchart TB
 ```
 
 Solid lines are calls made on every ballot. Dotted lines are conditional or
-informational: the backend serves the built frontend files, the frontend only
-links to the proposal module, and the Blockfrost fallback applies only to stake
-account lookups when Koios fails with a network error, a 5xx, or a 429 and a
-Blockfrost project is configured.
+informational. The jobs call Koios only when a ballot names a Koios-backed
+startup script, and the backend calls Koios for eligibility and voting power
+only when a ballot names a live validation script (see the tables below). The
+backend serves the built frontend files, the frontend only links to the proposal
+module, and the Blockfrost fallback applies only to stake account lookups when
+Koios fails with a network error, a 5xx, or a 429 and a Blockfrost project is
+configured.
 
 Two libraries are shared across the services:
 
-| Library                        | Used by                                    | For                                                                                                                         |
-| ------------------------------ | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `@lerna-labs/ekklesia-helpers` | Backend, Hydra middleware, proposal module | Server bootstrap and canonical JSON (backend), canonical JSON (middleware), validation and deposit checks (proposal module) |
-| `@lerna-labs/hydra-sdk`        | Hydra middleware                           | Hydra node HTTP and WebSocket client, IPFS client, disk cache, signature verification, native scripts                       |
+| Library                        | Used by                                    | For                                                                                                                                                                                                                                                       |
+| ------------------------------ | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@lerna-labs/ekklesia-helpers` | Backend, Hydra middleware, proposal module | Server bootstrap, signature verification at login and for multisig, voter name lookups, input sanitizing and canonical JSON (backend); canonical JSON (middleware); signature verification, name lookups, validation and deposit checks (proposal module) |
+| `@lerna-labs/hydra-sdk`        | Hydra middleware                           | Hydra node HTTP and WebSocket client, IPFS client, disk cache, signature verification, native scripts                                                                                                                                                     |
 
 ## Ballot status
 
@@ -221,7 +224,7 @@ flowchart TB
 
   koios -->|"pool and DRep lists, read live at startup"| su
   su -->|"upsert validated rows"| uc
-  koios -->|"per voter, live, only if the row is<br/>older than 8 hours and the ballot is live"| vs
+  koios -->|"per voter, live, only if the row is missing<br/>or older than 8 hours, and the ballot is live"| vs
   vs -->|"upsert"| uc
   uc --> gate
   uc --> tally
@@ -282,15 +285,21 @@ What this means in practice:
   looked up on demand and cached.
 - Tally weights, in both the provisional and the final tally, come from
   `UserCache`. A voter with no `UserCache` row is weighted as 1 in both.
-- Ballot totals and participation come from `VoterPowerSnapshot` first and fall
-  back to `UserCache`. Each snapshot refresh runs the ballot's script
+- On the endpoints that read through the snapshot reader, ballot totals and
+  participation come from `VoterPowerSnapshot` first and fall back to
+  `UserCache`. Each snapshot refresh runs the ballot's script
   `computePerVoterPower`, which in every current script reads the validated
   `UserCache` rows, so the refresh copies `UserCache` into `VoterPowerSnapshot`.
   An authority upload writes `VoterPowerSnapshot` directly and the refresh then
   skips the ballot.
 - The ballot's `votingPowerSource` is `snapshot` by default. When no snapshot
-  rows exist yet, the totals are computed once from the script, which reads
-  `UserCache`. With `uploaded`, the script is never called for totals.
+  rows exist yet, each read recomputes the totals from the script, which reads
+  `UserCache`, and stores nothing. With `uploaded`, the snapshot reader never
+  calls the script for totals.
+- The exception is the v0 proposal endpoint,
+  `GET /api/v0/proposals/:proposalId`. It ignores `votingPowerSource` and calls
+  the validation script's `allowedVoterCount` and `getTotalWeight` directly,
+  which for `voterValidationDReps.js` query Koios live.
 
 ## Vote path
 
@@ -340,7 +349,7 @@ sequenceDiagram
   B->>H: vote
   H->>H: validate against the cached ballot, check credential type, verify signature
   H->>I: pin the vote evidence
-  H->>T: resolve the register or cast-vote transaction
+  H->>T: resolve the vote-and-register transaction on a first vote, or the cast-vote transaction after that
   H->>N: submit the signed transaction through the queue worker
   N-->>H: transaction valid
   H-->>B: transaction hash, vote hash, evidence CID, version
