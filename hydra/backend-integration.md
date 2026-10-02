@@ -114,8 +114,7 @@ happens when the call returns, not when the deposit completes.
 ## Login
 
 Logging in creates nothing in the Hydra head. The session token a voter receives
-at login is issued and held by the backend alone. Logging in does not register
-the voter or change anything in the Hydra head.
+at login is issued and held by the backend alone.
 
 A voter is registered in the head when their first vote is submitted. The
 backend always submits votes with `POST /vote`, and the middleware registers an
