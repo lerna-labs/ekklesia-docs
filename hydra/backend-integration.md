@@ -56,7 +56,9 @@ to the middleware. The two that startup depends on are prepare and start.
 The backend sends `POST /prepare` to the middleware instance chosen for the
 ballot, forwarding the administrator's request body unchanged apart from the
 endpoint selector. The body carries `namespace` and the `ballot` definition,
-with optional `gasAmount`, `cip179`, and `resultsAddress`.
+with optional `gasAmount` and `cip179`. If the body includes `resultsAddress`,
+`/prepare` does not use it to build the mint; it echoes the value back in its
+response (the admin address when none is given).
 
 In the middleware, `/prepare` mints the (600) definition and (601) instance
 tokens on Cardano L1 under a timelocked native script, pins the ballot
@@ -93,7 +95,9 @@ In the middleware, `/start` does the following in order:
 3. Clears any leftover vote cache and history from an aborted earlier session
    and waits for the head to reach Open.
 4. Caches the ballot definition and identity (policy, token, ballot ID, and
-   results address if given) for the voting and settlement routes.
+   results address if the request includes one) for the voting and settlement
+   routes. When `/start` receives no results address, finalize sends the (601)
+   token to the admin address.
 5. Starts depositing the (601) token and its gas ADA into the head as a signed
    deposit, in the background, and returns immediately.
 
@@ -110,8 +114,8 @@ happens when the call returns, not when the deposit completes.
 ## Login
 
 Logging in creates nothing in the Hydra head. The session token a voter receives
-at login is issued and held by the backend alone, and the backend sends no
-request to the middleware as part of login.
+at login is issued and held by the backend alone. Logging in does not register
+the voter or change anything in the Hydra head.
 
 A voter is registered in the head when their first vote is submitted. The
 backend always submits votes with `POST /vote`, and the middleware registers an
@@ -197,11 +201,11 @@ informational. A question that already has a final result is never overwritten.
 Closing a ballot is a sequence of administrator calls that the backend passes
 through to the middleware, in this order:
 
-| Step | Call                    | What the middleware does                                                                                                                                                          |
-| ---- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | `POST /settle/burn`     | Burns the voter tokens in the head. Repeated until the response reports `remaining` of 0.                                                                                         |
-| 2    | `POST /settle/finalize` | Requires no voter tokens remain. Tallies, builds the merkle tree of evidence, pins the results and evidence to IPFS, and writes the results and merkle root into the (601) datum. |
-| 3    | `POST /settle/close`    | Takes `closeToken`. Closes the head and fans out to L1, where the (601) token lands at the results address.                                                                       |
+| Step | Call                    | What the middleware does                                                                                                                                                                                         |
+| ---- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `POST /settle/burn`     | Burns the voter tokens in the head. Repeated until the response reports `remaining` of 0.                                                                                                                        |
+| 2    | `POST /settle/finalize` | Requires no voter tokens remain. Tallies, builds the merkle tree of evidence, pins the results and evidence to IPFS, and writes `ballotId`, `resultsHash`, `evidenceCid`, and `merkleRoot` into the (601) datum. |
+| 3    | `POST /settle/close`    | Takes `closeToken`. Closes the head and fans out to L1, where the (601) token lands at the address finalize routed it to (the results address given to `/start`, or the admin address).                          |
 
 Neither body carries ballot identity; the middleware uses what `/start` cached.
 
@@ -220,9 +224,9 @@ After `/settle/finalize` returns, the backend:
 
 If the backend loses the finalize response (a timeout or dropped connection), it
 can re-fetch it from the middleware with `GET /results`, which returns the same
-payload byte for byte, and run the same steps. If `/audit/full` is unavailable
-at that moment, the backend still stores the finalize response fields and defers
-the tallies to that recovery step.
+payload plus a `persistedAt` timestamp, and run the same steps. If `/audit/full`
+is unavailable at that moment, the backend still stores the finalize response
+fields and defers the tallies to that recovery step.
 
 The final result is the one anchored on Cardano L1, so it is the one an auditor
 verifies. See the [Technical Auditor
