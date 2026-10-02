@@ -109,32 +109,14 @@ happens when the call returns, not when the deposit completes.
 
 ## 2. Login
 
-At the end of a successful wallet login, for key-based and multisig voters
-alike, the backend sends a request to the middleware's registration endpoint and
-does not wait for the result. The login response to the voter is built without
-it.
+Logging in creates nothing in the Hydra head. The session token a voter receives
+at login is issued and held by the backend alone, and the backend sends no
+request to the middleware as part of login.
 
-| Item           | Value                                                   |
-| -------------- | ------------------------------------------------------- |
-| Endpoint       | `POST /register`                                        |
-| Authentication | `x-api-key`, from a deployment-wide setting (see below) |
-| Payload        | `{ "userId": "<voter ID>" }`                            |
-
-The login ping reads its URL and key from a single deployment-wide setting, not
-from the per-ballot lookup described above, and is skipped if either is unset.
-
-The middleware's `/register` is defined to mint the voter's in-head token. It
-reads the field `voterId`, not `userId`. A request carrying only `userId` fails
-the field check and is answered `400 MISSING_FIELDS` before any other check, so
-the login ping does not register a voter in the head. The backend discards the
-response.
-
-What this means for voters: registration is not a login-time step. A voter's
-in-head token is created by their first vote. `POST /vote` registers an
-unregistered voter and records the first vote in one transaction, and the
-backend always uses `/vote` rather than `/register`. Login also does not create
-any authentication token in Hydra. The session token a voter receives at login
-is issued and held by the backend alone.
+A voter is registered in the head when their first vote is submitted. The
+backend always submits votes with `POST /vote`, and the middleware registers an
+unregistered voter and records the first vote in a single transaction. See the
+next section.
 
 ## 3. Vote submission
 
