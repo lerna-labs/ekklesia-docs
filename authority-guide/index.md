@@ -50,9 +50,9 @@ from the outside.
 
 ### 1. Author
 
-The authority drafts the ballot in the [Proposal Module]({{ '/proposals/' |
-relative_url }}) (or directly via the v1 ballot ingestion path). A ballot
-contains:
+The authority drafts the ballot in the
+[Proposal Module](https://proposals.docs.ekklesia.vote/) (or directly via the v1
+ballot ingestion path). A ballot contains:
 
 - **Title, description, and namespace.** The namespace is a stable identifier
   for the voting program (e.g., `vote.ekklesia.preprod.ciwg.rss-v2`).
