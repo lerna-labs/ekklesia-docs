@@ -1,5 +1,55 @@
 # docs
 
+## 1.3.0
+
+### Minor Changes
+
+- f1c94ce: Add a System Flowcharts page with diagrams of how the Ekklesia
+  services call each other, the ballot lifecycle including the backend startup
+  scripts and where snapshot and live chain data are used, the path of a vote
+  through the Hydra head, and tally and settlement. Pages can opt in to Mermaid
+  diagrams through front matter.
+
+### Patch Changes
+
+- 934a248: Add a Backend to Hydra Calls page under Hydra & Architecture. For
+  ballot startup, voter login, vote submission, and results rollup it lists what
+  the backend sends to the Hydra middleware (endpoint, payload fields,
+  authentication), what the middleware does in the head, and what it returns.
+- b6bcae8: Pin browserslist to 4.28.7 or later via an npm override. It is a
+  transitive dependency of Jest through Babel's compilation-target resolution,
+  and floats on a caret range that the lockfile had not yet picked up. This
+  closes GHSA-73wf-gq98-2v4g in the build tooling.
+- 56cd12a: Pin fast-uri to 3.1.6 or later via an npm override. It is a
+  transitive dependency of ajv, which openapi-to-postmanv2 uses to validate
+  schemas while generating the downloadable Postman collections. This closes
+  GHSA-4c8g-83qw-93j6, GHSA-v2hh-gcrm-f6hx, GHSA-7p8r-x3mc-p8w7,
+  GHSA-q3j6-qgpj-74h6, GHSA-v39h-62p7-jpjc, GHSA-f65p-4m7j-42xc, and
+  GHSA-jqff-g426-hqxp in the build tooling.
+- 75d656e: Pin js-yaml to 4.3.1 or later on the 4.x branch and 3.15.1 or later
+  on the 3.x branch, and lodash to 4.18.1 or later, via npm overrides. This
+  closes GHSA-5p4m-2wfm-xmqj, GHSA-52cp-r559-cp3m, and GHSA-r5fr-rjxr-66jc in
+  the build tooling used to lint the OpenAPI specs and generate the downloadable
+  Postman collections.
+- 6e6e887: Pin uuid to 11.1.1 or later, brace-expansion to 2.1.4 or later on the
+  2.x branch and 1.1.18 or later on the 1.x branch, and yaml to 1.10.3 or later,
+  via npm overrides. uuid and yaml are transitive dependencies of
+  openapi-to-postmanv2, used to validate the OpenAPI specs and generate the
+  downloadable Postman collections; brace-expansion reaches the tree twice
+  through Jest, once via glob on the 2.x branch and once via test-exclude on the
+  1.x branch, and each branch needed its own override to stay unmerged. This
+  closes GHSA-w5hq-g745-h8pq, GHSA-rgw5-rvv9-x895, GHSA-mh99-v99m-4gvg, and
+  GHSA-48c2-rrv3-qjmp in the build tooling. All four packages are
+  development-scope dependencies used only while linting specs and generating
+  downloads, so no published artifact or site content changes.
+- f5ef584: Raise the fast-uri override to 3.1.8 or later, which closes
+  GHSA-hrr3-gc8f-f4qj, and raise the brace-expansion overrides to 2.1.7 or later
+  on the 2.x branch and 1.1.21 or later on the 1.x branch. fast-uri is a
+  transitive dependency of openapi-to-postmanv2 (through ajv), used to generate
+  the downloadable Postman collections; both brace-expansion copies arrive only
+  through Jest. All three are development-scope dependencies, so no published
+  artifact or site content changes.
+
 ## 1.2.0
 
 ### Minor Changes
