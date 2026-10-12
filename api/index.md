@@ -6,7 +6,9 @@ description:
   management.
 ---
 
-Ekklesia exposes two primary APIs for integration:
+Ekklesia exposes two primary APIs for integration. The Voting API is documented
+here. The Proposals API is documented with the Proposal Module, at
+[proposals.docs.ekklesia.vote](https://proposals.docs.ekklesia.vote/api/).
 
 <div class="card-grid">
 
@@ -15,9 +17,9 @@ Ekklesia exposes two primary APIs for integration:
 <p>Query ballots, fetch results, and submit votes via the Hydra-powered broker pipeline. v1 (live) + v0 (archival).</p>
 </a>
 
-<a href="{{ '/api/proposals/' | relative_url }}" class="card">
+<a href="https://proposals.docs.ekklesia.vote/api/" class="card">
 <h3>Proposals API</h3>
-<p>Submit and query proposals, and interact with the pre-voting proposal feedback system.</p>
+<p>Submit and query proposals, and interact with the pre-voting proposal feedback system. Documented with the Proposal Module.</p>
 </a>
 
 </div>
@@ -31,9 +33,9 @@ Ekklesia exposes two primary APIs for integration:
 <p>Full interactive OpenAPI specification for the Hydra-backed voting surface.</p>
 </a>
 
-<a href="{{ '/api/proposals/spec/' | relative_url }}" class="card">
+<a href="https://proposals.docs.ekklesia.vote/api/spec/" class="card">
 <h3>Proposals API Spec</h3>
-<p>Full interactive OpenAPI specification with schemas and examples.</p>
+<p>Full interactive OpenAPI specification with schemas and examples, published with the Proposal Module.</p>
 </a>
 
 </div>
