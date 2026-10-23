@@ -22,6 +22,9 @@ body:
         - proposal-module
         - rewards
         - docs
+        - ui
+        - console
+        - contracts
         - not sure
     validations:
       required: true
