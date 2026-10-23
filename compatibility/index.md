@@ -31,7 +31,7 @@ part of a set.
 
 <!-- compatibility-table:end -->
 
-The commit column shows the first 12 characters of the commit.
+The commit column shows up to the first 12 characters of the commit.
 
 ## Machine-readable data
 

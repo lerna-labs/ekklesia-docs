@@ -48,7 +48,7 @@ if (!validate(data)) {
   }
 }
 
-// Nothing in the published data may carry a link or a host name.
+// The published data may not carry a URL (a scheme, "://" or a "www." prefix).
 if (/https?:|:\/\/|www\./i.test(JSON.stringify(data))) {
   fail(`${DATA} contains a URL`);
 }

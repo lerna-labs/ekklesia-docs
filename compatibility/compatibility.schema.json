@@ -21,7 +21,12 @@
         "components": {
           "type": "object",
           "additionalProperties": false,
-          "minProperties": 1,
+          "required": [
+            "ekklesia-backend",
+            "ekklesia-proposal-module",
+            "ekklesia-frontend",
+            "ekklesia-hydra"
+          ],
           "properties": {
             "ekklesia-backend": { "$ref": "#/$defs/component" },
             "ekklesia-proposal-module": { "$ref": "#/$defs/component" },
@@ -41,7 +46,7 @@
           "type": "string",
           "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
         },
-        "gitSha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+        "gitSha": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" }
       }
     }
   }
