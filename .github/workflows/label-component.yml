@@ -23,6 +23,9 @@ jobs:
               'proposal-module',
               'rewards',
               'docs',
+              'ui',
+              'console',
+              'contracts',
             ];
 
             const body = context.payload.issue.body || '';
