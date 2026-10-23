@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "sets": [
+    {
+      "testedOn": "2026-10-23",
+      "components": {
+        "ekklesia-backend": {
+          "version": "1.1.0",
+          "gitSha": "d0716de6bf40f5181c7e099944f0a1555acb0246"
+        },
+        "ekklesia-proposal-module": {
+          "version": "1.6.3",
+          "gitSha": "07252ed905b04f92933a9b4339df9b04a6e37935"
+        },
+        "ekklesia-frontend": {
+          "version": "1.0.2",
+          "gitSha": "ac156302c31e9c03e2af92c31d755188eb3e8c8e"
+        },
+        "ekklesia-hydra": {
+          "version": "1.1.2",
+          "gitSha": "f5ae92cfb29b903dd73cd547549c717cda88138e"
+        }
+      }
+    }
+  ]
+}
