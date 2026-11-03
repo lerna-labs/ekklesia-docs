@@ -1,7 +1,7 @@
 extends:
   - recommended
 
-# Keep lint tractable for the published voting + proposals specs. The
+# Keep lint tractable for the published voting specs. The
 # upstream backend specs declare security at the spec/component level and
 # don't always carry per-operation security: blocks. Same pragmatic
 # allowances apply for missing operationIds on lightly-scaffolded routes
@@ -22,5 +22,3 @@ apis:
     root: api/voting/openapi.v0.yaml
   voting@v1:
     root: api/voting/openapi.v1.yaml
-  proposals@v0:
-    root: api/proposals/openapi.yaml
