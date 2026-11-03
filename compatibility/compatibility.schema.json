@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ekklesia tested component sets",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "sets"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "sets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/set" }
+    }
+  },
+  "$defs": {
+    "set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["testedOn", "components"],
+      "properties": {
+        "testedOn": { "type": "string", "format": "date" },
+        "components": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ekklesia-backend",
+            "ekklesia-proposal-module",
+            "ekklesia-frontend",
+            "ekklesia-hydra"
+          ],
+          "properties": {
+            "ekklesia-backend": { "$ref": "#/$defs/component" },
+            "ekklesia-proposal-module": { "$ref": "#/$defs/component" },
+            "ekklesia-frontend": { "$ref": "#/$defs/component" },
+            "ekklesia-hydra": { "$ref": "#/$defs/component" }
+          }
+        },
+        "notes": { "type": "string", "maxLength": 500 }
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "gitSha": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" }
+      }
+    }
+  }
+}
