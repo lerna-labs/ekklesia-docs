@@ -323,16 +323,17 @@ deployment, and each is recorded here rather than quietly carried.
 ### F-008: CIP-179 poll method representation (High)
 
 The middleware describes poll methods using URI strings, following the draft of
-CIP-179 that was current when the code was written. CIP-179 was subsequently
-finalised and merged on 23 June 2026, and the final standard specifies integer
-tags rather than URI strings.
+CIP-179 that was current when the code was written. CIP-179 is not final: its
+status is still Proposed. Version 4 was merged on 23 June 2026, and a breaking
+revision, version 5, was merged on 21 July 2026. Version 5 specifies integer
+tags for question types rather than URI strings.
 
 This is an interoperability gap, not a vulnerability. Ekklesia ballots verify
 correctly against Ekklesia tooling and against an independent reimplementation
 of the documented checks. What does not yet work is a generic CIP-179 client
 reading an Ekklesia ballot's method tags without a translation layer. The
-migration is scheduled under the `ekklesia/2.0` protocol version, and the
-property suite carries a trip-wire test that fails until it is done.
+migration has not shipped and is tracked in lerna-labs/ekklesia-hydra#105, and
+the property suite carries a trip-wire test that fails until it is done.
 
 ### F-014: fanout reproduction and value conservation (High, defence in depth)
 
